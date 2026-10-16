@@ -1,0 +1,52 @@
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Cc]apLogs/
+/[Mm]emoryCaptures/
+/[Ll]ogs/
+/[Vv]alidationLogs/
+
+# Carpetas de soluciones de Visual Studio / JetBrains
+.vs/
+.idea/
+.gradle/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.user檔案
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Compilaciones del proyecto (archivos de salida)
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Archivos de reportes de fallos
+sysinfo.txt
+
+# Carpetas creadas por plataformas o servicios específicos
+/[Aa]sset[Cc]aches/
+/[Pp]ackages/com.unity.template.*/
+
+# Archivos del sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
