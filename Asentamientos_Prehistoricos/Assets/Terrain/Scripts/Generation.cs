@@ -14,7 +14,7 @@ public class Generation : MonoBehaviour
     public int scale = 5;
     //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
     //Es el parametro que rige la posicion de los tiles en generate
-    public float tileSize = 0.5f;
+    private float tileSize = GlobalData.tileSize;
 
     //Semilla para generacion
     private int offsetX;
@@ -78,6 +78,7 @@ public class Generation : MonoBehaviour
                     tile2Place = MountainTile;                    
                 }
                 //Instancia el tile en la posicion x,y
+                tile2Place.transform.localScale = new UnityEngine.Vector2(tileSize, tileSize);
                 Instantiate(tile2Place,new UnityEngine.Vector2(x,y),UnityEngine.Quaternion.identity);
             }
         }

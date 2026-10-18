@@ -372,13 +372,12 @@ MonoBehaviour:
   width: 108
   height: 60
   scale: 5
-  tileSize: 0.5
   WaterTile: {fileID: 6285965688545742115, guid: 17016b3d2ec69f34784c3ef3285c2a4f, type: 3}
   GrassTile: {fileID: 4185411618268019111, guid: fc8d1a91b64c46146bd82e01ab8ea199, type: 3}
   MountainTile: {fileID: 4185411618268019111, guid: 3fa74c83d122f714882cfac6970c8d11, type: 3}
   mountainDiscriminator: 1
-  grassDiscriminator: 0.6
-  waterDiscriminator: 0.2
+  grassDiscriminator: 0.7
+  waterDiscriminator: 0.3
 --- !u!4 &1862508721
 Transform:
   m_ObjectHideFlags: 0
