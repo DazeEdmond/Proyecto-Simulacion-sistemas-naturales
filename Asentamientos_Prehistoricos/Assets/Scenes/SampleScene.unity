@@ -225,7 +225,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 45
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 27, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -372,12 +372,20 @@ MonoBehaviour:
   width: 108
   height: 60
   scale: 5
+  WaterUpTile: {fileID: 6285965688545742115, guid: 10b40326a2eb6b444a94211513e07f13, type: 3}
   WaterTile: {fileID: 6285965688545742115, guid: 17016b3d2ec69f34784c3ef3285c2a4f, type: 3}
+  WaterDownTile: {fileID: 6285965688545742115, guid: a9a6ac312bb6c964f8989aa943f522d9, type: 3}
+  GrassUpTile: {fileID: 4185411618268019111, guid: a00336765ce68254ead655fa25a740e5, type: 3}
   GrassTile: {fileID: 4185411618268019111, guid: fc8d1a91b64c46146bd82e01ab8ea199, type: 3}
+  GrassDownTile: {fileID: 4185411618268019111, guid: 6986d390e9cdac3449ea6a236b6f0c7b, type: 3}
   MountainTile: {fileID: 4185411618268019111, guid: 3fa74c83d122f714882cfac6970c8d11, type: 3}
   mountainDiscriminator: 1
-  grassDiscriminator: 0.7
-  waterDiscriminator: 0.3
+  grassUpDiscriminator: 0.68
+  grassDiscriminator: 0.46
+  grassDownDiscriminator: 0.3
+  waterUpDiscriminator: 0.25
+  waterDiscriminator: 0.12
+  waterDownDiscriminator: 0.02
 --- !u!4 &1862508721
 Transform:
   m_ObjectHideFlags: 0

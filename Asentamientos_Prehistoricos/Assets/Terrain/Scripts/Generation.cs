@@ -21,14 +21,22 @@ public class Generation : MonoBehaviour
     private int offsetY;
 
     //Tilemaps(ubicados en Assets/Terrain/Tiles)
+    public GameObject WaterUpTile;
     public GameObject WaterTile;
+    public GameObject WaterDownTile;
+    public GameObject GrassUpTile;
     public GameObject GrassTile;
+    public GameObject GrassDownTile;
     public GameObject MountainTile;
 
     //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
     public float mountainDiscriminator = 1f;
-    public float grassDiscriminator = 0.7f;
+    public float grassUpDiscriminator = 0.8f;
+    public float grassDiscriminator = 0.6f;
+    public float grassDownDiscriminator = 0.5f;
+    public float waterUpDiscriminator = 0.25f;
     public float waterDiscriminator = 0.2f;
+    public float waterDownDiscriminator = 0.1f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -67,12 +75,24 @@ public class Generation : MonoBehaviour
 
                 //decidir Tile a usar
                 GameObject tile2Place;
-                if (noise < waterDiscriminator)
+                if (noise < waterDownDiscriminator)
+                {
+                    tile2Place = WaterDownTile;
+                }else if (noise < waterDiscriminator)
                 {
                     tile2Place = WaterTile;
+                }else if (noise < waterUpDiscriminator)
+                {
+                    tile2Place = WaterUpTile;
+                }else if (noise < grassDownDiscriminator)
+                {
+                    tile2Place = GrassDownTile;
                 }else if (noise < grassDiscriminator)
                 {
                     tile2Place = GrassTile;
+                }else if (noise < grassUpDiscriminator)
+                {
+                    tile2Place = GrassUpTile;
                 }else
                 {
                     tile2Place = MountainTile;                    
