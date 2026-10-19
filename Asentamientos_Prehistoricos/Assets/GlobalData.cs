@@ -2,5 +2,5 @@ using UnityEngine;
 
 public static class GlobalData
 {
-    public static float tileSize = 0.7f;
+    public static float tileSize = 0.4f;
 }
