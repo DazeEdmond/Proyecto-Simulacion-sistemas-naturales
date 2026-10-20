@@ -27,10 +27,14 @@ public class Generation : MonoBehaviour
     public GameObject GrassUpTile;
     public GameObject GrassTile;
     public GameObject GrassDownTile;
+    public GameObject MountainUpTile;
     public GameObject MountainTile;
+    public GameObject MountainDownTile;
 
     //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
-    public float mountainDiscriminator = 1f;
+    public float mountainUpDiscriminator = 1f;
+    public float mountainDiscriminator = 0.95f;
+    public float mountainDownDiscriminator = 0.9f;
     public float grassUpDiscriminator = 0.8f;
     public float grassDiscriminator = 0.6f;
     public float grassDownDiscriminator = 0.5f;
@@ -93,9 +97,15 @@ public class Generation : MonoBehaviour
                 }else if (noise < grassUpDiscriminator)
                 {
                     tile2Place = GrassUpTile;
+                }else if (noise < mountainDownDiscriminator)
+                {
+                    tile2Place = MountainDownTile;
+                }else if (noise < mountainDiscriminator)
+                {
+                    tile2Place = MountainTile;
                 }else
                 {
-                    tile2Place = MountainTile;                    
+                    tile2Place = MountainUpTile;                    
                 }
                 //Instancia el tile en la posicion x,y
                 tile2Place.transform.localScale = new UnityEngine.Vector2(tileSize, tileSize);

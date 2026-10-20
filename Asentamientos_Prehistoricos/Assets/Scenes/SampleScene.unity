@@ -378,8 +378,12 @@ MonoBehaviour:
   GrassUpTile: {fileID: 4185411618268019111, guid: a00336765ce68254ead655fa25a740e5, type: 3}
   GrassTile: {fileID: 4185411618268019111, guid: fc8d1a91b64c46146bd82e01ab8ea199, type: 3}
   GrassDownTile: {fileID: 4185411618268019111, guid: 6986d390e9cdac3449ea6a236b6f0c7b, type: 3}
+  MountainUpTile: {fileID: 4185411618268019111, guid: 1cf302479ae603e4aa6a6b4da774611a, type: 3}
   MountainTile: {fileID: 4185411618268019111, guid: 3fa74c83d122f714882cfac6970c8d11, type: 3}
-  mountainDiscriminator: 1
+  MountainDownTile: {fileID: 4185411618268019111, guid: a816f1b5ef1f91a46a965fbb957a083e, type: 3}
+  mountainUpDiscriminator: 1
+  mountainDiscriminator: 0.79
+  mountainDownDiscriminator: 0.76
   grassUpDiscriminator: 0.68
   grassDiscriminator: 0.46
   grassDownDiscriminator: 0.3
