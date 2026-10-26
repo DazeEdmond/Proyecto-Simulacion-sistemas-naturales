@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000059aabad9
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -381,13 +381,15 @@ MonoBehaviour:
   MountainUpTile: {fileID: 4185411618268019111, guid: 1cf302479ae603e4aa6a6b4da774611a, type: 3}
   MountainTile: {fileID: 4185411618268019111, guid: 3fa74c83d122f714882cfac6970c8d11, type: 3}
   MountainDownTile: {fileID: 4185411618268019111, guid: a816f1b5ef1f91a46a965fbb957a083e, type: 3}
+  Bush: {fileID: -2253911629886400664, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
+  Tree: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   mountainUpDiscriminator: 1
-  mountainDiscriminator: 0.79
+  mountainDiscriminator: 0.83
   mountainDownDiscriminator: 0.76
   grassUpDiscriminator: 0.68
   grassDiscriminator: 0.46
   grassDownDiscriminator: 0.3
-  waterUpDiscriminator: 0.25
+  waterUpDiscriminator: 0.23
   waterDiscriminator: 0.12
   waterDownDiscriminator: 0.02
 --- !u!4 &1862508721
