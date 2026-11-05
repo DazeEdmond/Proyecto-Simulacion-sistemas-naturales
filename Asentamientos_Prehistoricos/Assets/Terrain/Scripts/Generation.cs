@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Generation : MonoBehaviour
 {
+    public Tilemap tilemap;// = new GameObject("Tilemap").AddComponent<Grid>();
+
     //Tamaño del Tile (tamaño inicial)
     public int width = 108;
     public int height = 60;
@@ -25,15 +28,15 @@ public class Generation : MonoBehaviour
     private int HumidityOffsetY;
 
     //Tilemaps(ubicados en Assets/Terrain/Tiles)
-    public GameObject WaterUpTile;
-    public GameObject WaterTile;
-    public GameObject WaterDownTile;
-    public GameObject GrassUpTile;
-    public GameObject GrassTile;
-    public GameObject GrassDownTile;
-    public GameObject MountainUpTile;
-    public GameObject MountainTile;
-    public GameObject MountainDownTile;
+    public TileBase WaterUpTile;
+    public TileBase WaterTile;
+    public TileBase WaterDownTile;
+    public TileBase GrassUpTile;
+    public TileBase GrassTile;
+    public TileBase GrassDownTile;
+    public TileBase MountainUpTile;
+    public TileBase MountainTile;
+    public TileBase MountainDownTile;
 
     //plant tile?
     public GameObject Bush;
@@ -77,9 +80,9 @@ public class Generation : MonoBehaviour
     private void Generate()
     {
         //Genera el perlin nice
-        for (float y=transform.position.y;y<transform.position.y+height;y+=tileSize)
+        for (int y=(int)transform.position.y;y<transform.position.y+height;y++)
         {
-            for (float x=transform.position.x;x<transform.position.x+width;x+=tileSize)
+            for (int x=(int)transform.position.x;x<transform.position.x+width;x++)
             {
                 //Coordenadas del tile
                 float xCoord = (float) y/height*scale + offsetY;
@@ -94,7 +97,7 @@ public class Generation : MonoBehaviour
                 float HumidNoise = Mathf.PerlinNoise(XHumid,YHumid);
 
                 //decidir Tile a usar
-                GameObject tile2Place;
+                TileBase tile2Place;
 
                 GameObject plant2Place;
                 if (noise < waterDownDiscriminator)
@@ -149,15 +152,18 @@ public class Generation : MonoBehaviour
                 }
 
                 //Instancia el tile en la posicion x,y
-                tile2Place.transform.localScale = new UnityEngine.Vector2(tileSize, tileSize);
+                // tile2Place.transform.localScale = new UnityEngine.Vector2(tileSize, tileSize);
+                
                 if(plant2Place != null)
                 {
                     plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
                     Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                     plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
                 }
+
+                tilemap.SetTile(new Vector3Int(x,y,1), tile2Place);
                 
-                Instantiate(tile2Place,new UnityEngine.Vector2(x,y),UnityEngine.Quaternion.identity);
+                // Instantiate(tile2Place,new UnityEngine.Vector2(x,y),UnityEngine.Quaternion.identity);
             }
         }
     }
