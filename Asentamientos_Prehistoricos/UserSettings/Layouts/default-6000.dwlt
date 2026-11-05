@@ -426,7 +426,7 @@ MonoBehaviour:
       sizeOverridden: 0
     - dockPosition: 0
       containerId: overlay-toolbar__top
-      displayed: 0
+      displayed: 1
       id: Services/AI
       index: 5
       contents: '{"m_Layout":4,"m_Collapsed":false,"m_Folded":false,"m_Floating":false,"m_FloatingSnapOffset":{"x":0.0,"y":0.0},"m_SnapOffsetDelta":{"x":0.0,"y":0.0},"m_FloatingSnapCorner":0,"m_Size":{"x":0.0,"y":0.0},"m_SizeOverridden":false}'
@@ -1175,13 +1175,13 @@ MonoBehaviour:
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 1
+  m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 24.523586, y: 13.257299, z: -0.1502564}
+    m_Target: {x: 19.782726, y: 30.532381, z: -4.4624047}
     speed: 2
     m_Value: {x: 24.523586, y: 13.257299, z: -0.1502564}
   m_RenderMode: 0
@@ -1229,15 +1229,15 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
+    m_Target: {x: 0.00018576012, y: 0.9998231, z: 0.012588777, w: -0.01469749}
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 46.951588
+    m_Target: 3.7002084
     speed: 2
     m_Value: 46.951588
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
     m_Value: 1
   m_CameraSettings:
@@ -1554,15 +1554,9 @@ MonoBehaviour:
       m_Data: 51206
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 50832
-    - m_Data: 50834
-    - m_Data: 50836
-    - m_Data: 50838
-    - m_Data: 50840
-    - m_Data: 50842
-    - m_Data: 50844
-    - m_Data: 50846
-    - m_Data: 50848
+    - m_Data: 50884
+    - m_Data: 50886
+    - m_Data: 50888
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1595,15 +1589,9 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 50832
-    - m_Data: 50834
-    - m_Data: 50836
-    - m_Data: 50838
-    - m_Data: 50840
-    - m_Data: 50842
-    - m_Data: 50844
-    - m_Data: 50846
-    - m_Data: 50848
+    - m_Data: 50884
+    - m_Data: 50886
+    - m_Data: 50888
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

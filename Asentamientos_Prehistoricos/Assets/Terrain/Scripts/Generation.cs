@@ -77,9 +77,9 @@ public class Generation : MonoBehaviour
     private void Generate()
     {
         //Genera el perlin nice
-        for (float y=transform.position.y;y<height;y+=tileSize)
+        for (float y=transform.position.y;y<transform.position.y+height;y+=tileSize)
         {
-            for (float x=transform.position.x;x<width;x+=tileSize)
+            for (float x=transform.position.x;x<transform.position.x+width;x+=tileSize)
             {
                 //Coordenadas del tile
                 float xCoord = (float) y/height*scale + offsetY;
