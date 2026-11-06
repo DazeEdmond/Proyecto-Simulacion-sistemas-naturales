@@ -10,6 +10,7 @@ class Man
     private UnityEngine.Vector2 pos;
     private UnityEngine.Vector2 vel = UnityEngine.Vector2.zero;
     private UnityEngine.Vector2 accel = UnityEngine.Vector2.zero;
+    private float speed_limit;
 
     private float wanderer_look_ahead = 25;
     private UnityEngine.Vector2 future_pos = UnityEngine.Vector2.zero;
@@ -20,9 +21,11 @@ class Man
     //public GameObject man_sprite;
 
     //construct
-    public Man(float posX, float posY, GameObject GameMan)
+    public Man(float posX, float posY, float speed_limit)
     {
         this.pos = new UnityEngine.Vector2(posX, posY);
+        this.speed_limit = speed_limit;
+
     }
     //math map function beacuse c# does not have it
     private float Map(float value, float low1, float max1, float low2, float max2)
@@ -33,10 +36,10 @@ class Man
     public void updateMan()
     {
         this.vel += this.accel;
-        if(this.vel.magnitude >= 0.025f)
+        if(this.vel.magnitude >= this.speed_limit)
         {
             this.vel.Normalize();
-            this.vel *= 0.025f;
+            this.vel *= this.speed_limit;
         }
         this.pos += this.vel;
 
@@ -58,10 +61,10 @@ class Man
     {
         UnityEngine.Vector2 Desired = target - this.pos;
         Desired -= this.vel;
-        if(Desired.magnitude >= 0.025f)
+        if(Desired.magnitude >= 0.0025f)
         {
             Desired.Normalize();
-            Desired *= 0.025f;
+            Desired *= 0.0025f;
         }
 
         this.addForce(Desired);
