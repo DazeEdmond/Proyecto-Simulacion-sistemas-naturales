@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &228175795
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.68748
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.11832
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 74.75899
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7284350558475565963, guid: 451545455fd4357458ba746466c7da2d, type: 3}
+      propertyPath: m_Name
+      value: Cow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 451545455fd4357458ba746466c7da2d, type: 3}
 --- !u!1 &449114542
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Generation
   tilemap: {fileID: 449114545}
   width: 108
-  height: 61
+  height: 100
   scale: 5
   WaterUpTile: {fileID: 11400000, guid: 948d4b25744aebf49a182fdd60af4752, type: 2}
   WaterTile: {fileID: 11400000, guid: 37f9da5424a463c46b7d9ff95c69c8d8, type: 2}
@@ -554,6 +611,7 @@ MonoBehaviour:
   MountainUpTile: {fileID: 11400000, guid: 6d7c781c7602a4241bfced29cdcb0a12, type: 2}
   MountainTile: {fileID: 11400000, guid: e6c80b86673e46b4e88b4eae1c939fe3, type: 2}
   MountainDownTile: {fileID: 11400000, guid: 329aa8c861b64ac4e99ff92b3da3d2f1, type: 2}
+  Cow: {fileID: -2253911629886400664, guid: dfe0d9f39fb90ff4788b0367c979f023, type: 3}
   Bush: {fileID: -2253911629886400664, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
   Tree: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   mountainUpDiscriminator: 1
@@ -580,6 +638,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1926017529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1926017531}
+  - component: {fileID: 1926017530}
+  m_Layer: 0
+  m_Name: Man
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1926017530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926017529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0447e1d89429c654ebaa5bb5ae07ed9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Wanderer_man
+  Man_Sprite: {fileID: -2253911629886400664, guid: 4055ba9d33e9d7c4ca66640128d680bb, type: 3}
+  pos_x: 54
+  pos_y: 30
+--- !u!4 &1926017531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926017529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 65.67993, y: 53.49842, z: 42.84817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -588,3 +693,5 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1862508721}
   - {fileID: 1616891711}
+  - {fileID: 1926017531}
+  - {fileID: 228175795}

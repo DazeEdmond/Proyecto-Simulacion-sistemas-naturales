@@ -38,7 +38,11 @@ public class Generation : MonoBehaviour
     public TileBase MountainTile;
     public TileBase MountainDownTile;
 
-    //plant tile?
+    //cow tile
+    public GameObject Cow;
+    public GameObject CowPrefab;
+
+    //plant tile
     public GameObject Bush;
     public GameObject Tree;
 
@@ -135,6 +139,10 @@ public class Generation : MonoBehaviour
                 )
                 {
                     int plant = Random.Range(0,999);
+                    
+                    int cowGen = Random.Range(0,999);
+                    int cowQuan = Random.Range(1,4);
+                    
                     if(plant <= 50)
                     {
                         plant2Place = Bush;
@@ -146,13 +154,22 @@ public class Generation : MonoBehaviour
                     {
                     plant2Place = null;
                     }
+
+                    if(cowGen <= 0.5)
+                    {
+                        for(int i=0;i<cowQuan;i++){
+                            GameObject cow = Instantiate(CowPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                            Cow COW = cow.GetComponent<Cow>();
+                            COW.init(Cow, new UnityEngine.Vector2(x,y), new UnityEngine.Vector2(0.01f,0));
+                        }
+                    }
+
                 }else
                 {
                     plant2Place = null;
                 }
 
                 //Instancia el tile en la posicion x,y
-                // tile2Place.transform.localScale = new UnityEngine.Vector2(tileSize, tileSize);
                 
                 if(plant2Place != null)
                 {
@@ -162,8 +179,6 @@ public class Generation : MonoBehaviour
                 }
 
                 tilemap.SetTile(new Vector3Int(x,y,1), tile2Place);
-                
-                // Instantiate(tile2Place,new UnityEngine.Vector2(x,y),UnityEngine.Quaternion.identity);
             }
         }
     }
