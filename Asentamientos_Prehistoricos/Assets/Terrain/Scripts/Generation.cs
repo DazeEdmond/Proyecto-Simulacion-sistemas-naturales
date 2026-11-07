@@ -21,6 +21,7 @@ public class Generation : MonoBehaviour
     //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
     //Es el parametro que rige la posicion de los tiles en generate
     private float tileSize = GlobalData.tileSize;
+    private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
 
     //Semilla para generacion
     private int offsetX;

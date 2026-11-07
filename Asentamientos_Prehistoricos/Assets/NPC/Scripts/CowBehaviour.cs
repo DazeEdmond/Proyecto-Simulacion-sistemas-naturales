@@ -69,6 +69,11 @@ class CowBehaviour
         this.addForce(Desired);
     }
 
+    public bool lookingRight()
+    {
+        return this.vel.x < 0;
+    }
+
     public void wander()
     {
         this.wanderAng = this.Map(Mathf.PerlinNoise1D(this.wanderNoise), 0f, 1f, -math.PI2*1.5f, math.PI2*1.5f);

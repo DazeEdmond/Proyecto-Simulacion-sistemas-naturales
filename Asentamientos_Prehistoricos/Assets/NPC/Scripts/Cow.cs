@@ -18,6 +18,7 @@ public class Cow : MonoBehaviour
     {
         sprite.transform.localScale = new UnityEngine.Vector2(10,10);
         cowSprite = Instantiate(sprite, new UnityEngine.Vector2(0,0), UnityEngine.Quaternion.identity);
+        cowSprite.GetComponent<SpriteRenderer> ().sortingOrder = 2;
     }
 
     // Update is called once per frame
@@ -25,6 +26,14 @@ public class Cow : MonoBehaviour
     {
         CB.updateCow();
         CB.wander();
+        if (CB.lookingRight())
+        {
+            cowSprite.transform.localScale = new UnityEngine.Vector2(-10,10);
+        }
+        else
+        {
+            cowSprite.transform.localScale = new UnityEngine.Vector2(10,10);
+        }
         UnityEngine.Vector2 cowPos = CB.getPos();
 
         cowSprite.transform.position = new UnityEngine.Vector3(cowPos[0], cowPos[1], 0);
