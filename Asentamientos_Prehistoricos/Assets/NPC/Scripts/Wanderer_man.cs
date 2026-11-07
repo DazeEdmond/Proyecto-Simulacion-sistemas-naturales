@@ -6,6 +6,7 @@ public class Wanderer_man : MonoBehaviour
 
     public float pos_x = 54F;
     public float pos_y = 30F;
+    public float speed_limit = 0.0025f;
     private Man wanderer_man;
 
     private GameObject SpawnedMan;
@@ -17,7 +18,7 @@ public class Wanderer_man : MonoBehaviour
 
         SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
         
-        this.wanderer_man = new Man(pos_x, pos_y, Man_Sprite);
+        this.wanderer_man = new Man(pos_x, pos_y, speed_limit);
     }
 
     // Update is called once per frame
