@@ -119,63 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &228175795
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 15.68748
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.11832
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 74.75899
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268589804582520206, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284350558475565963, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-      propertyPath: m_Name
-      value: Cow
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 451545455fd4357458ba746466c7da2d, type: 3}
 --- !u!1 &449114542
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +555,7 @@ MonoBehaviour:
   MountainTile: {fileID: 11400000, guid: e6c80b86673e46b4e88b4eae1c939fe3, type: 2}
   MountainDownTile: {fileID: 11400000, guid: 329aa8c861b64ac4e99ff92b3da3d2f1, type: 2}
   Cow: {fileID: -2253911629886400664, guid: dfe0d9f39fb90ff4788b0367c979f023, type: 3}
+  CowPrefab: {fileID: 7284350558475565963, guid: 451545455fd4357458ba746466c7da2d, type: 3}
   Bush: {fileID: -2253911629886400664, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
   Tree: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   mountainUpDiscriminator: 1
@@ -694,4 +638,3 @@ SceneRoots:
   - {fileID: 1862508721}
   - {fileID: 1616891711}
   - {fileID: 1926017531}
-  - {fileID: 228175795}
