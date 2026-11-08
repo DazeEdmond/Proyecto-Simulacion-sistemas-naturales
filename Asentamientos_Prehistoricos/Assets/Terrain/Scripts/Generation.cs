@@ -1,9 +1,10 @@
-using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
 using System.Numerics;
+using System.Collections;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Diagnostics;
 
 public class Generation : MonoBehaviour
 {
@@ -22,7 +23,6 @@ public class Generation : MonoBehaviour
     //Es el parametro que rige la posicion de los tiles en generate
     private float tileSize = GlobalData.tileSize;
     private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
-
     //Semilla para generacion
     private int offsetX;
     private int offsetY;
@@ -68,6 +68,7 @@ public class Generation : MonoBehaviour
     void Start()
     {
         //Generar el mapa al iniciar el script
+        TerrainVals.Clear();
         seed();
         Generate();
     }
@@ -104,6 +105,10 @@ public class Generation : MonoBehaviour
         //Genera el perlin nice
         for (int y=(int)transform.position.y;y<transform.position.y+height;y++)
         {
+            TerrainVals.Add(y,new Dictionary<int,(float height,float humidity,float temperature)>());
+            {
+                
+            }
             for (int x=(int)transform.position.x;x<transform.position.x+width;x++)
             {
                 //Coordenadas del tile
@@ -117,6 +122,8 @@ public class Generation : MonoBehaviour
                 float noise = Mathf.PerlinNoise(xCoord,yCoord);
 
                 float HumidNoise = Mathf.PerlinNoise(XHumid,YHumid);
+
+                TerrainVals[y].Add(x,(noise,HumidNoise,0));
 
                 //decidir Tile a usar
                 TileBase tile2Place;
@@ -178,7 +185,7 @@ public class Generation : MonoBehaviour
                         for(int i=0;i<cowQuan;i++){
                             GameObject cow = Instantiate(CowPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                             Cow COW = cow.GetComponent<Cow>();
-                            COW.init(Cow, new UnityEngine.Vector2(x,y), new UnityEngine.Vector2(0.01f,0));
+                            COW.init(Cow, new UnityEngine.Vector2(x,y), new UnityEngine.Vector2(0.1f,0),cowQuan-1);
                         }
                     }
 

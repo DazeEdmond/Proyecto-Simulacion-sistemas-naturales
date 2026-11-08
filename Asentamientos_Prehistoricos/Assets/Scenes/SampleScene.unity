@@ -351,7 +351,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
-  orthographic: 1
+  orthographic: 0
   orthographic size: 30
   m_Depth: -1
   m_CullingMask:
@@ -377,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54, y: 30, z: -10}
+  m_LocalPosition: {x: 54, y: 30, z: -90}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -542,12 +542,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Generation
   tilemap: {fileID: 449114545}
-  width: 108
-  height: 10
+  width: 100
+  height: 100
   scale: 5
-  forest_limit: 10
+  forest_limit: 2
   forest_radius: 10
-  forest_generation_time: 100
+  forest_generation_time: 1000
   WaterUpTile: {fileID: 11400000, guid: 948d4b25744aebf49a182fdd60af4752, type: 2}
   WaterTile: {fileID: 11400000, guid: 37f9da5424a463c46b7d9ff95c69c8d8, type: 2}
   WaterDownTile: {fileID: 11400000, guid: 15110932c05949d47af7909da8214cbc, type: 2}
