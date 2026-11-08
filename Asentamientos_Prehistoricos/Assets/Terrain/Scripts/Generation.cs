@@ -17,8 +17,8 @@ public class Generation : MonoBehaviour
     //Scale es granularidad del perlin nice
     public int scale = 5;
     public int forest_limit = 10;
-    public float forest_radius = 10;
-    public int forest_generation_time = 100;
+    public float forest_radius = 3;
+    public int forest_generation_time = 10;
     //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
     //Es el parametro que rige la posicion de los tiles en generate
     private float tileSize = GlobalData.tileSize;

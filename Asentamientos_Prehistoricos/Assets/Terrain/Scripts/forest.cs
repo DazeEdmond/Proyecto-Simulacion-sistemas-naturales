@@ -14,6 +14,8 @@ class Forest
     private List<GameObject> trees = new List<GameObject>{};
     private int generation_time;
     private int actual_time = 0;
+
+    private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
     //construct
     public Forest(float posX, float posY, float radius, int tree_limit, int time)
     {
@@ -43,8 +45,25 @@ class Forest
     {
         if(this.trees.Count < this.tree_limit)
         {
-            float tree_X = UnityEngine.Random.Range(this.pos[0]-this.forest_radius,this.pos[0]+this.forest_radius);
-            float tree_y = UnityEngine.Random.Range(this.pos[1]-this.forest_radius,this.pos[1]+this.forest_radius);
+            float tree_X = 0;
+            float tree_y = 0;
+            bool valid = false;
+            while (!valid)
+            {
+                tree_X = UnityEngine.Random.Range(this.pos[0]-this.forest_radius,this.pos[0]+this.forest_radius);
+                tree_y = UnityEngine.Random.Range(this.pos[1]-this.forest_radius,this.pos[1]+this.forest_radius);
+                tree_X = (int)System.Math.Floor(tree_X);
+                tree_y = (int)System.Math.Floor(tree_y);
+                if(tree_X > 0 && tree_X < 100 && tree_y > 0 && tree_y < 100)
+                {
+                    float terrainheigt = TerrainVals[(int)tree_X][(int)tree_y].height;
+                    if (terrainheigt > 0.5f && terrainheigt < 0.8f)
+                    {
+                        valid = true;
+                    }
+                }
+                
+            }
             tree.transform.position = new UnityEngine.Vector3(tree_X, tree_y, 0);
             this.trees.Add(tree);
         }

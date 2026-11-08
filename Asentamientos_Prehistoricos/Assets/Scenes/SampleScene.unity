@@ -545,9 +545,9 @@ MonoBehaviour:
   width: 100
   height: 100
   scale: 5
-  forest_limit: 2
-  forest_radius: 10
-  forest_generation_time: 1000
+  forest_limit: 100
+  forest_radius: 4
+  forest_generation_time: 100
   WaterUpTile: {fileID: 11400000, guid: 948d4b25744aebf49a182fdd60af4752, type: 2}
   WaterTile: {fileID: 11400000, guid: 37f9da5424a463c46b7d9ff95c69c8d8, type: 2}
   WaterDownTile: {fileID: 11400000, guid: 15110932c05949d47af7909da8214cbc, type: 2}
