@@ -4,89 +4,154 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-class Man
+namespace NPCs
 {
-    //attributes
-    private UnityEngine.Vector2 pos;
-    private UnityEngine.Vector2 vel = UnityEngine.Vector2.zero;
-    private UnityEngine.Vector2 accel = UnityEngine.Vector2.zero;
-    private float speed_limit;
-
-    private float wanderer_look_ahead = 25;
-    private UnityEngine.Vector2 future_pos = UnityEngine.Vector2.zero;
-    private float wanderer_radius = 10;
-    private float wanderer_ang = 0;
-    private float wanderer_Noise = 0.01F;
-
-    //public GameObject man_sprite;
-
-    //construct
-    public Man(float posX, float posY, float speed_limit)
+    class Man:NPC
     {
-        this.pos = new UnityEngine.Vector2(posX, posY);
-        this.speed_limit = speed_limit;
-
-    }
-    //math map function beacuse c# does not have it
-    private float Map(float value, float low1, float max1, float low2, float max2)
-    {
-        return low2 + (max2 - low2) * (value - low1) / (max1 - low1);
-    }
-
-    public void updateMan()
-    {
-        this.vel += this.accel;
-        if(this.vel.magnitude >= this.speed_limit)
+        //Man stats
+        private UnityEngine.Vector2 alignmentForce = UnityEngine.Vector2.zero;
+        private UnityEngine.Vector2 separationForce = UnityEngine.Vector2.zero;
+        private UnityEngine.Vector2 cohereForce = UnityEngine.Vector2.zero;
+        public int nearMen = 0;
+        public float separationRadio = 2;
+        //construct
+        public Man(float posX, float posY, float maxVel)
         {
-            this.vel.Normalize();
-            this.vel *= this.speed_limit;
+            this.wanderLookAhead = 25;
+            this.wanderRadius = 10;
+            this.maxSteeringForce = 0.1f;
+            this.maxVel = 0.15f;
+            this.escapeRatio = 0.1f;
+            this.dangerRadio = 10;
+            this.maxStamina = UnityEngine.Random.Range(600,750);
+            this.stamina = UnityEngine.Random.Range(600,750);
+
+            this.pos = new UnityEngine.Vector2(posX, posY);
+            this.maxVel = maxVel;
+
         }
-        this.pos += this.vel;
-
-        this.accel *= 0;
-    }
-
-    public UnityEngine.Vector2 getPos()
-    {
-        return this.pos;
-    }
-
-
-    private void addForce(UnityEngine.Vector2 force)
-    {
-        this.accel += force;
-    }
-
-    public void seek(UnityEngine.Vector2 target)
-    {
-        UnityEngine.Vector2 Desired = target - this.pos;
-        Desired -= this.vel;
-        if(Desired.magnitude >= 0.0025f)
+        public void updateMan()
         {
-            Desired.Normalize();
-            Desired *= 0.0025f;
+            this.wanderNoise += 0.001f;
+
+            if (this.cooldown)
+            {
+                this.stamina++;
+                if(this.stamina >= this.maxStamina)
+                {
+                    this.cooldown = false;
+                }
+                return;
+            }
+
+            if (UnityEngine.Vector2.Distance(this.pos,this.danger) <= this.dangerRadio)
+            {
+                if (!this.escaping)
+                {
+                    this.dangerRadio = 5;
+                    this.escaping = true;
+                }
+                this.escape(this.danger);
+            }else{
+                this.flocking();
+            }
+
+            this.vel += this.acc;
+            if(this.vel.magnitude >= this.maxVel)
+            {
+                this.vel.Normalize();
+                this.vel *= this.maxVel;
+            }
+
+            if((this.pos + this.vel).x<0 || (this.pos + this.vel).y<0 || (this.pos + this.vel).x>100 || (this.pos + this.vel).y > 100)
+            {
+                this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
+                return;
+            }
+
+            this.pos += this.vel;
+
+            this.acc *= 0;
+
+            if (UnityEngine.Vector2.Distance(this.pos,this.danger) > this.dangerRadio && this.escaping)
+            {
+                this.dangerRadio /= 2;
+                this.wanderNoise = UnityEngine.Random.Range(0f,20f);
+                this.escaping = false;
+                wanderAng = 0;
+                wanderNoise = UnityEngine.Random.Range(0f,2f);
+            }
+
+            this.stamina--;
+            if(this.stamina <= 0) this.cooldown = true;
         }
 
-        this.addForce(Desired);
-    }
+        public void addNearMan()
+        {
+            this.nearMen++;
+        }
+        public void cohere(UnityEngine.Vector2 direction,UnityEngine.Vector2 vel)
+        {
+            this.cohereForce+=direction;
+            this.alignmentForce+=vel;
 
-    public void wanderer()
-    {
-        this.wanderer_ang = this.Map(Mathf.PerlinNoise1D(this.wanderer_Noise), 0f, 1f, -math.PI2, math.PI2);
-        this.wanderer_Noise += 0.001f;
+            if(UnityEngine.Vector2.Distance(this.pos,direction)<this.separationRadio){
+                UnityEngine.Vector2 diff = this.pos - direction;
+                if (diff.x == 0 || diff.y == 0)
+                {
+                    diff = new UnityEngine.Vector2(UnityEngine.Random.Range(-5f,5f),UnityEngine.Random.Range(-5f,5f));
+                }
+                diff.Normalize();
+                diff /= UnityEngine.Vector2.Distance(this.pos,direction)==0?1:UnityEngine.Vector2.Distance(this.pos,direction);
+                this.separationForce += diff;
+            }
+        }
 
-        this.future_pos *= 0;
-        this.future_pos += this.vel;
+        public void popNearMan()
+        {
+            this.nearMen--;
+        }
 
-        this.future_pos.Normalize();
+        private void separate()
+        {
+            this.separationForce /= this.nearMen;
+            this.separationForce.Normalize();
+            this.separationForce *= 0.1f;
+            this.addForce(this.separationForce);
+        }
 
-        this.future_pos *= this.wanderer_look_ahead;
+        private void cohere()
+        {
+            this.cohereForce /= this.nearMen;
+            this.cohereForce -= this.pos;
+            this.cohereForce.Normalize();
+            this.cohereForce *= 0.1f;
+            this.addForce(this.cohereForce);
+        }
 
-        float x = math.cos(this.wanderer_ang)*this.wanderer_radius + this.future_pos[0] + this.pos[0];
-        float y = math.sin(this.wanderer_ang)*this.wanderer_radius + this.future_pos[1] + this.pos[1];
+        private void align()
+        {
+            this.alignmentForce /= this.nearMen;
+            this.alignmentForce.Normalize();
+            this.alignmentForce *= this.maxSteeringForce;
+            this.alignmentForce -= this.vel;
+            this.addForce(this.alignmentForce);
+        }
 
-        UnityEngine.Vector2 Target = new UnityEngine.Vector2(x, y);
-
-        this.seek(Target);
+        public void flocking()
+        {
+            if(this.nearMen > 0){
+                this.align();
+                this.separate();
+                this.cohere();
+            }
+            else
+            {
+                this.wander();
+            }
+            this.alignmentForce *= 0;
+            this.cohereForce *= 0;
+            this.separationForce *= 0;
+        }
     }
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Cow
+  - water
+  - tree
+  - bush
   layers:
   - Default
   - TransparentFX

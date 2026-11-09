@@ -545,7 +545,7 @@ MonoBehaviour:
   width: 100
   height: 100
   scale: 5
-  forest_limit: 100
+  forest_limit: 25
   forest_radius: 4
   forest_generation_time: 100
   WaterUpTile: {fileID: 11400000, guid: 948d4b25744aebf49a182fdd60af4752, type: 2}
@@ -559,8 +559,9 @@ MonoBehaviour:
   MountainDownTile: {fileID: 11400000, guid: 329aa8c861b64ac4e99ff92b3da3d2f1, type: 2}
   Cow: {fileID: -2253911629886400664, guid: dfe0d9f39fb90ff4788b0367c979f023, type: 3}
   CowPrefab: {fileID: 7284350558475565963, guid: 451545455fd4357458ba746466c7da2d, type: 3}
-  Bush: {fileID: -2253911629886400664, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
-  Tree: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
+  waterCollider: {fileID: 4122929298556990780, guid: 7886e705986162a48ae4dc574e68687e, type: 3}
+  Bush: {fileID: 8138716078267664585, guid: bc535a68f0ba47746956aebeb04b95dc, type: 3}
+  Tree: {fileID: 1498656479742166534, guid: 76acf7f58ddc68a4cba6ec73667f9d05, type: 3}
   mountainUpDiscriminator: 1
   mountainDiscriminator: 0.83
   mountainDownDiscriminator: 0.76
