@@ -76,6 +76,18 @@ class Forest
         return (-1f, -1f);
     }
 
+    public GameObject deleteRandom()
+    {
+        if(this.trees.Count > 0)
+        {
+            int randomPos = (int)UnityEngine.Random.Range(0, this.trees.Count-1);
+            GameObject deleteThis = this.trees[randomPos];
+            this.trees.RemoveAt(randomPos);
+            return deleteThis;
+        }
+        return null;
+    }
+
     public bool is_Tree_Time()
     {   
         return this.actual_time >= this.generation_time && this.trees.Count < this.tree_limit;
