@@ -8,7 +8,7 @@ namespace NPCs
 
         public float pos_x = 54F;
         public float pos_y = 30F;
-        public float speed_limit = 0.0025f;
+        public float speed_limit = 0.18F;
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
@@ -23,13 +23,22 @@ namespace NPCs
             this.wanderer_man = new Man(pos_x, pos_y, speed_limit);
         }
 
+        private void FixedUpdate() {
+            this.wanderer_man.updateMan();
+        }
         // Update is called once per frame
         void Update()
         {
-            this.wanderer_man.updateMan();
-            this.wanderer_man.wander();
-            Vector2 temp = this.wanderer_man.getPos();
+            if (wanderer_man.lookingRight())
+            {
+                SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
+            }
+            else
+            {
+                SpawnedMan.transform.localScale = new UnityEngine.Vector2(10,10);
+            }
 
+            Vector2 temp = this.wanderer_man.getPos();
             SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
         }
 

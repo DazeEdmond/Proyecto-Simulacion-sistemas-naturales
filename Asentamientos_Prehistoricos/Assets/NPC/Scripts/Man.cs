@@ -17,14 +17,13 @@ namespace NPCs
         //construct
         public Man(float posX, float posY, float maxVel)
         {
-            this.wanderLookAhead = 25;
+            this.wanderLookAhead = 40;
             this.wanderRadius = 10;
-            this.maxSteeringForce = 0.1f;
-            this.maxVel = 0.15f;
+            this.maxSteeringForce = 0.15f;
             this.escapeRatio = 0.1f;
             this.dangerRadio = 10;
             this.maxStamina = UnityEngine.Random.Range(600,750);
-            this.stamina = UnityEngine.Random.Range(600,750);
+            this.stamina = 0;
 
             this.pos = new UnityEngine.Vector2(posX, posY);
             this.maxVel = maxVel;
