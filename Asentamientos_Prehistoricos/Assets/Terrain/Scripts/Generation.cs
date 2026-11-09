@@ -79,9 +79,10 @@ public class Generation : MonoBehaviour
         foreach (Forest f in forests)
         {
             f.updateForest();
-            if (f.is_Tree_Time())
+            (float, float) pos = f.isvalid(); 
+            if (f.is_Tree_Time() && pos != (-1f,-1f))
             {
-                GameObject new_tree = Instantiate(Tree, new UnityEngine.Vector2(0,0), UnityEngine.Quaternion.identity);
+                GameObject new_tree = Instantiate(Tree, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
                 new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
                 new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
                 f.add_Tree(new_tree);
