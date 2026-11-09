@@ -91,15 +91,14 @@ namespace NPCs
                     f.add_Tree(new_tree);
                     f.reset_time();
                 }
-            }
-
-            float randomDelete = Random.Range(0,10);
-            if(randomDelete > 9f)
-            {
-                GameObject deletethis = f.deleteRandom();
-                if(deletethis != null)
+                float randomDelete = Random.Range(0,10);
+                if(randomDelete > 9f)
                 {
-                    Destroy(deletethis);
+                    GameObject deletethis = f.deleteRandom();
+                    if(deletethis != null)
+                    {
+                        Destroy(deletethis);
+                    }
                 }
             }
         }
