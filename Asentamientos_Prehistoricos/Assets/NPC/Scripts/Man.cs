@@ -85,6 +85,19 @@ namespace NPCs
             if(this.stamina <= 0) this.cooldown = true;
         }
 
+        public void updatePos()
+        {
+            this.vel += this.acc;
+            if(this.vel.magnitude >= this.maxVel)
+            {
+                this.vel.Normalize();
+                this.vel *= this.maxVel;
+            }
+            this.pos += this.vel;
+
+            this.acc *= 0;
+        }
+
         public void addNearMan()
         {
             this.nearMen++;

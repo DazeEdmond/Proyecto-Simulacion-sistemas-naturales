@@ -80,7 +80,7 @@ namespace NPCs
 
             this.seek(Target);
         }
-        private void seek(UnityEngine.Vector2 target)
+        public void seek(UnityEngine.Vector2 target)
         {
             UnityEngine.Vector2 Desired = target - this.pos;
             Desired -= this.vel;
