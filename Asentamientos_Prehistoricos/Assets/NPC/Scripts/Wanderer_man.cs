@@ -62,9 +62,19 @@ namespace NPCs
                 {
                     this.wanderer_man.seek(this.nearestWater);
                     this.wanderer_man.updatePos();
+                    if (this.wanderer_man.onWater())
+                    {
+                        this.actualState = State.DrinkingWater;
+                    }
                     return;
                 }
             }
+
+            if(this.actualState == State.DrinkingWater)
+            {
+                return;
+            }
+
             this.wanderer_man.updateMan();
             this.nearestWater = new UnityEngine.Vector2(-1,-1);
         }
@@ -92,7 +102,7 @@ namespace NPCs
             this.life -= this.lifeLoss;
             if(this.actualState == State.DrinkingWater)
             {
-                this.thirst+=this.thirstLoss;
+                this.thirst+=this.thirstLoss*3;
                 if(this.thirst >= this.maxThirst) this.actualState = State.Wander;
             }
             else

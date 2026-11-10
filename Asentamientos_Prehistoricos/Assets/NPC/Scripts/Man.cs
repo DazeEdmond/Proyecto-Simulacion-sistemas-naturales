@@ -165,5 +165,9 @@ namespace NPCs
             this.cohereForce *= 0;
             this.separationForce *= 0;
         }
+        public bool onWater()
+        {
+            return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height <= 0.25f;
+        }
     }
 }
