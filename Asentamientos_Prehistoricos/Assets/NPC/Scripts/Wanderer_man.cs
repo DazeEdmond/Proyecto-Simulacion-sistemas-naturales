@@ -18,7 +18,7 @@ namespace NPCs
             SearchingWater,
             DrinkingWater
         }
-        private State actualState = State.Wander;
+        [SerializeField] private State actualState = State.Wander;
         public float maxVel = 0.18F;
         public float maxLife = 10000;
         public float life = 10000;
