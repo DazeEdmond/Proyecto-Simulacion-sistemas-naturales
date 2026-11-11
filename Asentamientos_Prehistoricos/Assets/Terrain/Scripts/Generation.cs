@@ -21,6 +21,8 @@ namespace NPCs
         public int forest_limit = 10;
         public float forest_radius = 3;
         public int forest_generation_time = 10;
+
+        public Sprite[] treeSprite;
         //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
         //Es el parametro que rige la posicion de los tiles en generate
         private float tileSize = GlobalData.tileSize;
@@ -54,6 +56,7 @@ namespace NPCs
 
         //plant tile
         public GameObject Bush;
+        public GameObject BushPrefab;
         public GameObject Tree;
 
         //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
@@ -70,35 +73,35 @@ namespace NPCs
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //Generar el mapa al iniciar el script
             TerrainVals.Clear();
             seed();
             Generate();
         }
 
-        // Update is called once per frame
         void Update()
         {
-            foreach (Forest f in forests)
-            {
+            foreach(Forest f in forests){
                 f.updateForest();
                 (float, float) pos = f.isvalid(); 
-                if (f.is_Tree_Time() && pos != (-1f,-1f))
+                if (f.is_Tree_Time())
                 {
-                    GameObject new_tree = Instantiate(Tree, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-                    new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
-                    new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
-                    f.add_Tree(new_tree);
+                    if (pos != (-1f,-1f))
+                    {
+                        GameObject new_tree = Instantiate(Tree, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+                        new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
+                        new_tree.GetComponent<SpriteRenderer> ().sprite = treeSprite[0];
+                        new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+                        f.add_Tree(new_tree);
+                    }
                     f.reset_time();
                 }
-                float randomDelete = Random.Range(0,10);
-                if(randomDelete > 9f)
+
+                float randomChange = Random.Range(0,100);
+                if(randomChange > 90f)
                 {
-                    GameObject deletethis = f.deleteRandom();
-                    if(deletethis != null)
-                    {
-                        Destroy(deletethis);
-                    }
+                    GameObject tree = f.deleteRandom();
+                    tree.GetComponent<SpriteRenderer>().sprite = treeSprite[1];
+                    f.add_Tree(tree);
                 }
             }
         }
@@ -119,9 +122,6 @@ namespace NPCs
             for (int y=(int)transform.position.y;y<transform.position.y+height;y++)
             {
                 TerrainVals.Add(y,new Dictionary<int,(float height,float humidity,float temperature)>());
-                {
-                    
-                }
                 for (int x=(int)transform.position.x;x<transform.position.x+width;x++)
                 {
                     //Coordenadas del tile
@@ -218,16 +218,19 @@ namespace NPCs
                     {
                         if(plant2Place == Bush)
                         {
-                            plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
-                            Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                            plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+                            // plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
+                            // Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                            // plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+                            GameObject new_bush = Instantiate(BushPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                            bush otherBush = new_bush.GetComponent<bush>();
+                            otherBush.init(Bush);
                         }
                         else
                         {
                             plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
                             GameObject new_tree = Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                             plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
-                            Forest new_forest = new Forest(x,y, forest_radius, forest_limit, forest_generation_time);
+                            Forest new_forest = new Forest(x,y, forest_radius, forest_limit, forest_generation_time, treeSprite);
                             new_forest.add_First_Tree(new_tree);
                             forests.Add(new_forest);
                         }

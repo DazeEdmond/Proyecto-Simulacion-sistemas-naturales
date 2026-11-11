@@ -15,15 +15,18 @@ class Forest
     private int generation_time;
     private int actual_time;
 
+    private Sprite[] sprites;
+
     private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
     //construct
-    public Forest(float posX, float posY, float radius, int tree_limit, int time)
+    public Forest(float posX, float posY, float radius, int tree_limit, int time, Sprite[] treeSprites)
     {
         this.pos = new UnityEngine.Vector2(posX, posY);
         this.forest_radius = radius;
         this.tree_limit = tree_limit;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-100,0);
+        this.sprites = treeSprites;
     }
     //math map function beacuse c# does not have it
     private float Map(float value, float low1, float max1, float low2, float max2)
@@ -87,6 +90,17 @@ class Forest
         }
         return null;
     }
+
+    public void ChangeSprites()
+    {
+        if(this.trees.Count > 0)
+        {
+            int randomPos = (int)UnityEngine.Random.Range(0, this.trees.Count-1);
+            this.trees[randomPos].GetComponent<SpriteRenderer>().sprite = sprites[0];
+        }
+    }
+    
+    // 
 
     public bool is_Tree_Time()
     {   

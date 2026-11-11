@@ -127,7 +127,7 @@ namespace NPCs
         private void OnTriggerStay2D(Collider2D other) {
             if(other.gameObject.tag == "water")
             {
-                UnityEngine.Debug.Log("STAYING WATER");
+                //UnityEngine.Debug.Log("STAYING WATER");
                 GameObject water = other.gameObject;
                 if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), water.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestWater))
                 {
