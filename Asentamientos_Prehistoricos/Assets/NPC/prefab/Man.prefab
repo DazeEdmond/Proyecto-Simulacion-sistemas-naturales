@@ -213,7 +213,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &1029067614803423023
 MonoBehaviour:
@@ -404,7 +404,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &3413396043518246715
 MonoBehaviour:
@@ -514,13 +514,15 @@ MonoBehaviour:
   hungerB: {fileID: 6226143317275627660}
   pos_x: 54
   pos_y: 30
+  actualState: 0
   maxVel: 0.18
-  maxLife: 1000
-  life: 1000
+  maxLife: 10000
+  life: 10000
   lifeLoss: 0.1
   maxThirst: 1000
   thirst: 1000
   thirstLoss: 0.1
+  nearestWater: {x: -1, y: -1}
   maxHunger: 2000
   hunger: 2000
   hungerLoss: 0.1
@@ -554,12 +556,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 15
 --- !u!50 &4648002884440305670
 Rigidbody2D:
   serializedVersion: 5
@@ -648,7 +650,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &4671107668515439513
 MonoBehaviour:
