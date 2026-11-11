@@ -64,7 +64,7 @@ namespace NPCs
         }
         public void wander()
         {
-            this.wanderAng += this.Map(Mathf.PerlinNoise1D(this.wanderNoise), 0f, 1f, -math.PI2, math.PI2);
+            this.wanderAng += GlobalData.Map(Mathf.PerlinNoise1D(this.wanderNoise), 0f, 1f, -math.PI2, math.PI2);
 
             this.futurePos *= 0;
             this.futurePos += this.vel;
@@ -91,12 +91,6 @@ namespace NPCs
             }
 
             this.addForce(Desired);
-        }
-
-        //math map function beacuse c# does not have it
-        protected float Map(float value, float low1, float max1, float low2, float max2)
-        {
-            return low2 + (max2 - low2) * (value - low1) / (max1 - low1);
         }
     }   
 }
