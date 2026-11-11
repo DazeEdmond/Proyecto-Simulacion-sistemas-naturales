@@ -11,22 +11,19 @@ class Forest
     private UnityEngine.Vector2 pos;
     private float forest_radius;
     private int tree_limit;
-    private List<GameObject> trees = new List<GameObject>{};
+    private List<tree> trees = new List<tree>{};
     private int generation_time;
     private int actual_time;
 
-    private Sprite[] sprites;
-
     private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
     //construct
-    public Forest(float posX, float posY, float radius, int tree_limit, int time, Sprite[] treeSprites)
+    public Forest(float posX, float posY, float radius, int tree_limit, int time)
     {
         this.pos = new UnityEngine.Vector2(posX, posY);
         this.forest_radius = radius;
         this.tree_limit = tree_limit;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-100,0);
-        this.sprites = treeSprites;
     }
     //math map function beacuse c# does not have it
     private float Map(float value, float low1, float max1, float low2, float max2)
@@ -44,7 +41,7 @@ class Forest
         return this.pos;
     }
 
-    public void add_Tree(GameObject tree)
+    public void add_Tree(tree tree)
     {
         if(this.trees.Count < this.tree_limit)
         {
@@ -52,7 +49,7 @@ class Forest
         }
     }
 
-    public void add_First_Tree(GameObject tree)
+    public void add_First_Tree(tree tree)
     {
         if(this.trees.Count < this.tree_limit)
         {
@@ -79,27 +76,16 @@ class Forest
         return (-1f, -1f);
     }
 
-    public GameObject deleteRandom()
+    public void deleteRandom()
     {
         if(this.trees.Count > 0)
         {
             int randomPos = (int)UnityEngine.Random.Range(0, this.trees.Count-1);
-            GameObject deleteThis = this.trees[randomPos];
+            tree deleteThis = this.trees[randomPos];
             this.trees.RemoveAt(randomPos);
-            return deleteThis;
-        }
-        return null;
-    }
-
-    public void ChangeSprites()
-    {
-        if(this.trees.Count > 0)
-        {
-            int randomPos = (int)UnityEngine.Random.Range(0, this.trees.Count-1);
-            this.trees[randomPos].GetComponent<SpriteRenderer>().sprite = sprites[0];
+            deleteThis.DestroySelf();
         }
     }
-    
     // 
 
     public bool is_Tree_Time()

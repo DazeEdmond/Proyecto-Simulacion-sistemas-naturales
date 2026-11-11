@@ -13,10 +13,6 @@ public class bush : MonoBehaviour
 
     public float decayingTime = 100;
     public float decayingRate = 1f;
-    public int actualFruit;
-    public float actualDecayingTime;
-    public bool istime;
-    public bool isdead;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void init(GameObject Sprite)
@@ -35,10 +31,6 @@ public class bush : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        actualFruit = this.BushC.actualFruit;
-        actualDecayingTime = this.BushC.actualDecayingTime;
-        istime = this.BushC.isFruitTime();
-        isdead = this.BushC.isDyingTime();
         if (this.BushC.isFruitTime())
         {
             this.GetComponent<SpriteRenderer>().sprite = sprites[1];

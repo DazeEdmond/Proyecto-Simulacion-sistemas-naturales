@@ -21,8 +21,6 @@ namespace NPCs
         public int forest_limit = 10;
         public float forest_radius = 3;
         public int forest_generation_time = 10;
-
-        public Sprite[] treeSprite;
         //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
         //Es el parametro que rige la posicion de los tiles en generate
         private float tileSize = GlobalData.tileSize;
@@ -58,6 +56,7 @@ namespace NPCs
         public GameObject Bush;
         public GameObject BushPrefab;
         public GameObject Tree;
+        public GameObject TreePrefab;
 
         //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
         public float mountainUpDiscriminator = 1f;
@@ -87,22 +86,22 @@ namespace NPCs
                 {
                     if (pos != (-1f,-1f))
                     {
-                        GameObject new_tree = Instantiate(Tree, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-                        new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
-                        new_tree.GetComponent<SpriteRenderer> ().sprite = treeSprite[0];
-                        new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
-                        f.add_Tree(new_tree);
+                        // GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+                        // new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
+                        // new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+                        GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+                        tree otherTree = new_tree.GetComponent<tree>();
+                        otherTree.init(Tree);
+                        f.add_Tree(otherTree);
                     }
                     f.reset_time();
                 }
 
-                float randomChange = Random.Range(0,100);
-                if(randomChange > 90f)
-                {
-                    GameObject tree = f.deleteRandom();
-                    tree.GetComponent<SpriteRenderer>().sprite = treeSprite[1];
-                    f.add_Tree(tree);
-                }
+                // float randomDelete = Random.Range(0,100);
+                // if(randomDelete > 90f)
+                // {
+                //     f.deleteRandom();
+                // }
             }
         }
 
@@ -218,20 +217,19 @@ namespace NPCs
                     {
                         if(plant2Place == Bush)
                         {
-                            // plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
-                            // Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                            // plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
                             GameObject new_bush = Instantiate(BushPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                             bush otherBush = new_bush.GetComponent<bush>();
                             otherBush.init(Bush);
                         }
                         else
                         {
-                            plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
-                            GameObject new_tree = Instantiate(plant2Place, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                            plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
-                            Forest new_forest = new Forest(x,y, forest_radius, forest_limit, forest_generation_time, treeSprite);
-                            new_forest.add_First_Tree(new_tree);
+                            //plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
+                            //plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+                            GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                            tree otherTree = new_tree.GetComponent<tree>();
+                            otherTree.init(Tree);
+                            Forest new_forest = new Forest(x,y, forest_radius, forest_limit, forest_generation_time);
+                            new_forest.add_First_Tree(otherTree);
                             forests.Add(new_forest);
                         }
                         
