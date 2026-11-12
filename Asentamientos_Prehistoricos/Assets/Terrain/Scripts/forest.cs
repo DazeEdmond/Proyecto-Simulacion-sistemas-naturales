@@ -14,6 +14,7 @@ class Forest
     private List<tree> trees = new List<tree>{};
     private int generation_time;
     private int actual_time;
+    private int reset_time_const;
 
     private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
     //construct
@@ -24,11 +25,7 @@ class Forest
         this.tree_limit = tree_limit;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-100,0);
-    }
-    //math map function beacuse c# does not have it
-    private float Map(float value, float low1, float max1, float low2, float max2)
-    {
-        return low2 + (max2 - low2) * (value - low1) / (max1 - low1);
+        this.reset_time_const = actual_time;
     }
 
     public void updateForest()
@@ -59,7 +56,7 @@ class Forest
 
     public void reset_time()
     {
-        this.actual_time = 0;
+        this.actual_time = this.reset_time_const;
     }
 
     public (float, float) isvalid(){
@@ -68,7 +65,7 @@ class Forest
             if(tree_X > 0 && tree_X < 100 && tree_y > 0 && tree_y < 100)
             {
                 float terrainheigt = TerrainVals[(int)tree_y][(int)tree_X].height;
-                if (terrainheigt > 0.45f && terrainheigt < 0.65f)
+                if (terrainheigt > 0.3f && terrainheigt < 0.65f)
                 {
                     return (tree_X, tree_y);
                 }
