@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Drawing;
 using System.Numerics;
+using System.Collections;
 using UnityEngine;
 
 namespace NPCs
@@ -74,6 +76,20 @@ namespace NPCs
             {
                 CB.popNearCow();
             }
+        }
+        public void Hit(int damage, UnityEngine.Vector2 dangerPos)
+        {
+            this.CB.life -= damage;
+
+            this.CB.setDanger(dangerPos);
+            
+            StartCoroutine(TurnRed());
+        }
+        IEnumerator TurnRed()
+        {
+            cowSprite.GetComponent<SpriteRenderer>().color = UnityEngine.Color.red;
+            yield return new WaitForSecondsRealtime(0.5f);
+            cowSprite.GetComponent<SpriteRenderer>().color = UnityEngine.Color.white;
         }
     }
 }

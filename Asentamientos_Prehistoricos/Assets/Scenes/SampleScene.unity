@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: maxVel
-      value: 0.018
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: maxLife

@@ -11,6 +11,7 @@ namespace NPCs
     class CowBehaviour:NPC
     {
         //attributes
+        public int life = 100;
         public int nearCows = 0;
         public float cowSeparationRadio = 2;
         public UnityEngine.Vector2 alignmentForce = new UnityEngine.Vector2(0,0);
@@ -24,7 +25,7 @@ namespace NPCs
             this.wanderRadius = 10;
             this.maxSteeringForce = 0.1f;
             this.maxVel = 0.15f;
-            this.escapeRatio = 0.1f;
+            this.escapeRatio = 0.2f;
             this.dangerRadio = 10;
             this.maxStamina = UnityEngine.Random.Range(300,500);
             this.stamina = 0;

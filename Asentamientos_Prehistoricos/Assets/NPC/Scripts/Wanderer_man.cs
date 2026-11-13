@@ -16,7 +16,8 @@ namespace NPCs
         {
             Wander,
             SearchingWater,
-            DrinkingWater
+            DrinkingWater,
+            searchingFood,
         }
         [SerializeField] private State actualState = State.Wander;
         public float maxVel = 0.18F;
@@ -30,6 +31,11 @@ namespace NPCs
         public float maxHunger = 2000;
         public float hunger = 2000;
         public float hungerLoss = 0.1F;
+        public UnityEngine.Vector2 nearestFood = new UnityEngine.Vector2(-1,-1);
+        public Cow nearestCow = null;
+        public bool nearFood = false;
+        public float attackRadio = 1;
+        public float attackCooldown = 100;
 
         private Man wanderer_man;
 
@@ -49,10 +55,17 @@ namespace NPCs
         }
 
         private void FixedUpdate() {
-            //Is thirsty?
+            this.nearFood = false;
+
+            //Is Thirsty?
             if((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater)&&thirst <=maxThirst/2)
             {
                 this.actualState = State.SearchingWater;
+            }
+            //Is Hungry
+            if((this.actualState != State.searchingFood || this.actualState != State.SearchingWater) && hunger <=maxHunger/2)
+            {
+                this.actualState = State.searchingFood;
             }
 
             //STATES BEHAVIOURS
@@ -65,6 +78,26 @@ namespace NPCs
                     if (this.wanderer_man.onWater())
                     {
                         this.actualState = State.DrinkingWater;
+                    }
+                    return;
+                }
+            }
+
+            if(this.actualState == State.DrinkingWater)
+            {
+                return;
+            }
+
+            if(this.actualState == State.searchingFood)
+            {
+                if(this.nearestFood.x != -1 && this.nearestFood.y != -1)
+                {
+                    this.wanderer_man.seek(this.nearestFood);
+                    this.wanderer_man.updatePos();
+                    UnityEngine.Vector2 pos = this.wanderer_man.getPos();
+                    if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio)
+                    {
+                        UnityEngine.Debug.Log("EAT! I NEED TO EAT!");
                     }
                     return;
                 }
@@ -127,11 +160,25 @@ namespace NPCs
         private void OnTriggerStay2D(Collider2D other) {
             if(other.gameObject.tag == "water")
             {
-                //UnityEngine.Debug.Log("STAYING WATER");
                 GameObject water = other.gameObject;
                 if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), water.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestWater))
                 {
                     this.nearestWater = water.transform.position;
+                }
+            }
+
+            if (!this.nearFood)
+            {
+                this.nearFood = true;
+                this.nearestFood = new UnityEngine.Vector2(-1,-1);
+            }
+            if(other.gameObject.tag == "Cow")
+            {
+                GameObject cow = other.gameObject;
+                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), cow.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                {
+                    this.nearestFood = cow.transform.position;
+                    this.nearestCow = cow.GetComponent<Cow>();
                 }
             }
         }
