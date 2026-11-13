@@ -164,5 +164,13 @@ namespace NPCs
             this.cohereForce *= 0;
             this.separationForce *= 0;
         }
+        public void staminaShot()
+        {
+            this.stamina = this.maxStamina;
+        }
+        public bool isDeath()
+        {
+            return this.life<=0;
+        }
     }
 }

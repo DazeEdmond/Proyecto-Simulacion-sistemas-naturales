@@ -161,10 +161,9 @@ namespace NPCs
 
                     float HumidNoise = Mathf.PerlinNoise(XHumid,YHumid);
 
-                    float temperature = GlobalData.Map((noise*-30) + (HumidNoise*30), -30, 30, 0, 40);
-                    UnityEngine.Debug.Log(temperature);
+                    float temp = GlobalData.Map((noise*-30) + (HumidNoise*30), -30, 30, 0, 40);
 
-                    TerrainVals[y].Add(x,(noise,HumidNoise,temperature));
+                    TerrainVals[y].Add(x,(noise,HumidNoise,temp));
 
                     //decidir Tile a usar
                     TileBase tile2Place;

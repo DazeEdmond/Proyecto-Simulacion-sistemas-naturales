@@ -34,8 +34,10 @@ namespace NPCs
         public UnityEngine.Vector2 nearestFood = new UnityEngine.Vector2(-1,-1);
         public Cow nearestCow = null;
         public bool nearFood = false;
+        public int damage = 20;
         public float attackRadio = 1;
-        public float attackCooldown = 100;
+        public float attackMaxCooldown = 100;
+        public float attackCooldown = 0;
 
         private Man wanderer_man;
 
@@ -95,9 +97,16 @@ namespace NPCs
                     this.wanderer_man.seek(this.nearestFood);
                     this.wanderer_man.updatePos();
                     UnityEngine.Vector2 pos = this.wanderer_man.getPos();
-                    if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio)
+                    if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                     {
-                        UnityEngine.Debug.Log("EAT! I NEED TO EAT!");
+                        this.attackCooldown = 0;
+                        if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
+                        {
+                            this.actualState = State.Wander;
+                            this.hunger = maxHunger;
+                            this.nearestCow = null;
+                        }
+                        this.nearestFood = new UnityEngine.Vector2(-1,-1);
                     }
                     return;
                 }
@@ -109,11 +118,16 @@ namespace NPCs
             }
 
             this.wanderer_man.updateMan();
+            this.nearestCow = null;
             this.nearestWater = new UnityEngine.Vector2(-1,-1);
         }
         // Update is called once per frame
         void Update()
         {
+            if(this.attackCooldown <= attackMaxCooldown)
+            {
+                this.attackCooldown++;
+            }
             if (this.wanderer_man.lookingRight())
             {
                 this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
@@ -149,10 +163,10 @@ namespace NPCs
             this.hungerB.updateVar(this.hunger,this.maxHunger);
 
             //Death moment
-            if(this.life <= 0 || this.thirst <= 0)
+            if(this.life <= 0 || this.thirst <= 0 || this.hunger <= 0)
             {
-                Destroy(this.gameObject);
                 Destroy(this.SpawnedMan);
+                Destroy(this.gameObject);
             }
         }
 
@@ -167,18 +181,18 @@ namespace NPCs
                 }
             }
 
-            if (!this.nearFood)
-            {
-                this.nearFood = true;
-                this.nearestFood = new UnityEngine.Vector2(-1,-1);
-            }
             if(other.gameObject.tag == "Cow")
             {
-                GameObject cow = other.gameObject;
-                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), cow.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                if (!this.nearFood)
                 {
-                    this.nearestFood = cow.transform.position;
-                    this.nearestCow = cow.GetComponent<Cow>();
+                    this.nearFood = true;
+                    this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                }
+                Cow cow = other.gameObject.GetComponent<Cow>();
+                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), cow.getPos())<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                {
+                    this.nearestFood = cow.getPos();
+                    this.nearestCow = cow;
                 }
             }
         }

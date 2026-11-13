@@ -28,6 +28,11 @@ namespace NPCs
 
     private void FixedUpdate() {
         CB.updateCow();
+        if (CB.isDeath())
+        {
+            Destroy(cowSprite);
+            Destroy(this.gameObject);
+        }
     }
 
         // Update is called once per frame
@@ -77,13 +82,15 @@ namespace NPCs
                 CB.popNearCow();
             }
         }
-        public void Hit(int damage, UnityEngine.Vector2 dangerPos)
+        public bool Hit(int damage, UnityEngine.Vector2 dangerPos)
         {
             this.CB.life -= damage;
-
+            this.CB.staminaShot();
             this.CB.setDanger(dangerPos);
             
             StartCoroutine(TurnRed());
+
+            return !this.CB.isDeath();
         }
         IEnumerator TurnRed()
         {

@@ -637,6 +637,9 @@ MonoBehaviour:
   forest_limit: 25
   forest_radius: 4
   forest_generation_time: 100
+  Villager_limit: 500
+  Village_radius: 3
+  House_generation_time: 10
   WaterUpTile: {fileID: 11400000, guid: 948d4b25744aebf49a182fdd60af4752, type: 2}
   WaterTile: {fileID: 11400000, guid: 37f9da5424a463c46b7d9ff95c69c8d8, type: 2}
   WaterDownTile: {fileID: 11400000, guid: 15110932c05949d47af7909da8214cbc, type: 2}
@@ -653,6 +656,7 @@ MonoBehaviour:
   BushPrefab: {fileID: 8138716078267664585, guid: bc535a68f0ba47746956aebeb04b95dc, type: 3}
   Tree: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   TreePrefab: {fileID: 1498656479742166534, guid: 76acf7f58ddc68a4cba6ec73667f9d05, type: 3}
+  House: {fileID: 5147279534763065995, guid: b8b4d8af7973ada4ea2391877b579fff, type: 3}
   mountainUpDiscriminator: 1
   mountainDiscriminator: 0.83
   mountainDownDiscriminator: 0.76
