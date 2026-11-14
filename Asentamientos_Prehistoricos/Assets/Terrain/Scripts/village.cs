@@ -65,14 +65,26 @@ class Village
     }
 
     public (float, float) isvalid(){
-        float house_X = UnityEngine.Random.Range(this.pos[0]-this.Village_radius,this.pos[0]+this.Village_radius);
-        float house_y = UnityEngine.Random.Range(this.pos[1]-this.Village_radius,this.pos[1]+this.Village_radius);
+        int house_X =(int) System.Math.Floor(UnityEngine.Random.Range(this.pos[0]-this.Village_radius,this.pos[0]+this.Village_radius));
+        int house_y =(int) System.Math.Floor(UnityEngine.Random.Range(this.pos[1]-this.Village_radius,this.pos[1]+this.Village_radius));
             if(house_X > 0 && house_X < 100 && house_y > 0 && house_y < 100)
             {
-                float terrainheigt = TerrainVals[(int)house_y][(int)house_X].height;
+                float terrainheigt = TerrainVals[house_y][house_X].height;
                 if (terrainheigt > 0.3f && terrainheigt < 0.65f)
                 {
-                    return (house_X, house_y);
+                    bool valid = true;
+                    foreach(GameObject h in houses)
+                    {
+                        if((h.transform.position.x == house_X || h.transform.position.x + 1 == house_X || h.transform.position.x - 1 == house_X)
+                        && h.transform.position.y == house_y)
+                    {
+                        valid = false;
+                    }
+                    }
+                    if (valid)
+                    {
+                        return (house_X, house_y);
+                    }
                 }
             }
         return (-1f, -1f);
