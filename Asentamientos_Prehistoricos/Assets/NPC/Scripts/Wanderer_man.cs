@@ -87,18 +87,22 @@ namespace NPCs
         }
 
         private void FixedUpdate() {
+            if (this.wanderer_man == null) return;
+
             this.nearFood = false;
 
-            //Is Thirsty?
-            if((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater)&&thirst <=maxThirst/2)
+            // Is Thirsty?
+            if (this.actualState != State.SearchingWater && this.actualState != State.DrinkingWater && thirst <= maxThirst / 2)
             {
                 this.actualState = State.SearchingWater;
             }
-            //Is Hungry?
-            if((this.actualState != State.searchingFood || this.actualState != State.SearchingWater) && hunger <=maxHunger/2)
+
+            // Is Hungry?
+            if (this.actualState != State.searchingFood && this.actualState != State.SearchingWater && hunger <= maxHunger / 2)
             {
                 this.actualState = State.searchingFood;
             }
+
 
             //STATES BEHAVIOURS
             if(this.actualState == State.SearchingWater)
@@ -212,6 +216,8 @@ namespace NPCs
         // Update is called once per frame
         void Update()
         {
+            if (this.wanderer_man == null) return;
+
             if(this.attackCooldown <= attackMaxCooldown)
             {
                 this.attackCooldown++;
