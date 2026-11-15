@@ -22,11 +22,6 @@ namespace NPCs
         public float forest_radius = 3;
         public int forest_generation_time = 10;
 
-        //village config
-        public int Villager_limit = 500;
-        public float Village_radius = 3;
-        public int House_generation_time = 10;
-
         //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
         //Es el parametro que rige la posicion de los tiles en generate
         private float tileSize = GlobalData.tileSize;
@@ -97,9 +92,6 @@ namespace NPCs
                 {
                     if (pos != (-1f,-1f))
                     {
-                        // GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-                        // new_tree.transform.localScale = new UnityEngine.Vector2(10,10);
-                        // new_tree.GetComponent<SpriteRenderer> ().sortingOrder = 1;
                         GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
                         tree otherTree = new_tree.GetComponent<tree>();
                         otherTree.init(Tree);
@@ -108,27 +100,7 @@ namespace NPCs
                     f.reset_time();
                 }
 
-                // float randomDelete = Random.Range(0,100);
-                // if(randomDelete > 90f)
-                // {
-                //     f.deleteRandom();
-                // }
             }
-
-            // foreach(Village v in villages)
-            // {
-            //     v.updateVillage();
-            //     (float, float) pos = v.isvalid();
-            //     if (v.is_House_Time() && pos != (-1f,-1f))
-            //     {
-            //         GameObject new_House = Instantiate(House, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-            //         new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-            //         new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
-
-            //         v.add_House(new_House);
-            //         v.reset_time();
-            //     }
-            // }
         }
 
         private void seed()
@@ -212,8 +184,6 @@ namespace NPCs
                         
                         int cowGen = Random.Range(0,999);
                         int cowQuan = Random.Range(1,4);
-
-                        //int village = Random.Range(0,999);
                         
                         if(plant <= 50)
                         {
@@ -226,16 +196,6 @@ namespace NPCs
                         {
                         plant2Place = null;
                         }
-
-                        // if(village >= 997)
-                        // {
-                        //     GameObject new_House = Instantiate(House, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                        //     new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-                        //     new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
-                        //     Village new_Village = new Village(x,y, Village_radius, Villager_limit, House_generation_time);
-                        //     new_Village.add_House(new_House);
-                        //     villages.Add(new_Village);
-                        // }
 
                         if(cowGen <= 0.5)
                         {
@@ -263,8 +223,6 @@ namespace NPCs
                         }
                         else
                         {
-                            //plant2Place.transform.localScale = new UnityEngine.Vector2(10,10);
-                            //plant2Place.GetComponent<SpriteRenderer> ().sortingOrder = 1;
                             GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                             tree otherTree = new_tree.GetComponent<tree>();
                             otherTree.init(Tree);

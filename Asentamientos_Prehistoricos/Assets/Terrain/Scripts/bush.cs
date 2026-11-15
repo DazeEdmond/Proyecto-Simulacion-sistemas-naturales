@@ -5,7 +5,6 @@ using UnityEngine;
 public class bush : MonoBehaviour
 {
     public GameObject Sprite;
-    public GameObject BushSprite;
 
     public Sprite[] sprites;
     private BushBehaviour BushC;

@@ -157,7 +157,7 @@ namespace NPCs
                     float TempPlace =((values.Item1*30) + (values.Item2*30) + values.Item3)/3;
                     if(TempPlace >= this.perfectPlace*0.8f)
                     {
-                        if(TempPlace >= actualPerfect)
+                        if(TempPlace >= actualPerfect && (values.Item1 < 0.76f))
                         {
                             actualPerfect = TempPlace;
                             seekingPos = pos;
@@ -185,8 +185,6 @@ namespace NPCs
                     GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
                     village otherVillage = new_Village.GetComponent<village>();
                     otherVillage.init(village, ManPos);
-                    Debug.Log("actualPerfect: "+actualPerfect);
-                    Debug.Log("Perfect: "+perfectPlace);
                     KMS();
                 }
                 else
@@ -201,7 +199,7 @@ namespace NPCs
             {
                 actualSeekingCoolDown --;
             }
-            if((actualPerfect > 0 || actualSeekingCoolDown <= 50) && (this.actualState != State.searchingFood || this.actualState != State.SearchingWater))
+            if((actualPerfect > 0 || actualSeekingCoolDown <= 0) && (this.actualState != State.searchingFood || this.actualState != State.SearchingWater))
             {
                 this.actualState = State.Seek;
                 return;

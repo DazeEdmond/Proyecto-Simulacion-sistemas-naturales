@@ -15,6 +15,7 @@ public class village : MonoBehaviour
     public void init(GameObject Sprite, Vector2 pos)
     {
         this.Sprite = Sprite;
+        this.Sprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
         this.VillageB = new VillageBehaviour(pos, Village_radius, VillagersAmount, generation_time);
     }
     void Start()
