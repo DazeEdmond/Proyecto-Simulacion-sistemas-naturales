@@ -10,6 +10,7 @@ TagManager:
   - bush
   - house
   - Seed
+  - Sliders
   layers:
   - Default
   - TransparentFX
