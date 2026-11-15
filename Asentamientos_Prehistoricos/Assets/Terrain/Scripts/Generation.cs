@@ -105,12 +105,23 @@ namespace NPCs
 
         private void seed()
         {
-            //Genera la semilla
-            offsetX = Random.Range(0,9999);
-            offsetY = Random.Range(0,9999);
+            if (GlobalData.globalSeed > 0) {
+                int s = GlobalData.globalSeed;
 
-            HumidityOffsetX = Random.Range(0,9999);
-            HumidityOffsetY = Random.Range(0,9999);
+                // Forma determinista de generar la Semilla
+                offsetX = s % 9999;
+                offsetY = (s * 2) % 9999; 
+
+                HumidityOffsetX = (s + 200) % 9999;
+                HumidityOffsetY = (s + 500) % 9999; 
+            } else {
+                //Genera la semilla de forma aleatoria xd
+                offsetX = Random.Range(0,9999);
+                offsetY = Random.Range(0,9999);
+
+                HumidityOffsetX = Random.Range(0,9999);
+                HumidityOffsetY = Random.Range(0,9999);
+            }   
         }
 
         private void Generate()
