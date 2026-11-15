@@ -78,9 +78,11 @@ namespace NPCs
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            GlobalData.mapReady = false;   
             TerrainVals.Clear();
             seed();
             Generate();
+            GlobalData.mapReady = true;    
         }
 
         void Update()

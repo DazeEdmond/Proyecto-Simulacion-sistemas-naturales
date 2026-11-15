@@ -20,6 +20,9 @@ public static class GlobalData
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }
     
+    // Man - GlobalData - Espera generación de Mapa
+    public static bool mapReady = false;
+
     // Seed - GlobalData
     public static int globalSeed = 0;
 
