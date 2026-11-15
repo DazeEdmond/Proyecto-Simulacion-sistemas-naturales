@@ -10,6 +10,9 @@ TagManager:
   - bush
   - house
   - Seed
+  - Sliders
+  - Title
+  - Menu
   layers:
   - Default
   - TransparentFX
