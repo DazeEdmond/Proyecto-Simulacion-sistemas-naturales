@@ -541,8 +541,8 @@ MonoBehaviour:
   seekingCoolDown: 1300
   actualSeekingCoolDown: 1300
   seekingPos: {x: -1, y: -1}
-  village: {fileID: 0}
-  VillagePrefab: {fileID: 0}
+  village: {fileID: -2253911629886400664, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
+  VillagePrefab: {fileID: 5147279534763065995, guid: b8b4d8af7973ada4ea2391877b579fff, type: 3}
   actualPerfect: -1
 --- !u!58 &7755706303565816552
 CircleCollider2D:
