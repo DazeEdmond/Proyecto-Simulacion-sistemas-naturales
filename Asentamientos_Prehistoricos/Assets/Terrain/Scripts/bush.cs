@@ -16,6 +16,7 @@ public class bush : MonoBehaviour
 
     public void init(GameObject Sprite)
     {
+        fruitInterval = (int)GlobalData.Get(Param.FruitTime); // Slider
         this.Sprite = Sprite;
         this.BushC = new BushBehaviour(this.fruitInterval, this.decayingTime, this.decayingRate);
     }

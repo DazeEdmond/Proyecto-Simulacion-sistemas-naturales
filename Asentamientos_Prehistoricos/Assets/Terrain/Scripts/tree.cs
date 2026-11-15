@@ -13,6 +13,7 @@ public class tree : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void init(GameObject Sprite)
     {
+        fruitInterval = (int)GlobalData.Get(Param.FruitTime); // Slider
         this.Sprite = Sprite;
         this.TreeB = new TreeBehaviour(this.fruitInterval, this.decayingTime, this.decayingRate);
     }

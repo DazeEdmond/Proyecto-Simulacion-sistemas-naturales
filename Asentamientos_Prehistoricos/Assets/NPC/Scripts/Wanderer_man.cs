@@ -74,6 +74,14 @@ namespace NPCs
 
             this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
             
+            // Sliders
+            maxLife = GlobalData.Get(Param.MaxLife);
+            life = maxLife;
+            lifeLoss = GlobalData.Get(Param.LifeLoss);
+            thirstLoss = GlobalData.Get(Param.ThirstLoss);
+            hungerLoss = GlobalData.Get(Param.HungerLoss);
+            maxVel = GlobalData.Get(Param.MaxSpeed);
+
             this.wanderer_man = new Man(this.pos_x, this.pos_y, this.maxVel);
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);

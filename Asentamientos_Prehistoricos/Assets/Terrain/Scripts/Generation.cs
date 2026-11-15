@@ -81,6 +81,7 @@ namespace NPCs
             GlobalData.mapReady = false;   
             TerrainVals.Clear();
             seed();
+            forest_limit = (int)GlobalData.Get(Param.ForestLimit); // Slider
             Generate();
             GlobalData.mapReady = true;    
         }

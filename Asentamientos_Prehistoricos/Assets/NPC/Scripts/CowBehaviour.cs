@@ -24,7 +24,7 @@ namespace NPCs
             this.wanderLookAhead = 30;
             this.wanderRadius = 10;
             this.maxSteeringForce = 0.1f;
-            this.maxVel = 0.15f;
+            this.maxVel = GlobalData.Get(Param.MaxSpeed) * 0.83f; // Slider
             this.escapeRatio = 0.2f;
             this.dangerRadio = 10;
             this.maxStamina = UnityEngine.Random.Range(300,500);

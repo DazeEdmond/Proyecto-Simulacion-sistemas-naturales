@@ -16,7 +16,7 @@ public class village : MonoBehaviour
     {
         this.Sprite = Sprite;
         this.Sprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        this.VillageB = new VillageBehaviour(pos, Village_radius, VillagersAmount, generation_time);
+        this.VillageB = new VillageBehaviour(pos, GlobalData.Get(Param.VillageRadius), VillagersAmount, generation_time); // Slider Value
     }
     void Start()
     {
