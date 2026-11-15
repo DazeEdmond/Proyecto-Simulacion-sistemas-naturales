@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 622
     height: 655
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -271,8 +271,8 @@ MonoBehaviour:
     y: 0
     width: 671
     height: 655
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 226}
+  m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -326,8 +326,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1298
-    y: 79
+    x: 1299
+    y: 24
     width: 621
     height: 629
   m_SerializedDataModeController:
@@ -377,8 +377,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 901
-    y: 79
+    x: 902
+    y: 24
     width: 395
     height: 629
   m_SerializedDataModeController:
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 43
+    y: 0
     width: 1920
     height: 36
   m_SerializedDataModeController:
@@ -760,8 +760,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 230
-    y: 79
+    x: 231
+    y: 24
     width: 669
     height: 629
   m_SerializedDataModeController:
@@ -1447,7 +1447,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 79
+    y: 24
     width: 229
     height: 629
   m_SerializedDataModeController:
@@ -1466,10 +1466,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs:
-      - m_Data: -189564
+      m_SelectedIDs: []
       m_LastClickedID:
-        m_Data: -189564
+        m_Data: 0
       m_ExpandedIDs:
       - m_Data: -189662
       - m_Data: -189650
@@ -1489,8 +1488,8 @@ MonoBehaviour:
       - m_Data: 51712
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: InputField (TMP)
-        m_OriginalName: InputField (TMP)
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
@@ -1498,10 +1497,10 @@ MonoBehaviour:
           width: 0
           height: 0
         m_UserData:
-          m_Data: -189650
+          m_Data: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 10}
@@ -1585,10 +1584,9 @@ MonoBehaviour:
       m_Data: 51080
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51080
-    - m_Data: 51082
-    - m_Data: 51084
-    - m_Data: 1000000000
+    - m_Data: 51660
+    - m_Data: 51662
+    - m_Data: 51664
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1621,9 +1619,9 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51080
-    - m_Data: 51082
-    - m_Data: 51084
+    - m_Data: 51660
+    - m_Data: 51662
+    - m_Data: 51664
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1713,7 +1711,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 734
+    y: 679
     width: 1920
     height: 252
   m_SerializedDataModeController:
