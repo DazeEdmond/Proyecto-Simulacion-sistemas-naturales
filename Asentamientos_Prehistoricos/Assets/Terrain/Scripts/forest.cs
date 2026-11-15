@@ -24,7 +24,7 @@ class Forest
         this.forest_radius = radius;
         this.tree_limit = tree_limit;
         this.generation_time = time;
-        this.actual_time = UnityEngine.Random.Range(-100,0);
+        this.actual_time = UnityEngine.Random.Range(-1300,0);
         this.reset_time_const = actual_time;
     }
 

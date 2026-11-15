@@ -1,97 +1,45 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Numerics;
-using Unity.Mathematics;
-using Unity.VisualScripting;
+using Unity.Collections;
 using UnityEngine;
 
-class Village
+public class village : MonoBehaviour
 {
-    //attributes
-    private UnityEngine.Vector2 pos;
-    private float Village_radius;
-    private int house_limit;
-    private List<GameObject> houses = new List<GameObject>{};
-    private int generation_time;
-    private float actual_time;
-
-    private int foodAmount = 500;
-    private int WaterAmount = 500;
-    private int VillagersAmount;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject Sprite;
+    private VillageBehaviour VillageB;
+    public float Village_radius;
+    public int generation_time;
+    public int VillagersAmount;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
 
-    private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
-    //construct
-    public Village(float posX, float posY, float radius, int Villager_Amount, int time)
+    public void init(GameObject Sprite, Vector2 pos)
     {
-        this.pos = new UnityEngine.Vector2(posX, posY);
-        this.Village_radius = radius;
-        this.VillagersAmount = Villager_Amount;
-        this.house_limit = Villager_Amount/3;
-        this.generation_time = time;
-        this.actual_time = UnityEngine.Random.Range(-100,0);
+        this.Sprite = Sprite;
+        this.VillageB = new VillageBehaviour(pos, Village_radius, VillagersAmount, generation_time);
+    }
+    void Start()
+    {
+        Sprite.transform.localScale = new UnityEngine.Vector2(20,15);
     }
 
-    public void updateVillage()
+    void FixedUpdate()
     {
-        this.actual_time++;
-    }
-
-    public UnityEngine.Vector2 getPos()
-    {
-        return this.pos;
-    }
-
-    public void add_House(GameObject house)
-    {
-        if(this.houses.Count < this.house_limit)
+        VillageB.updateVillage();
+        (float, float) pos = VillageB.isvalid();
+        if (VillageB.is_House_Time() && pos != (-1f,-1f))
         {
-            this.houses.Add(house);
+            GameObject new_House = Instantiate(Sprite, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+            new_House.transform.localScale = new UnityEngine.Vector2(20,15);
+            new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+
+            VillageB.add_House(new_House);
+            VillageB.reset_time();
         }
     }
 
-    // public void add_First_Tree(tree tree)
-    // {
-    //     if(this.trees.Count < this.tree_limit)
-    //     {
-    //         this.trees.Add(tree);
-    //     }
-    // }
-
-    public void reset_time()
+    // Update is called once per frame
+    void Update()
     {
-        this.actual_time = 0;
-    }
-
-    public (float, float) isvalid(){
-        int house_X =(int) System.Math.Floor(UnityEngine.Random.Range(this.pos[0]-this.Village_radius,this.pos[0]+this.Village_radius));
-        int house_y =(int) System.Math.Floor(UnityEngine.Random.Range(this.pos[1]-this.Village_radius,this.pos[1]+this.Village_radius));
-            if(house_X > 0 && house_X < 100 && house_y > 0 && house_y < 100)
-            {
-                float terrainheigt = TerrainVals[house_y][house_X].height;
-                if (terrainheigt > 0.3f && terrainheigt < 0.65f)
-                {
-                    bool valid = true;
-                    foreach(GameObject h in houses)
-                    {
-                        if((h.transform.position.x == house_X || h.transform.position.x + 1 == house_X || h.transform.position.x - 1 == house_X)
-                        && h.transform.position.y == house_y)
-                    {
-                        valid = false;
-                    }
-                    }
-                    if (valid)
-                    {
-                        return (house_X, house_y);
-                    }
-                }
-            }
-        return (-1f, -1f);
-    }
-
-    public bool is_House_Time()
-    {   
-        return this.actual_time >= this.generation_time && this.houses.Count < this.house_limit;
+        
     }
 }

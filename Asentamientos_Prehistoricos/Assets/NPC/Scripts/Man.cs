@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Numerics;
 using Unity.Mathematics;
@@ -168,6 +169,48 @@ namespace NPCs
         public bool onWater()
         {
             return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height <= 0.25f;
+        }
+
+        public List<((float, float, float), UnityEngine.Vector2)> surroundingTerrain()
+        {
+            List<((float, float, float), UnityEngine.Vector2)> returningValues = new List<((float, float, float), UnityEngine.Vector2)>{};
+            UnityEngine.Vector2 temp = this.getPos();
+            int temp_x = (int)temp[0];
+            int temp_y = (int)temp[1];
+
+            (float, float, float) terraintemp1 = this.TerrainVals[temp_y-1][temp_x-1];
+            UnityEngine.Vector2 posTemp1 = new UnityEngine.Vector2(temp_x-1,temp_y-1);
+            returningValues.Add((terraintemp1, posTemp1));
+
+            (float, float, float) terraintemp2 = this.TerrainVals[temp_y-1][temp_x];
+            UnityEngine.Vector2 posTemp2 = new UnityEngine.Vector2(temp_x,temp_y-1);
+            returningValues.Add((terraintemp2, posTemp2));
+
+            (float, float, float) terraintemp3 = this.TerrainVals[temp_y-1][temp_x+1];
+            UnityEngine.Vector2 posTemp3 = new UnityEngine.Vector2(temp_x+1,temp_y-1);
+            returningValues.Add((terraintemp3, posTemp3));
+
+            (float, float, float) terraintemp4 = this.TerrainVals[temp_y][temp_x-1];
+            UnityEngine.Vector2 posTemp4 = new UnityEngine.Vector2(temp_x-1,temp_y);
+            returningValues.Add((terraintemp4, posTemp4));
+
+            (float, float, float) terraintemp5 = this.TerrainVals[temp_y][temp_x+1];
+            UnityEngine.Vector2 posTemp5 = new UnityEngine.Vector2(temp_x+1,temp_y);
+            returningValues.Add((terraintemp5, posTemp5));
+
+            (float, float, float) terraintemp6 = this.TerrainVals[temp_y+1][temp_x-1];
+            UnityEngine.Vector2 posTemp6 = new UnityEngine.Vector2(temp_x-1,temp_y+1);
+            returningValues.Add((terraintemp6, posTemp6));
+
+            (float, float, float) terraintemp7 = this.TerrainVals[temp_y+1][temp_x];
+            UnityEngine.Vector2 posTemp7 = new UnityEngine.Vector2(temp_x,temp_y+1);
+            returningValues.Add((terraintemp7, posTemp7));
+
+            (float, float, float) terraintemp8 = this.TerrainVals[temp_y+1][temp_x+1];
+            UnityEngine.Vector2 posTemp8 = new UnityEngine.Vector2(temp_x+1,temp_y+1);
+            returningValues.Add((terraintemp8, posTemp8));
+
+            return returningValues;
         }
     }
 }

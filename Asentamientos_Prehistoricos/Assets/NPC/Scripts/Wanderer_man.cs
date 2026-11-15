@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NPCs
 {
@@ -9,6 +12,8 @@ namespace NPCs
         public Bar HB;
         public Bar thirstB;
         public Bar hungerB;
+        public GameObject hat;
+        private GameObject inst_Hat;
         public float pos_x = 54F;
         public float pos_y = 30F;
         //Life Atributes
@@ -18,6 +23,7 @@ namespace NPCs
             SearchingWater,
             DrinkingWater,
             searchingFood,
+            Seek,
         }
         [SerializeField] private State actualState = State.Wander;
         public float maxVel = 0.18F;
@@ -39,6 +45,18 @@ namespace NPCs
         public float attackMaxCooldown = 100;
         public float attackCooldown = 0;
 
+        public float desiredHeight;
+        public float desiredHumidity;
+        public float desiredTemp;
+        public float perfectPlace;
+        public int seekingCoolDown = 1300;
+        public int actualSeekingCoolDown = 1300;
+        public Vector2 seekingPos = new UnityEngine.Vector2(-1,-1);
+        public GameObject village;
+        public GameObject VillagePrefab;
+
+        public float actualPerfect = -1;
+
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
@@ -46,14 +64,26 @@ namespace NPCs
         void Start()
         {
             this.Man_Sprite.transform.localScale = new UnityEngine.Vector2(10,10);
+            this.hat.transform.localScale = new UnityEngine.Vector2(10,10);
+
             this.SpawnedMan = Instantiate(this.Man_Sprite, new UnityEngine.Vector2(this.pos_x, this.pos_y), UnityEngine.Quaternion.identity);
 
+            this.inst_Hat = Instantiate(this.hat, new UnityEngine.Vector2(this.pos_x-0.1f, this.pos_y+0.3f), UnityEngine.Quaternion.identity);
+
             this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+
+            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
             
             this.wanderer_man = new Man(this.pos_x, this.pos_y, this.maxVel);
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
+
+            this.desiredHeight = Random.Range(0.3f, 0.65f);
+            this.desiredHumidity = Random.Range(0.3f, 0.6f);
+            this.desiredTemp = Random.Range(10.0f, 30.0f);
+
+            this.perfectPlace =((desiredHeight*30) + (desiredHumidity*30) + desiredTemp)/2;
         }
 
         private void FixedUpdate() {
@@ -64,7 +94,7 @@ namespace NPCs
             {
                 this.actualState = State.SearchingWater;
             }
-            //Is Hungry
+            //Is Hungry?
             if((this.actualState != State.searchingFood || this.actualState != State.SearchingWater) && hunger <=maxHunger/2)
             {
                 this.actualState = State.searchingFood;
@@ -117,6 +147,66 @@ namespace NPCs
                 return;
             }
 
+            if(this.actualState == State.Seek)
+            {
+                List<((float, float, float), Vector2)> tempTerrain = wanderer_man.surroundingTerrain();
+                Vector2 ManPos = wanderer_man.getPos();
+                foreach (((float, float, float), Vector2) t in tempTerrain){
+                    (float, float, float) values = t.Item1;
+                    Vector2 pos = t.Item2;
+                    float TempPlace =((values.Item1*30) + (values.Item2*30) + values.Item3)/3;
+                    if(TempPlace >= this.perfectPlace*0.8f)
+                    {
+                        if(TempPlace >= actualPerfect)
+                        {
+                            actualPerfect = TempPlace;
+                            seekingPos = pos;
+                        }
+                    }
+                }
+                if(seekingPos[0] != -1)
+                {
+                    this.wanderer_man.seek(seekingPos);
+                    this.wanderer_man.updatePos();
+                    if(wanderer_man.getPos() == seekingPos)
+                    {
+                        this.actualState = State.Wander;
+                        this.actualSeekingCoolDown = seekingCoolDown;
+                        actualPerfect = -1;
+                        seekingPos = new UnityEngine.Vector2(-1,-1);
+                    }
+                }else
+                {
+                    seekingPos = new UnityEngine.Vector2(-1,-1);
+                    actualPerfect = -1;
+                }
+                if(actualPerfect >= perfectPlace*0.95f)
+                {
+                    GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
+                    village otherVillage = new_Village.GetComponent<village>();
+                    otherVillage.init(village, ManPos);
+                    Debug.Log("actualPerfect: "+actualPerfect);
+                    Debug.Log("Perfect: "+perfectPlace);
+                    KMS();
+                }
+                else
+                {
+                    this.actualState = State.Wander;
+                    this.actualSeekingCoolDown = seekingCoolDown;
+                }
+                return;
+            }
+
+            if(actualSeekingCoolDown > 0)
+            {
+                actualSeekingCoolDown --;
+            }
+            if((actualPerfect > 0 || actualSeekingCoolDown <= 50) && (this.actualState != State.searchingFood || this.actualState != State.SearchingWater))
+            {
+                this.actualState = State.Seek;
+                return;
+            }
+
             this.wanderer_man.updateMan();
             this.nearestCow = null;
             this.nearestWater = new UnityEngine.Vector2(-1,-1);
@@ -131,10 +221,16 @@ namespace NPCs
             if (this.wanderer_man.lookingRight())
             {
                 this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
+
+                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(-10,10);
+                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x+0.1f, this.pos_y+0.3f,0);
             }
             else
             {
                 this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(10,10);
+
+                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(10,10);
+                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x-0.1f, this.pos_y+0.3f,0);
             }
 
             Vector2 temp = this.wanderer_man.getPos();
@@ -145,6 +241,7 @@ namespace NPCs
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
+
 
             this.life -= this.lifeLoss;
             if(this.actualState == State.DrinkingWater)
@@ -165,8 +262,7 @@ namespace NPCs
             //Death moment
             if(this.life <= 0 || this.thirst <= 0 || this.hunger <= 0)
             {
-                Destroy(this.SpawnedMan);
-                Destroy(this.gameObject);
+                KMS();
             }
         }
 
@@ -195,6 +291,13 @@ namespace NPCs
                     this.nearestCow = cow;
                 }
             }
+        }
+
+        private void KMS()
+        {
+            Destroy(this.SpawnedMan);
+            Destroy(this.inst_Hat);
+            Destroy(this.gameObject);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace NPCs
         //forest list
         private List<Forest> forests = new List<Forest> {};
         //Village list
-        private List<Village> villages = new List<Village>{};
+        //private List<Village> villages = new List<Village>{};
 
         //Tilemaps(ubicados en Assets/Terrain/Tiles)
         public TileBase WaterUpTile;
@@ -115,20 +115,20 @@ namespace NPCs
                 // }
             }
 
-            foreach(Village v in villages)
-            {
-                v.updateVillage();
-                (float, float) pos = v.isvalid();
-                if (v.is_House_Time() && pos != (-1f,-1f))
-                {
-                    GameObject new_House = Instantiate(House, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-                    new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-                    new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+            // foreach(Village v in villages)
+            // {
+            //     v.updateVillage();
+            //     (float, float) pos = v.isvalid();
+            //     if (v.is_House_Time() && pos != (-1f,-1f))
+            //     {
+            //         GameObject new_House = Instantiate(House, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+            //         new_House.transform.localScale = new UnityEngine.Vector2(20,15);
+            //         new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
 
-                    v.add_House(new_House);
-                    v.reset_time();
-                }
-            }
+            //         v.add_House(new_House);
+            //         v.reset_time();
+            //     }
+            // }
         }
 
         private void seed()
@@ -213,7 +213,7 @@ namespace NPCs
                         int cowGen = Random.Range(0,999);
                         int cowQuan = Random.Range(1,4);
 
-                        int village = Random.Range(0,999);
+                        //int village = Random.Range(0,999);
                         
                         if(plant <= 50)
                         {
@@ -227,15 +227,15 @@ namespace NPCs
                         plant2Place = null;
                         }
 
-                        if(village >= 997)
-                        {
-                            GameObject new_House = Instantiate(House, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                            new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-                            new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
-                            Village new_Village = new Village(x,y, Village_radius, Villager_limit, House_generation_time);
-                            new_Village.add_House(new_House);
-                            villages.Add(new_Village);
-                        }
+                        // if(village >= 997)
+                        // {
+                        //     GameObject new_House = Instantiate(House, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                        //     new_House.transform.localScale = new UnityEngine.Vector2(20,15);
+                        //     new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                        //     Village new_Village = new Village(x,y, Village_radius, Villager_limit, House_generation_time);
+                        //     new_Village.add_House(new_House);
+                        //     villages.Add(new_Village);
+                        // }
 
                         if(cowGen <= 0.5)
                         {

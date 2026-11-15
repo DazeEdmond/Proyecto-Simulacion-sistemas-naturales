@@ -3,7 +3,6 @@ using UnityEngine;
 public class tree : MonoBehaviour
 {
     public GameObject Sprite;
-    public GameObject BushSprite;
 
     public Sprite[] sprites;
     private TreeBehaviour TreeB;
@@ -42,6 +41,7 @@ public class tree : MonoBehaviour
 
     public void DestroySelf()
     {
+        Destroy(this.Sprite);
         Destroy(this);
     }
 }
