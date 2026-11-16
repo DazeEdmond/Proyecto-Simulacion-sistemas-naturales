@@ -142,3 +142,5 @@ MonoBehaviour:
   Village_radius: 5
   generation_time: 650
   VillagersAmount: 30
+  ManPrefab: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+  Max_Man_generation_cooldown: 1200
