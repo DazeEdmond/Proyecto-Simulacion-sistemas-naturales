@@ -2,45 +2,39 @@ using UnityEngine;
 
 class BushBehaviour
 {
-    public int fruitInterval = 100;
+    public int fruitInterval;
+    public int nutritionValue;
+    public int fruitTimer;
+    public bool hasFruit = false;
 
-    public float decayingTime = 100;
-    public float decayingRate = 1f;
-    public float actualDecayingTime = 0;
-    public int actualFruit = Random.Range(-100,0);
-
-    public BushBehaviour(int fruitInterval, float decayingTime, float decayingRate)
+    public BushBehaviour(int fruitInterval, int nutritionValue)
     {
-        this.fruitInterval = fruitInterval;
-        this.decayingTime = decayingTime;
-        this.decayingRate = decayingRate;
+        this.fruitInterval = Mathf.Max(1, fruitInterval);
+        this.nutritionValue = nutritionValue;
+        // Desfasa los arbustos para que no den fruta todos al mismo tiempo
+        this.fruitTimer = Random.Range(0, this.fruitInterval);
     }
 
+    // Se llama en FixedUpdate
     public void updateBush()
     {
-        if(this.actualFruit >= this.fruitInterval)
+        if (this.hasFruit) return;
+
+        this.fruitTimer++;
+        if (this.fruitTimer >= this.fruitInterval)
         {
-            this.actualDecayingTime = decayingTime;
-            this.actualFruit = 1;
-        }
-        if(this.actualDecayingTime > -1f)
-        {
-            this.actualDecayingTime -= this.decayingRate;
-        }
-        else
-        {
-            this.actualFruit++;
+            this.hasFruit = true;
+            this.fruitTimer = 0;
         }
     }
 
-    public bool isFruitTime()
+    // Devuelve el valor nutricional y reinicia el ciclo (0 si no había fruta)
+    public int TryHarvest()
     {
-        return this.actualFruit >= (this.fruitInterval*0.90);
-    }
+        if (!this.hasFruit) return 0;
 
-    public bool isDyingTime()
-    {
-        return this.actualDecayingTime < 0;
+        this.hasFruit = false;
+        this.fruitTimer = 0;
+        return this.nutritionValue;
     }
-
 }

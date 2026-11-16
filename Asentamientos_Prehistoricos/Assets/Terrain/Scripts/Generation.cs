@@ -1,10 +1,6 @@
-using System.Numerics;
-using System.Collections;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Diagnostics;
 
 namespace NPCs
 {
@@ -21,6 +17,8 @@ namespace NPCs
         public int forest_limit = 10;
         public float forest_radius = 3;
         public int forest_generation_time = 10;
+        //Tope global de árboles para que la simulación no se sature
+        public int max_trees = 1000;
 
         //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
         //Es el parametro que rige la posicion de los tiles en generate
@@ -78,31 +76,43 @@ namespace NPCs
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            GlobalData.mapReady = false;   
             TerrainVals.Clear();
+            GlobalData.mapWidth = width;
+            GlobalData.mapHeight = height;
             seed();
-            forest_limit = (int)GlobalData.Get(Param.ForestLimit); // Slider
             Generate();
-            GlobalData.mapReady = true;    
         }
 
-        void Update()
+        // El crecimiento de bosques va en FixedUpdate para ir al mismo ritmo que la fruta
+        void FixedUpdate()
         {
-            foreach(Forest f in forests){
-                f.updateForest();
-                (float, float) pos = f.isvalid(); 
-                if (f.is_Tree_Time())
+            // Quita bosques extintos (sin árboles no vuelven a crecer) y cuenta los árboles totales
+            int totalTrees = 0;
+            for (int i = forests.Count - 1; i >= 0; i--)
+            {
+                if (forests[i].IsExtinct)
                 {
-                    if (pos != (-1f,-1f))
-                    {
-                        GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-                        tree otherTree = new_tree.GetComponent<tree>();
-                        otherTree.init(Tree);
-                        f.add_Tree(otherTree);
-                    }
-                    f.reset_time();
+                    forests.RemoveAt(i);
+                    continue;
                 }
+                totalTrees += forests[i].TreeCount;
+            }
 
+            foreach (Forest f in forests)
+            {
+                f.updateForest();
+                if (!f.is_Tree_Time()) continue;
+                if (totalTrees >= max_trees) continue;
+
+                UnityEngine.Vector2 newPos;
+                if (!f.TryGetNewTreePosition(out newPos)) continue;
+
+                GameObject new_tree = Instantiate(TreePrefab, new UnityEngine.Vector2(newPos.x,newPos.y), UnityEngine.Quaternion.identity);
+                tree otherTree = new_tree.GetComponent<tree>();
+                otherTree.init(Tree);
+                f.add_Tree(otherTree);
+                f.reset_time();
+                totalTrees++;
             }
         }
 
@@ -117,6 +127,9 @@ namespace NPCs
 
                 HumidityOffsetX = (s + 200) % 9999;
                 HumidityOffsetY = (s + 500) % 9999; 
+
+                // Misma semilla = misma vegetación y animales iniciales
+                Random.InitState(s);
             } else {
                 //Genera la semilla de forma aleatoria xd
                 offsetX = Random.Range(0,9999);
@@ -241,7 +254,7 @@ namespace NPCs
                             tree otherTree = new_tree.GetComponent<tree>();
                             otherTree.init(Tree);
                             Forest new_forest = new Forest(x,y, forest_radius, forest_limit, forest_generation_time);
-                            new_forest.add_First_Tree(otherTree);
+                            new_forest.add_Tree(otherTree);
                             forests.Add(new_forest);
                         }
                         
