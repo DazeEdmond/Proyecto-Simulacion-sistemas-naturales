@@ -193,7 +193,7 @@ namespace NPCs
                     float TempPlace =((values.Item1*30) + (values.Item2*30) + values.Item3)/3;
                     if(TempPlace >= this.perfectPlace*0.8f)
                     {
-                        if(TempPlace >= actualPerfect && (values.Item1 < 0.76f))
+                        if(TempPlace >= actualPerfect && values.Item1 > 0.23f && values.Item1 < 0.76f)
                         {
                             actualPerfect = TempPlace;
                             seekingPos = pos;
@@ -206,7 +206,7 @@ namespace NPCs
                     this.wanderer_man.updatePos();
                     if(wanderer_man.getPos() == seekingPos)
                     {
-                        // this.actualState = State.Wander;
+                        this.actualState = State.Wander;
                         this.actualSeekingCoolDown = seekingCoolDown;
                         actualPerfect = -1;
                         seekingPos = new UnityEngine.Vector2(-1,-1);
