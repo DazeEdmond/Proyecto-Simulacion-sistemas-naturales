@@ -14,9 +14,9 @@ namespace NPCs
 
         //Scale es granularidad del perlin nice
         public int scale = 5;
-        public int forest_limit = (int)GlobalData.Get(Param.ForestLimit);
-        public float forest_radius = (int)GlobalData.Get(Param.ForestRadius);
-        public int forest_generation_time = (int)GlobalData.Get(Param.ForestGeneration);
+        public int forest_limit = 10;
+        public float forest_radius = 3;
+        public int forest_generation_time = 10;
         //Tope global de árboles para que la simulación no se sature
         public int max_trees = 1000;
 
@@ -59,9 +59,8 @@ namespace NPCs
         public GameObject Tree;
         public GameObject TreePrefab;
 
-        //Man
-        public GameObject ManPrefab;
-        private bool isManCreated = false;
+        //House tile
+        public GameObject House;
 
         //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
         public float mountainUpDiscriminator = 1f;
@@ -231,16 +230,6 @@ namespace NPCs
                                 GameObject cow = Instantiate(CowPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
                                 Cow COW = cow.GetComponent<Cow>();
                                 COW.init(Cow, new UnityEngine.Vector2(x,y), new UnityEngine.Vector2(0.1f,0),cowQuan-1);
-                            }
-                        }
-                        if (!isManCreated)
-                        {
-                            int ManGen = Random.Range(0,999);
-                            if(ManGen <= 3)
-                            {
-                                GameObject New_Man = Instantiate(ManPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                                New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1));
-                                isManCreated = true;
                             }
                         }
 
