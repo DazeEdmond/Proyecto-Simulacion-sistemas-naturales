@@ -2,47 +2,93 @@ using UnityEngine;
 
 public class tree : MonoBehaviour
 {
+    // Se mantiene por compatibilidad con el prefab (ya no se destruye ni se escala)
     public GameObject Sprite;
 
+    // sprites[0] = sin fruta, sprites[1] = con fruta
     public Sprite[] sprites;
-    private TreeBehaviour TreeB;
-    public int fruitInterval = 100;
 
-    public float decayingTime = 1300;
-    public float decayingRate = 1f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int fruitInterval = 650;
+    public int nutritionValue = GlobalData.TreeNutrition; // árbol = 1
+    public int woodAmount = 1;                            // madera que da al talarlo
+
+    // El bosque se suscribe para saber cuándo muere un árbol
+    public event System.Action<tree> Removed;
+
+    private TreeBehaviour TreeB;
+    private SpriteRenderer spriteRenderer;
+    private bool removed = false;
+
+    void Awake()
+    {
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     public void init(GameObject Sprite)
     {
-        fruitInterval = (int)GlobalData.Get(Param.FruitTime); // Slider
         this.Sprite = Sprite;
-        this.TreeB = new TreeBehaviour(this.fruitInterval, this.decayingTime, this.decayingRate);
-    }
-    void Start()
-    {
-        Sprite.transform.localScale = new UnityEngine.Vector2(10,10);
+        this.TreeB = new TreeBehaviour(this.fruitInterval, this.nutritionValue);
+        RefreshSprite();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
+        if (this.TreeB == null) return;
         this.TreeB.updateTree();
     }
-    // Update is called once per frame
+
     void Update()
     {
-        if (this.TreeB.isFruitTime())
-        {
-            this.GetComponent<SpriteRenderer>().sprite = sprites[1];
-            return;
-        }
+        if (this.TreeB == null) return;
+        RefreshSprite();
+    }
 
-        if (this.TreeB.isDyingTime())
+    private void RefreshSprite()
+    {
+        if (this.spriteRenderer == null || this.sprites == null || this.sprites.Length < 2) return;
+
+        UnityEngine.Sprite wanted = this.TreeB.hasFruit ? this.sprites[1] : this.sprites[0];
+        if (this.spriteRenderer.sprite != wanted)
         {
-            this.GetComponent<SpriteRenderer> ().sprite = sprites[0];
+            this.spriteRenderer.sprite = wanted;
         }
+    }
+
+    // ---------- API para los humanos ----------
+
+    public bool HasFruit()
+    {
+        return this.TreeB != null && this.TreeB.hasFruit;
+    }
+
+    // Devuelve el valor nutricional (1) y reinicia el ciclo; 0 si no había fruta
+    public int Harvest()
+    {
+        if (this.TreeB == null) return 0;
+        int value = this.TreeB.TryHarvest();
+        if (value > 0) RefreshSprite();
+        return value;
+    }
+
+    // Tala el árbol: desaparece y devuelve la madera obtenida
+    public int Chop()
+    {
+        if (this.removed) return 0;
+        DestroySelf();
+        return this.woodAmount;
     }
 
     public void DestroySelf()
     {
-        Destroy(this.Sprite);
-        Destroy(this);
+        if (this.removed) return;
+        this.removed = true;
+        Destroy(this.gameObject);
+    }
+
+    void OnDestroy()
+    {
+        this.removed = true;
+        Removed?.Invoke(this);
+        Removed = null;
     }
 }

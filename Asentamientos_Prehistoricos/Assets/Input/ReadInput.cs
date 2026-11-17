@@ -6,12 +6,12 @@ public class ReadInput : MonoBehaviour
 {
     public TMP_InputField inputField;
     public GameObject map;
-    public CanvasGroup uiGroup;      // el CanvasGroup del Canvas
+    public CanvasGroup uiGroup; 
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;
 
     [Header("Fondo")]
-    public Transform background;     // el Quad
+    public Transform background;
     public float backgroundNewX = -150f;
     public float backgroundNewY = -150f;
 
@@ -25,13 +25,15 @@ public class ReadInput : MonoBehaviour
 
     void Start()
     {
+        GlobalData.mapReady = false;
         inputField.onSubmit.AddListener(ReadStringInput);
         inputField.ActivateInputField();
+        GlobalData.mapReady = true;
     }
 
     public void ReadStringInput(string s)
     {
-        if (starting) return;   // evita doble Enter durante el fade
+        if (starting) return;  
 
         if (!int.TryParse(s, out int result))
         {
@@ -43,7 +45,7 @@ public class ReadInput : MonoBehaviour
         GlobalData.globalSeed = result;
         starting = true;
         Vector3 p = background.position;
-        background.position = new Vector3(backgroundNewX, backgroundNewY, p.z);   // (50,50) -> (-150,-150)
+        background.position = new Vector3(backgroundNewX, backgroundNewY, p.z); 
         StartCoroutine(FadeAndStart());
         StartCoroutine(FadeAndStart());
     }
@@ -62,9 +64,13 @@ public class ReadInput : MonoBehaviour
         }
 
         uiGroup.alpha = 0f;
+        
         uiGroup.gameObject.SetActive(false);   // oculta todo el Canvas
-        map.SetActive(true);                            // se genera el mapa
-        yield return new WaitUntil(() => GlobalData.mapReady);  // espera a que termine
-        foreach (GameObject g in waitForMap) g.SetActive(true); // ahora aparecen
+        
+        map.SetActive(true);
+        
+        yield return new WaitUntil(() => GlobalData.mapReady); 
+        
+        foreach (GameObject g in waitForMap) g.SetActive(true);
     }
 }

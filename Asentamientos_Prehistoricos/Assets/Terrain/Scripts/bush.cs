@@ -1,45 +1,67 @@
-using System.Diagnostics;
-using System.Numerics;
 using UnityEngine;
 
 public class bush : MonoBehaviour
 {
+    // Se mantiene por compatibilidad con el prefab (ya no se escala)
     public GameObject Sprite;
 
+    // sprites[0] = sin fruta, sprites[1] = con fruta
     public Sprite[] sprites;
-    private BushBehaviour BushC;
-    public int fruitInterval = 100;
 
-    public float decayingTime = 100;
-    public float decayingRate = 1f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int fruitInterval = 100;                        // da fruta con más frecuencia que el árbol
+    public int nutritionValue = GlobalData.BushNutrition;  // arbusto = 2
+
+    private BushBehaviour BushC;
+    private SpriteRenderer spriteRenderer;
+
+    void Awake()
+    {
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     public void init(GameObject Sprite)
     {
-        fruitInterval = (int)GlobalData.Get(Param.FruitTime); // Slider
         this.Sprite = Sprite;
-        this.BushC = new BushBehaviour(this.fruitInterval, this.decayingTime, this.decayingRate);
-    }
-    void Start()
-    {
-        Sprite.transform.localScale = new UnityEngine.Vector2(10,10);
+        this.BushC = new BushBehaviour(this.fruitInterval, this.nutritionValue);
+        RefreshSprite();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
+        if (this.BushC == null) return;
         this.BushC.updateBush();
     }
-    // Update is called once per frame
+
     void Update()
     {
-        if (this.BushC.isFruitTime())
-        {
-            this.GetComponent<SpriteRenderer>().sprite = sprites[1];
-            return;
-        }
+        if (this.BushC == null) return;
+        RefreshSprite();
+    }
 
-        if (this.BushC.isDyingTime())
+    private void RefreshSprite()
+    {
+        if (this.spriteRenderer == null || this.sprites == null || this.sprites.Length < 2) return;
+
+        UnityEngine.Sprite wanted = this.BushC.hasFruit ? this.sprites[1] : this.sprites[0];
+        if (this.spriteRenderer.sprite != wanted)
         {
-            this.GetComponent<SpriteRenderer> ().sprite = sprites[0];
+            this.spriteRenderer.sprite = wanted;
         }
+    }
+
+    // ---------- API para los humanos ----------
+
+    public bool HasFruit()
+    {
+        return this.BushC != null && this.BushC.hasFruit;
+    }
+
+    // Devuelve el valor nutricional (2) y reinicia el ciclo; 0 si no había fruta
+    public int Harvest()
+    {
+        if (this.BushC == null) return 0;
+        int value = this.BushC.TryHarvest();
+        if (value > 0) RefreshSprite();
+        return value;
     }
 }
