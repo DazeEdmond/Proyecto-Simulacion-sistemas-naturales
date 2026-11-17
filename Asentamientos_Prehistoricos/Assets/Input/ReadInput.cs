@@ -10,6 +10,11 @@ public class ReadInput : MonoBehaviour
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;
 
+    [Header("Fondo")]
+    public Transform background;     // el Quad
+    public float backgroundNewX = -150f;
+    public float backgroundNewY = -150f;
+
     private bool starting = false;
 
     void Awake()
@@ -37,6 +42,9 @@ public class ReadInput : MonoBehaviour
 
         GlobalData.globalSeed = result;
         starting = true;
+        Vector3 p = background.position;
+        background.position = new Vector3(backgroundNewX, backgroundNewY, p.z);   // (50,50) -> (-150,-150)
+        StartCoroutine(FadeAndStart());
         StartCoroutine(FadeAndStart());
     }
 

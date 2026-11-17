@@ -49,8 +49,8 @@ namespace NPCs
         public float desiredHumidity;
         public float desiredTemp;
         public float perfectPlace;
-        public int seekingCoolDown = 1300;
-        public int actualSeekingCoolDown = 1300;
+        public int seekingCoolDown = 300;
+        public int actualSeekingCoolDown = 300;
         public Vector2 seekingPos = new UnityEngine.Vector2(-1,-1);
         public GameObject village;
         public GameObject VillagePrefab;
@@ -61,6 +61,12 @@ namespace NPCs
 
         private GameObject SpawnedMan;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
+        public void init(Vector2 pos)
+        {
+            Man_Sprite.transform.position = pos;
+            this.pos_x = pos[0];
+            this.pos_y = pos[1];
+        }
         void Start()
         {
             this.Man_Sprite.transform.localScale = new UnityEngine.Vector2(10,10);

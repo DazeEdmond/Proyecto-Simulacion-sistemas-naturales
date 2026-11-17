@@ -15,8 +15,14 @@ class VillageBehaviour
     private int generation_time;
     private float actual_time;
 
-    private int foodAmount = 500;
-    private int WaterAmount = 500;
+    public int MaxFoodAmount = 5000;
+    public int MaxWaterAmount = 5000;
+    private int foodAmount = 3000;
+    private int WaterAmount = 3000;
+
+    public int eating_drinkingRatio = 2;
+    public int eating_drinking_MaxCooldown = 30;
+    private int eating_drinkingCooldown = 30;
     private int VillagersAmount;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
@@ -36,6 +42,27 @@ class VillageBehaviour
     public void updateVillage()
     {
         this.actual_time++;
+        if(eating_drinkingCooldown <= 0)
+        {
+            this.foodAmount -= eating_drinkingRatio*VillagersAmount;
+            this.WaterAmount -= eating_drinkingRatio*VillagersAmount;
+            this.eating_drinkingCooldown = eating_drinking_MaxCooldown;
+        }
+        else
+        {
+            eating_drinkingCooldown--;
+        }
+            
+    }
+
+    public bool foodNeeded()
+    {
+        return foodAmount < MaxFoodAmount/2;
+    }
+
+    public bool WaterNeeded()
+    {
+        return WaterAmount < MaxWaterAmount/2;
     }
 
     public UnityEngine.Vector2 getPos()
@@ -54,6 +81,16 @@ class VillageBehaviour
     public void reset_time()
     {
         this.actual_time = 0;
+    }
+
+    public int GetFoodAmount()
+    {
+        return foodAmount;
+    }
+
+    public int getwaterAmount()
+    {
+        return WaterAmount;
     }
 
     public (float, float) isvalid(){
