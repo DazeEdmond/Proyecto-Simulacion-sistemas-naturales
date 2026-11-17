@@ -16,8 +16,8 @@ namespace NPCs
 
         public Sprite[] hats;
         private GameObject inst_Hat;
-        public float pos_x = 54F;
-        public float pos_y = 30F;
+        public float pos_x;
+        public float pos_y;
         //Life Atributes
         private enum State
         {
@@ -25,23 +25,33 @@ namespace NPCs
             SearchingWater,
             DrinkingWater,
             searchingFood,
-            Seek,
         }
         [SerializeField] private State actualState = State.Wander;
+
+        private enum Job
+        {
+            nomad,
+            FoodGatherer,
+            WaterGatherer,
+            LogGatherer
+        }
+        [SerializeField] private Job actualJob;
         public bool chilling = false;
-        public float maxVel = 0.18F;
-        public float maxLife = 10000;
-        public float life = 10000;
-        public float lifeLoss = 0.1F;
+        public float maxVel = GlobalData.Get(Param.MaxSpeed);
+        public float maxLife = GlobalData.Get(Param.MaxLife);
+        public float life = GlobalData.Get(Param.MaxLife);
+        public float lifeLoss = GlobalData.Get(Param.LifeLoss);
         public float maxThirst = 1000;
         public float thirst = 1000;
-        public float thirstLoss = 0.1F;
+        public float thirstLoss = GlobalData.Get(Param.ThirstLoss);
         public UnityEngine.Vector2 nearestWater = new UnityEngine.Vector2(-1,-1);
         public float maxHunger = 2000;
         public float hunger = 2000;
-        public float hungerLoss = 0.1F;
+        public float hungerLoss = GlobalData.Get(Param.HungerLoss);
         public UnityEngine.Vector2 nearestFood = new UnityEngine.Vector2(-1,-1);
         public Cow nearestCow = null;
+        public tree nearestree = null;
+        public bush nearestBush = null;
         public bool nearFood = false;
         public int damage = 20;
         public float attackRadio = 1;
@@ -59,6 +69,8 @@ namespace NPCs
         public GameObject VillagePrefab;
 
         public float actualPerfect = -1;
+
+        public Vector2 House_location;
 
         private Man wanderer_man;
 
@@ -180,64 +192,57 @@ namespace NPCs
 
             if(this.actualJob == Job.nomad)
             {
-                
                 this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[1];
-                List<((float, float, float), Vector2)> tempTerrain = wanderer_man.surroundingTerrain();
-                Vector2 ManPos = wanderer_man.getPos();
-                foreach (((float, float, float), Vector2) t in tempTerrain){
-                    (float, float, float) values = t.Item1;
-                    Vector2 pos = t.Item2;
-                    float TempPlace =((values.Item1*30) + (values.Item2*30) + values.Item3)/3;
-                    if(TempPlace >= this.perfectPlace*0.8f)
-                    {
-                        if(TempPlace >= actualPerfect && values.Item1 > 0.23f && values.Item1 < 0.76f)
+                if(actualPerfect > 0 || actualSeekingCoolDown <= 0)
+                {
+                    List<((float, float, float), Vector2)> tempTerrain = wanderer_man.surroundingTerrain();
+                    Vector2 ManPos = wanderer_man.getPos();
+                    foreach (((float, float, float), Vector2) t in tempTerrain){
+                        (float, float, float) values = t.Item1;
+                        Vector2 pos = t.Item2;
+                        float TempPlace =((values.Item1*40) + (values.Item2*40) + values.Item3)/3;
+                        if(TempPlace >= this.perfectPlace*0.8f)
                         {
-                            actualPerfect = TempPlace;
-                            seekingPos = pos;
+                            if(TempPlace >= actualPerfect && values.Item1 > 0.23f && values.Item1 < 0.76f)
+                            {
+                                actualPerfect = TempPlace;
+                                seekingPos = pos;
+                            }
                         }
                     }
-                }
-                if(seekingPos[0] != -1)
-                {
-                    this.wanderer_man.seek(seekingPos);
-                    this.wanderer_man.updatePos();
-                    if(wanderer_man.getPos() == seekingPos)
+                    if(seekingPos[0] != -1)
                     {
-                        this.actualState = State.Wander;
-                        this.actualSeekingCoolDown = seekingCoolDown;
-                        actualPerfect = -1;
+                        this.wanderer_man.seek(seekingPos);
+                        this.wanderer_man.updatePos();
+                        if(wanderer_man.getPos() == seekingPos)
+                        {
+                            this.actualSeekingCoolDown = seekingCoolDown;
+                            actualPerfect = -1;
+                            seekingPos = new UnityEngine.Vector2(-1,-1);
+                        }
+                    }else
+                    {
                         seekingPos = new UnityEngine.Vector2(-1,-1);
+                        actualPerfect = -1;
                     }
-                }else
-                {
-                    seekingPos = new UnityEngine.Vector2(-1,-1);
-                    actualPerfect = -1;
-                }
-                if(actualPerfect >= perfectPlace*0.95f)
-                {
-                    GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
-                    village otherVillage = new_Village.GetComponent<village>();
-                    otherVillage.init(village, ManPos);
-                    this.KMS();
-                }
-                else
-                {
-                    this.wanderer_man.updateMan();
-                    // this.actualState = State.Wander;
-                    this.actualSeekingCoolDown = seekingCoolDown;
 
+                    if(actualPerfect >= perfectPlace*0.95f)
+                    {
+                        GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
+                        village otherVillage = new_Village.GetComponent<village>();
+                        otherVillage.init(village, ManPos);
+                        this.KMS();
+                    }
+                    else
+                    {
+                        this.wanderer_man.updateMan();
+                        this.actualSeekingCoolDown = seekingCoolDown;
+                    }
                 }
-                return;
-            }
-
-            if(actualSeekingCoolDown > 0)
-            {
-                actualSeekingCoolDown --;
-            }
-            if((actualPerfect > 0 || actualSeekingCoolDown <= 0) && (this.actualState != State.searchingFood || this.actualState != State.SearchingWater))
-            {
-                this.actualState = State.Seek;
-                return;
+                if(actualSeekingCoolDown > 0)
+                {
+                    actualSeekingCoolDown --;
+                }
             }
         }
         // Update is called once per frame
