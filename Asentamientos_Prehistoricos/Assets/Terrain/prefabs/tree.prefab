@@ -147,10 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::tree
   Sprite: {fileID: -2253911629886400664, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
-  BushSprite: {fileID: 0}
   sprites:
   - {fileID: 5167071131425691963, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   - {fileID: -5704453017612098005, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   fruitInterval: 650
-  decayingTime: 1300
-  decayingRate: 1
+  nutritionValue: 300
+  woodAmount: 1
