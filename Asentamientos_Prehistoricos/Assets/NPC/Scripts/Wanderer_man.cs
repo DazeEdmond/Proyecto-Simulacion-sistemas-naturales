@@ -26,6 +26,7 @@ namespace NPCs
             Seek,
         }
         [SerializeField] private State actualState = State.Wander;
+        public bool chilling = false;
         public float maxVel = 0.18F;
         public float maxLife = 10000;
         public float life = 10000;
@@ -100,10 +101,8 @@ namespace NPCs
         }
 
         private void FixedUpdate() {
-            if (this.wanderer_man.isTired())
-            {
-                UnityEngine.Debug.Log("Im tired damn");
-            }
+            this.chilling = this.wanderer_man.isTired();
+            
             if (this.wanderer_man == null) return;
 
             this.nearFood = false;
