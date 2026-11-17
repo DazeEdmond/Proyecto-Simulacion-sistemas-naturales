@@ -17,13 +17,16 @@ class VillageBehaviour
 
     public int MaxFoodAmount = 5000;
     public int MaxWaterAmount = 5000;
-    private int foodAmount = 3000;
-    private int WaterAmount = 3000;
+    private int foodAmount = 5000;
+    private int WaterAmount = 5000;
 
     public int eating_drinkingRatio = 2;
-    public int eating_drinking_MaxCooldown = 30;
-    private int eating_drinkingCooldown = 30;
+    public int eating_drinking_MaxCooldown = 180;
+    private int eating_drinkingCooldown = 180;
     private int VillagersAmount;
+
+    public int MaxhumanCooldown = 1800;
+    public int humanCooldown = 1800;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
 
@@ -42,7 +45,7 @@ class VillageBehaviour
     public void updateVillage()
     {
         this.actual_time++;
-        if(eating_drinkingCooldown <= 0)
+        if(eating_drinkingCooldown == 0)
         {
             this.foodAmount -= eating_drinkingRatio*VillagersAmount;
             this.WaterAmount -= eating_drinkingRatio*VillagersAmount;
@@ -52,17 +55,30 @@ class VillageBehaviour
         {
             eating_drinkingCooldown--;
         }
+
+        if(!foodNeeded() && !WaterNeeded())
+        {
+            if(humanCooldown == 0)
+            {
+                VillagersAmount = VillagersAmount + (VillagersAmount/3);
+                humanCooldown = MaxhumanCooldown;
+            }
+            else
+            {
+                humanCooldown--;
+            }
+        }
             
     }
 
     public bool foodNeeded()
     {
-        return foodAmount < MaxFoodAmount/2;
+        return foodAmount < MaxFoodAmount*0.75;
     }
 
     public bool WaterNeeded()
     {
-        return WaterAmount < MaxWaterAmount/2;
+        return WaterAmount < MaxWaterAmount*0.75;
     }
 
     public UnityEngine.Vector2 getPos()
@@ -91,6 +107,12 @@ class VillageBehaviour
     public int getwaterAmount()
     {
         return WaterAmount;
+    }
+
+
+    public int getVillagerAmount()
+    {
+        return VillagersAmount;
     }
 
     public (float, float) isvalid(){
