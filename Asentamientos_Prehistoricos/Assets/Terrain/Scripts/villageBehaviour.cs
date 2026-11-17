@@ -20,6 +20,8 @@ class VillageBehaviour
     private int foodAmount = 5000;
     private int WaterAmount = 5000;
 
+    private int logsAmount = 0;
+
     public int eating_drinkingRatio = 2;
     public int eating_drinking_MaxCooldown = 180;
     private int eating_drinkingCooldown = 180;
@@ -60,7 +62,8 @@ class VillageBehaviour
         {
             if(humanCooldown == 0)
             {
-                VillagersAmount = VillagersAmount + (VillagersAmount/3);
+                VillagersAmount += VillagersAmount/3;
+                house_limit = VillagersAmount/3;
                 humanCooldown = MaxhumanCooldown;
             }
             else
@@ -86,11 +89,17 @@ class VillageBehaviour
         return this.pos;
     }
 
+    public bool hasLog()
+    {
+        return logsAmount > 0;
+    }
+
     public void add_House(GameObject house)
     {
         if(this.houses.Count < this.house_limit)
         {
             this.houses.Add(house);
+            this.logsAmount--;
         }
     }
 
@@ -144,5 +153,30 @@ class VillageBehaviour
     public bool is_House_Time()
     {   
         return this.actual_time >= this.generation_time && this.houses.Count < this.house_limit;
+    }
+
+    public void addFood(int nutrionValue)
+    {
+        this.foodAmount += nutrionValue;
+        if(foodAmount > MaxFoodAmount)
+        {
+            foodAmount = MaxFoodAmount;
+        }
+    }
+
+    public void addWater(int Water)
+    {
+        this.WaterAmount += Water;
+        if(WaterAmount > MaxWaterAmount) WaterAmount = MaxWaterAmount;
+    }
+
+    public void addLog(int log)
+    {
+        this.logsAmount += log;
+    }
+
+    public bool OverPopulation()
+    {
+        return (eating_drinkingRatio*VillagersAmount) > MaxFoodAmount*0.25;
     }
 }
