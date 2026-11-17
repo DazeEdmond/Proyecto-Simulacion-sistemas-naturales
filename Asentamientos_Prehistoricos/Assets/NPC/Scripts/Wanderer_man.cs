@@ -77,7 +77,6 @@ namespace NPCs
             this.inst_Hat = Instantiate(this.hat, new UnityEngine.Vector2(this.pos_x-0.1f, this.pos_y+0.3f), UnityEngine.Quaternion.identity);
 
             this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
-
             this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
             
             // Sliders
@@ -101,18 +100,22 @@ namespace NPCs
         }
 
         private void FixedUpdate() {
+            if (this.wanderer_man.isTired())
+            {
+                UnityEngine.Debug.Log("Im tired damn");
+            }
             if (this.wanderer_man == null) return;
 
             this.nearFood = false;
 
             // Is Thirsty?
-            if (this.actualState != State.SearchingWater && this.actualState != State.DrinkingWater && thirst <= maxThirst / 2)
+            if ((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater || this.actualState == State.Seek) && thirst <= maxThirst / 2)
             {
                 this.actualState = State.SearchingWater;
             }
 
             // Is Hungry?
-            if (this.actualState != State.searchingFood && this.actualState != State.SearchingWater && hunger <= maxHunger / 2)
+            if ((this.actualState != State.searchingFood || this.actualState != State.SearchingWater || this.actualState == State.Seek) && hunger <= maxHunger / 2)
             {
                 this.actualState = State.searchingFood;
             }
@@ -145,17 +148,22 @@ namespace NPCs
                     this.wanderer_man.seek(this.nearestFood);
                     this.wanderer_man.updatePos();
                     UnityEngine.Vector2 pos = this.wanderer_man.getPos();
-                    if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                    if (this.nearestCow != null)
                     {
-                        this.attackCooldown = 0;
-                        if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
+                        if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
-                            this.actualState = State.Wander;
-                            this.hunger = maxHunger;
-                            this.nearestCow = null;
+                            this.attackCooldown = 0;
+                            if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
+                            {
+                                this.actualState = State.Wander;
+                                this.hunger = maxHunger;
+                                this.nearestCow = null;
+                            }
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
                         }
-                        this.nearestFood = new UnityEngine.Vector2(-1,-1);
                     }
+                    this.nearestCow = null;
+                    this.nearestWater = new UnityEngine.Vector2(-1,-1);
                     return;
                 }
             }
@@ -188,7 +196,7 @@ namespace NPCs
                     this.wanderer_man.updatePos();
                     if(wanderer_man.getPos() == seekingPos)
                     {
-                        this.actualState = State.Wander;
+                        // this.actualState = State.Wander;
                         this.actualSeekingCoolDown = seekingCoolDown;
                         actualPerfect = -1;
                         seekingPos = new UnityEngine.Vector2(-1,-1);
@@ -203,12 +211,14 @@ namespace NPCs
                     GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
                     village otherVillage = new_Village.GetComponent<village>();
                     otherVillage.init(village, ManPos);
-                    KMS();
+                    this.KMS();
                 }
                 else
                 {
-                    this.actualState = State.Wander;
+                    this.wanderer_man.updateMan();
+                    // this.actualState = State.Wander;
                     this.actualSeekingCoolDown = seekingCoolDown;
+
                 }
                 return;
             }
@@ -280,7 +290,7 @@ namespace NPCs
             //Death moment
             if(this.life <= 0 || this.thirst <= 0 || this.hunger <= 0)
             {
-                KMS();
+                this.KMS();
             }
         }
 
