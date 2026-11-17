@@ -487,7 +487,7 @@ Transform:
   m_GameObject: {fileID: 2955992159316077795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43, y: 30.79, z: 0}
+  m_LocalPosition: {x: 45.9, y: 15.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -522,7 +522,9 @@ MonoBehaviour:
   pos_x: 54
   pos_y: 30
   actualState: 0
-  maxVel: 0.18
+  actualJob: 0
+  chilling: 0
+  maxVel: 0.018
   maxLife: 10000
   life: 10000
   lifeLoss: 0.1
@@ -535,6 +537,8 @@ MonoBehaviour:
   hungerLoss: 0.1
   nearestFood: {x: -1, y: -1}
   nearestCow: {fileID: 0}
+  nearestree: {fileID: 0}
+  nearestBush: {fileID: 0}
   nearFood: 0
   damage: 20
   attackRadio: 1
@@ -550,6 +554,7 @@ MonoBehaviour:
   village: {fileID: -2253911629886400664, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
   VillagePrefab: {fileID: 5147279534763065995, guid: b8b4d8af7973ada4ea2391877b579fff, type: 3}
   actualPerfect: -1
+  House_location: {x: 0, y: 0}
 --- !u!58 &7755706303565816552
 CircleCollider2D:
   m_ObjectHideFlags: 0

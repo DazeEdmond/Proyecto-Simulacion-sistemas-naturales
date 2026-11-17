@@ -134,26 +134,21 @@ namespace NPCs
         }
 
         private void FixedUpdate() {
-            this.chilling = this.wanderer_man.isTired();
-            
             if (this.wanderer_man == null) return;
+            this.chilling = this.wanderer_man.isTired();
 
             this.nearFood = false;
 
-            // Is Thirsty?
-            if ((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater) && thirst <= maxThirst / 2)
+            //Is Thirsty?
+            if((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater)&&thirst <=maxThirst/2)
             {
                 this.actualState = State.SearchingWater;
-                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
             }
-
-            // Is Hungry?
-            if ((this.actualState != State.searchingFood || this.actualState != State.SearchingWater) && hunger <= maxHunger / 2)
+            //Is Hungry
+            if((this.actualState != State.searchingFood || this.actualState != State.SearchingWater) && hunger <=maxHunger/2)
             {
                 this.actualState = State.searchingFood;
-                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
             }
-
 
             //STATES BEHAVIOURS
             if(this.actualState == State.SearchingWater)
@@ -182,10 +177,10 @@ namespace NPCs
                     this.wanderer_man.seek(this.nearestFood);
                     this.wanderer_man.updatePos();
                     UnityEngine.Vector2 pos = this.wanderer_man.getPos();
-                    if (this.nearestCow != null)
-                    {
+                    if(this.nearestCow != null){
                         if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
+                            UnityEngine.Debug.Log("EAT! I NEED TO EAT!");
                             this.attackCooldown = 0;
                             if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
                             {
@@ -196,8 +191,6 @@ namespace NPCs
                             this.nearestFood = new UnityEngine.Vector2(-1,-1);
                         }
                     }
-                    this.nearestCow = null;
-                    this.nearestWater = new UnityEngine.Vector2(-1,-1);
                     return;
                 }
             }
@@ -206,6 +199,10 @@ namespace NPCs
             {
                 return;
             }
+
+            this.wanderer_man.updateMan();
+            this.nearestCow = null;
+            this.nearestWater = new UnityEngine.Vector2(-1,-1);
 
             if(this.actualJob == Job.nomad)
             {
@@ -261,10 +258,6 @@ namespace NPCs
                     actualSeekingCoolDown --;
                 }
             }
-
-            this.wanderer_man.updateMan();
-            this.nearestCow = null;
-            this.nearestWater = new UnityEngine.Vector2(-1,-1);
         }
         // Update is called once per frame
         void Update()
@@ -349,12 +342,12 @@ namespace NPCs
                 }
             }
 
-            if(other.gameObject.tag == "tree")
-            {
-                tree closestTree = other.gameObject.GetComponent<tree>();
-                Vector3 treePos = closestTree.transform.position;
-                nearestree = closestTree;
-            }
+            // if(other.gameObject.tag == "tree")
+            // {
+            //     tree closestTree = other.gameObject.GetComponent<tree>();
+            //     Vector3 treePos = closestTree.transform.position;
+            //     nearestree = closestTree;
+            // }
         }
 
         private void KMS()
