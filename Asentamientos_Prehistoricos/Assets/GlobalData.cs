@@ -12,10 +12,10 @@ public static class GlobalData
     // Sliders - GlobalData
     static Dictionary<Param,float> settings = new Dictionary<Param,float> {
         { Param.ForestLimit,      25 },     { Param.ForestRadius,   4 }, 
-        { Param.ForestGeneration, 900 },    { Param.MaxLife,        10000 },  
-        { Param.LifeLoss,   0.1f },         { Param.VillageRadius,  5 }, 
+        { Param.ForestGeneration, 100 },    { Param.MaxLife,        10000 },  
+        { Param.LifeLoss,   0.1f },         { Param.VillageRadius,  10 }, 
         { Param.ThirstLoss, 0.1f },         { Param.HungerLoss, 0.1f },
-        { Param.MaxSpeed,   0.025f },        { Param.FruitTime,  600 },
+        { Param.MaxSpeed,   0.18f },        { Param.FruitTime,  100 },
     }; // Por defecto
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }

@@ -8,7 +8,7 @@ public class tree : MonoBehaviour
     // sprites[0] = sin fruta, sprites[1] = con fruta
     public Sprite[] sprites;
 
-    public int fruitInterval = (int)GlobalData.Get(Param.FruitTime);
+    public int fruitInterval = 650;
     public int nutritionValue = GlobalData.TreeNutrition; // árbol = 1
     public int woodAmount = 1;                            // madera que da al talarlo
 
