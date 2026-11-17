@@ -88,6 +88,16 @@ namespace NPCs
 
         public void updatePos()
         {
+            if (this.cooldown)
+            {
+                this.stamina++;
+                if(this.stamina >= this.maxStamina)
+                {
+                    this.cooldown = false;
+                }
+                return;
+            }
+            
             this.vel += this.acc;
             if(this.vel.magnitude >= this.maxVel)
             {
@@ -211,6 +221,10 @@ namespace NPCs
             returningValues.Add((terraintemp8, posTemp8));
 
             return returningValues;
+        }
+        public bool isTired()
+        {
+            return this.cooldown;
         }
     }
 }
