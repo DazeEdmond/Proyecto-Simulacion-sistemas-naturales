@@ -13,6 +13,8 @@ namespace NPCs
         public Bar thirstB;
         public Bar hungerB;
         public GameObject hat;
+
+        public Sprite[] hats;
         private GameObject inst_Hat;
         public float pos_x = 54F;
         public float pos_y = 30F;
@@ -90,8 +92,13 @@ namespace NPCs
 
             this.wanderer_man = new Man(this.pos_x, this.pos_y, this.maxVel);
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
+            this.HB.transform.localScale = new Vector2(0.1f, 0.1f);
+
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
+            this.thirstB.transform.localScale = new Vector2(0.1f, 0.1f);
+
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
+            this.hungerB.transform.localScale = new Vector2(0.1f, 0.1f);
 
             this.desiredHeight = Random.Range(0.3f, 0.65f);
             this.desiredHumidity = Random.Range(0.3f, 0.6f);
@@ -111,12 +118,14 @@ namespace NPCs
             if ((this.actualState != State.SearchingWater || this.actualState != State.DrinkingWater || this.actualState == State.Seek) && thirst <= maxThirst / 2)
             {
                 this.actualState = State.SearchingWater;
+                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
             }
 
             // Is Hungry?
             if ((this.actualState != State.searchingFood || this.actualState != State.SearchingWater || this.actualState == State.Seek) && hunger <= maxHunger / 2)
             {
                 this.actualState = State.searchingFood;
+                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
             }
 
 
@@ -174,6 +183,8 @@ namespace NPCs
 
             if(this.actualState == State.Seek)
             {
+                
+                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[1];
                 List<((float, float, float), Vector2)> tempTerrain = wanderer_man.surroundingTerrain();
                 Vector2 ManPos = wanderer_man.getPos();
                 foreach (((float, float, float), Vector2) t in tempTerrain){

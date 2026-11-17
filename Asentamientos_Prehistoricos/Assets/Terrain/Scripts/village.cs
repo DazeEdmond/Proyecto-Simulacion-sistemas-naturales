@@ -52,8 +52,8 @@ public class village : MonoBehaviour
             if(Man_generation_cooldown <= 0)
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewFood_Man.transform.localScale = new UnityEngine.Vector2(10,10);
-                NewFood_Man.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                // NewFood_Man.transform.localScale = new UnityEngine.Vector2(10,10);
+                // NewFood_Man.GetComponent<SpriteRenderer> ().sortingOrder = 2;
                 NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos());
                 Man_generation_cooldown = Max_Man_generation_cooldown;
             }
@@ -64,8 +64,8 @@ public class village : MonoBehaviour
             if(Man_generation_cooldown <= 0)
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewWater_Man.transform.localScale = new UnityEngine.Vector2(10,10);
-                NewWater_Man.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                // NewWater_Man.transform.localScale = new UnityEngine.Vector2(10,10);
+                // NewWater_Man.GetComponent<SpriteRenderer> ().sortingOrder = 2;
                 NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos());
                 Man_generation_cooldown = Max_Man_generation_cooldown;
             }
