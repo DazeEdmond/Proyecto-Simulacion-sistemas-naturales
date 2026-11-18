@@ -17,6 +17,10 @@ namespace NPCs
 
         public Sprite[] hats;
         private GameObject inst_Hat;
+
+        public GameObject flag;
+        public Sprite[] flags;
+        private GameObject inst_flag;
         public float pos_x;
         public float pos_y;
         //Life Atributes
@@ -102,13 +106,17 @@ namespace NPCs
         {
             this.Man_Sprite.transform.localScale = new UnityEngine.Vector2(10,10);
             this.hat.transform.localScale = new UnityEngine.Vector2(10,10);
+            this.flag.transform.localScale = new UnityEngine.Vector2(10,10);
 
             this.SpawnedMan = Instantiate(this.Man_Sprite, new UnityEngine.Vector2(this.pos_x, this.pos_y), UnityEngine.Quaternion.identity);
 
             this.inst_Hat = Instantiate(this.hat, new UnityEngine.Vector2(this.pos_x-0.1f, this.pos_y+0.3f), UnityEngine.Quaternion.identity);
+            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
 
             this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
-            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+
+            this.inst_flag = Instantiate(this.flag, new UnityEngine.Vector2(this.pos_x, this.pos_y+1.6f), UnityEngine.Quaternion.identity);
+            this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = -1;
 
             if(actualJob == Job.nomad) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[1];
             if(actualJob == Job.WaterGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
@@ -308,6 +316,8 @@ namespace NPCs
                 }
                 else
                 {
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[2];
                     wanderer_man.seek(House_location);
                     this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
@@ -351,6 +361,7 @@ namespace NPCs
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
+            this.inst_flag.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.6f,0);
 
             this.life -= this.lifeLoss;
             if(this.actualState == State.DrinkingWater)
@@ -465,6 +476,7 @@ namespace NPCs
         private void KMS()
         {
             Destroy(this.SpawnedMan);
+            Destroy(this.inst_flag);
             Destroy(this.inst_Hat);
             Destroy(this.gameObject);
         }

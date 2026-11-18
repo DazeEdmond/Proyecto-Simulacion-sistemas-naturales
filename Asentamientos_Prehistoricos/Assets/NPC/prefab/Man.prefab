@@ -519,6 +519,11 @@ MonoBehaviour:
   - {fileID: 2696924644313743283, guid: 579ce53ea64173048a69fe99d58004f7, type: 3}
   - {fileID: 621759679988971184, guid: f71f01ae040ddbf428023f50a63c53df, type: 3}
   - {fileID: 1212341395808895276, guid: 18ddfb02df0f4c2448a143ff6b30118c, type: 3}
+  flag: {fileID: -2253911629886400664, guid: a978245757569a248af0ffebf08cd3df, type: 3}
+  flags:
+  - {fileID: 8884780903525385533, guid: 55e132c97ef7e9241a52996461e5de36, type: 3}
+  - {fileID: 2115503684910673548, guid: 4cb746f70048f1141a3a20de91fc4039, type: 3}
+  - {fileID: -5630890768643620907, guid: a978245757569a248af0ffebf08cd3df, type: 3}
   pos_x: 54
   pos_y: 30
   actualState: 0
@@ -555,6 +560,10 @@ MonoBehaviour:
   VillagePrefab: {fileID: 5147279534763065995, guid: b8b4d8af7973ada4ea2391877b579fff, type: 3}
   actualPerfect: -1
   House_location: {x: 0, y: 0}
+  food2village: 0
+  water2village: 0
+  log2village: 0
+  haslog: 0
 --- !u!58 &7755706303565816552
 CircleCollider2D:
   m_ObjectHideFlags: 0
