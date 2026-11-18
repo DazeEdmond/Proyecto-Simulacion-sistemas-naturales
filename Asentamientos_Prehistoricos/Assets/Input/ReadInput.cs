@@ -6,6 +6,11 @@ public class ReadInput : MonoBehaviour
 {
     public TMP_InputField inputField;
     public GameObject map;
+
+    public GameObject slide_1;
+    public GameObject slide_2;
+    public GameObject slide_3;
+
     public CanvasGroup uiGroup; 
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;

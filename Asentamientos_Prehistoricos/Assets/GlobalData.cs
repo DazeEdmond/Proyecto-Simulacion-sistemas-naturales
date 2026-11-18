@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public enum Param { ForestLimit, ForestRadius, ForestGeneration, MaxLife, LifeLoss,
-                    VillageRadius, ThirstLoss, HungerLoss, MaxSpeed, FruitTime }
+                    VillageRadius, ThirstLoss, HungerLoss, MaxSpeed, FruitTime,
+                    WaterDown, Water, WaterUp, GrassDown, Grass, GrassUp,
+                    MountainDown, Mountain, MountainUp }
 
 public static class GlobalData
 {
@@ -11,14 +13,25 @@ public static class GlobalData
 
     // Sliders - GlobalData
     static Dictionary<Param,float> settings = new Dictionary<Param,float> {
+        
+        // Agentes
         { Param.ForestLimit,      25 },     { Param.ForestRadius,   4 }, 
         { Param.ForestGeneration, 900 },    { Param.MaxLife,        10000 },  
         { Param.LifeLoss,   0.1f },         { Param.VillageRadius,  10 }, 
         { Param.ThirstLoss, 0.1f },         { Param.HungerLoss, 0.1f },
         { Param.MaxSpeed,   0.18f },        { Param.FruitTime,  100 },
-    }; // Por defecto
+        
+        // Terreno
+        { Param.WaterDown, 0.1f },    { Param.Water, 0.2f },     { Param.WaterUp, 0.25f },
+        { Param.GrassDown, 0.5f },    { Param.Grass, 0.6f },     { Param.GrassUp, 0.8f },
+        { Param.MountainDown, 0.9f }, { Param.Mountain, 0.95f }, { Param.MountainUp, 1f },
+    };
+
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }
+
+    // Slides - GlobalData 
+    public static bool skipIntro = false;
     
     // Man - GlobalData - Espera generación de Mapa
     public static bool mapReady = false;
