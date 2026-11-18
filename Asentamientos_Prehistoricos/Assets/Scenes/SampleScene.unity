@@ -1634,10 +1634,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 13
-  title: 'Third Grass:'
+  title: Third Grass
   wholeNumbers: 0
   slider: {fileID: 151186406}
-  label: {fileID: 704922122}
+  label: {fileID: 1063408128}
 --- !u!114 &151186406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1682,10 +1682,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1513981498}
   m_HandleRect: {fileID: 1221790735}
   m_Direction: 0
-  m_MinValue: 3
-  m_MaxValue: 25
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 5
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1854,7 +1854,7 @@ Transform:
   m_GameObject: {fileID: 191197535}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -196.5, y: -180, z: 0}
+  m_LocalPosition: {x: -466, y: -287, z: 0}
   m_LocalScale: {x: 100, y: 65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3092,6 +3092,7 @@ GameObject:
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3231,16 +3232,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReadInput
   inputField: {fileID: 94006495}
   map: {fileID: 1862508719}
-  slide_1: {fileID: 0}
-  slide_2: {fileID: 0}
-  slide_3: {fileID: 0}
+  resetButton: {fileID: 1154879134}
   uiGroup: {fileID: 67605790}
   fadeTime: 0.6
   waitForMap:
   - {fileID: 797548943}
-  background: {fileID: 698507086}
-  backgroundNewX: -50
-  backgroundNewY: -150
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3260,6 +3256,23 @@ MonoBehaviour:
   mapSize: 100
   followSpeed: 6
   pickRadius: 2
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa3e6985ed11b645b1b47a8bea48f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlideFlow
+  slides:
+  - {fileID: 1736737235}
+  - {fileID: 1057771317}
+  - {fileID: 67605785}
+  seedField: {fileID: 94006495}
 --- !u!1 &521098906
 GameObject:
   m_ObjectHideFlags: 0
@@ -3585,7 +3598,6 @@ GameObject:
   - component: {fileID: 539064852}
   - component: {fileID: 539064853}
   - component: {fileID: 539064855}
-  - component: {fileID: 539064854}
   m_Layer: 5
   m_Name: Slider_HungerLoss
   m_TagString: Menu
@@ -3666,23 +3678,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &539064854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539064851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
-  title: 
-  wholeNumbers: 0
-  slider: {fileID: 539064853}
-  label: {fileID: 2056371697}
 --- !u!114 &539064855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3871,7 +3866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.10355, y: -132}
+  m_AnchoredPosition: {x: -0.10355, y: -165.3}
   m_SizeDelta: {x: 303.7929, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580786194
@@ -4003,7 +3998,7 @@ Transform:
   m_GameObject: {fileID: 597708666}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -196.5, y: -180, z: 0}
+  m_LocalPosition: {x: -463, y: -287, z: 0}
   m_LocalScale: {x: 100, y: 65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4848,7 +4843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 15
-  title: 'First Grass:'
+  title: First Grass
   wholeNumbers: 0
   slider: {fileID: 696301986}
   label: {fileID: 1520503801}
@@ -4896,10 +4891,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 687564067}
   m_HandleRect: {fileID: 1213383474}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 5
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 4
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5147,7 +5142,7 @@ Transform:
   m_GameObject: {fileID: 698507082}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -196.5, y: -180, z: 0}
+  m_LocalPosition: {x: -466, y: -286, z: 0}
   m_LocalScale: {x: 100, y: 65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6338,7 +6333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 18
-  title: 'First Mountain:'
+  title: First Mountain
   wholeNumbers: 0
   slider: {fileID: 871528615}
   label: {fileID: 1944653521}
@@ -6387,9 +6382,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1060681909}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 60
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 25
+  m_Value: 0.01
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8279,10 +8274,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 12
-  title: 'First Water:'
+  title: First Water
   wholeNumbers: 0
   slider: {fileID: 1117436907}
-  label: {fileID: 0}
+  label: {fileID: 1688828703}
 --- !u!114 &1117436907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8327,10 +8322,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 2140811032}
   m_HandleRect: {fileID: 769306976}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 5
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 4
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8527,7 +8522,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1154879135}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 59c22aebeac63be40a6d5d69fdb32f41, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1154879135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8619,10 +8626,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 11
-  title: 'Second Water:'
+  title: Second Water
   wholeNumbers: 0
   slider: {fileID: 1189366777}
-  label: {fileID: 1688828703}
+  label: {fileID: 395770349}
 --- !u!114 &1189366777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8667,10 +8674,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 537944052}
   m_HandleRect: {fileID: 1834692834}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 5
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 4
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8708,7 +8715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 34.2, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1213383475
@@ -10062,10 +10069,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 10
-  title: 'Third Water:'
+  title: Third Water
   wholeNumbers: 0
   slider: {fileID: 1584242276}
-  label: {fileID: 0}
+  label: {fileID: 889425463}
 --- !u!114 &1584242276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10110,10 +10117,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 923737}
   m_HandleRect: {fileID: 620665446}
   m_Direction: 0
-  m_MinValue: 1000
-  m_MaxValue: 30000
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 10000
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10326,7 +10333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 17
-  title: 'Second Mountain:'
+  title: Second Mountain
   wholeNumbers: 0
   slider: {fileID: 1673474867}
   label: {fileID: 670680883}
@@ -10374,10 +10381,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1418854928}
   m_HandleRect: {fileID: 1817630268}
   m_Direction: 0
-  m_MinValue: 600
-  m_MaxValue: 1200
-  m_WholeNumbers: 1
-  m_Value: 900
+  m_MinValue: 0
+  m_MaxValue: 0.11
+  m_WholeNumbers: 0
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11541,7 +11548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 16
-  title: 'Third Mountain:'
+  title: Third Mountain
   wholeNumbers: 0
   slider: {fileID: 1885637084}
   label: {fileID: 912903169}
@@ -11590,7 +11597,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 636427885}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
   m_Value: 0.1
   m_OnValueChanged:
@@ -12269,10 +12276,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
   param: 14
-  title: 'Second Grass:'
+  title: Second Grass
   wholeNumbers: 0
   slider: {fileID: 1978555653}
-  label: {fileID: 0}
+  label: {fileID: 785482030}
 --- !u!114 &1978555653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12317,10 +12324,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1447917968}
   m_HandleRect: {fileID: 776479958}
   m_Direction: 0
-  m_MinValue: 1000
-  m_MaxValue: 30000
+  m_MinValue: 0
+  m_MaxValue: 0.11
   m_WholeNumbers: 0
-  m_Value: 10000
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

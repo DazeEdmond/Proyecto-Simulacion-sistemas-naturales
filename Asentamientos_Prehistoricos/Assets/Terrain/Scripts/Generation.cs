@@ -84,15 +84,15 @@ namespace NPCs
             GlobalData.mapHeight = height;
             seed();
 
-            waterDownDiscriminator    = GlobalData.Get(Param.WaterDown);
-            waterDiscriminator        = GlobalData.Get(Param.Water);
-            waterUpDiscriminator      = GlobalData.Get(Param.WaterUp);
-            grassDownDiscriminator    = GlobalData.Get(Param.GrassDown);
-            grassDiscriminator        = GlobalData.Get(Param.Grass);
-            grassUpDiscriminator      = GlobalData.Get(Param.GrassUp);
-            mountainDownDiscriminator = GlobalData.Get(Param.MountainDown);
-            mountainDiscriminator     = GlobalData.Get(Param.Mountain);
-            mountainUpDiscriminator   = GlobalData.Get(Param.MountainUp);
+            waterDownDiscriminator    = GlobalData.Discriminator(Param.WaterDown);
+            waterDiscriminator        = GlobalData.Discriminator(Param.Water);
+            waterUpDiscriminator      = GlobalData.Discriminator(Param.WaterUp);
+            grassDownDiscriminator    = GlobalData.Discriminator(Param.GrassDown);
+            grassDiscriminator        = GlobalData.Discriminator(Param.Grass);
+            grassUpDiscriminator      = GlobalData.Discriminator(Param.GrassUp);
+            mountainDownDiscriminator = GlobalData.Discriminator(Param.MountainDown);
+            mountainDiscriminator     = GlobalData.Discriminator(Param.Mountain);
+            mountainUpDiscriminator   = GlobalData.Discriminator(Param.MountainUp);
 
             Generate();
         }
