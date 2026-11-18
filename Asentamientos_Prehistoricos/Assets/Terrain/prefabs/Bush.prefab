@@ -153,8 +153,8 @@ MonoBehaviour:
   sprites:
   - {fileID: 1016268630099670973, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
   - {fileID: -6673339771319628427, guid: 4471047e3250ac14e97d792e92f5dc34, type: 3}
-  fruitInterval: 100
-  nutritionValue: 2
+  fruitInterval: 350
+  nutritionValue: 200
 --- !u!50 &-8410120671824354044
 Rigidbody2D:
   serializedVersion: 5

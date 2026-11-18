@@ -12,19 +12,21 @@ class VillageBehaviour
     private List<GameObject> houses = new List<GameObject>{};
     private float Village_radius;
     private int house_limit;
+    private int actual_house_amount;
     private int generation_time;
     private float actual_time;
 
     public int MaxFoodAmount = 5000;
     public int MaxWaterAmount = 5000;
-    private int foodAmount = 5000;
-    private int WaterAmount = 5000;
+    private int foodAmount = 3000;
+    private int WaterAmount = 3000;
 
     private int logsAmount = 0;
 
     public int eating_drinkingRatio = 2;
     public int eating_drinking_MaxCooldown = 180;
     private int eating_drinkingCooldown = 180;
+    private int VillagersAmountLimit;
     private int VillagersAmount;
 
     public int MaxhumanCooldown = 1800;
@@ -40,6 +42,8 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
+        this.actual_house_amount = 1;
+        this.VillagersAmountLimit = (actual_house_amount+1)*3;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-650,0);
     }
@@ -98,6 +102,7 @@ class VillageBehaviour
         if(this.houses.Count < this.house_limit)
         {
             this.houses.Add(house);
+            actual_house_amount++;
             this.logsAmount--;
         }
     }
@@ -107,12 +112,12 @@ class VillageBehaviour
         this.actual_time = 0;
     }
 
-    public int GetFoodAmount()
+    public float GetFoodAmount()
     {
         return foodAmount;
     }
 
-    public int getwaterAmount()
+    public float getwaterAmount()
     {
         return WaterAmount;
     }
@@ -146,6 +151,11 @@ class VillageBehaviour
     public bool OverPopulation()
     {
         return (eating_drinkingRatio*VillagersAmount) > MaxFoodAmount*0.25;
+    }
+
+    public int divide()
+    {
+        return VillagersAmount /= 2;
     }
 
     public (float, float) isvalid(){
