@@ -121,7 +121,7 @@ namespace NPCs
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
             this.hungerB.transform.localScale = new Vector2(0.1f, 0.1f);
 
-            this.desiredHeight = Random.Range(0.3f, 0.65f);
+            this.desiredHeight = Random.Range(GlobalData.Discriminator(Param.GrassDown), GlobalData.Discriminator(Param.MountainDown));
             this.desiredHumidity = Random.Range(0.3f, 0.6f);
             this.desiredTemp = Random.Range(10.0f, 30.0f);
 
@@ -212,7 +212,7 @@ namespace NPCs
                         float TempPlace =((values.Item1*40) + (values.Item2*40) + values.Item3)/3;
                         if(TempPlace >= this.perfectPlace*0.8f)
                         {
-                            if(TempPlace >= actualPerfect && values.Item1 > 0.23f && values.Item1 < 0.76f)
+                            if(TempPlace >= actualPerfect && values.Item1 > GlobalData.Discriminator(Param.WaterUp) && values.Item1 < GlobalData.Discriminator(Param.MountainDown))
                             {
                                 actualPerfect = TempPlace;
                                 seekingPos = pos;

@@ -20,9 +20,6 @@ namespace NPCs
         //Tope global de árboles para que la simulación no se sature
         public int max_trees = 1000;
 
-        //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
-        //Es el parametro que rige la posicion de los tiles en generate
-        private float tileSize = GlobalData.tileSize;
         private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
         //Semilla para generacion
         private int offsetX;
@@ -63,15 +60,15 @@ namespace NPCs
         public bool isManCreated = false;
 
         //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
-        public float mountainUpDiscriminator = 1f;
-        public float mountainDiscriminator = 0.95f;
-        public float mountainDownDiscriminator = 0.9f;
-        public float grassUpDiscriminator = 0.8f;
-        public float grassDiscriminator = 0.6f;
-        public float grassDownDiscriminator = 0.5f;
-        public float waterUpDiscriminator = 0.25f;
-        public float waterDiscriminator = 0.2f;
-        public float waterDownDiscriminator = 0.1f;
+        public float mountainUpDiscriminator;
+        public float mountainDiscriminator;
+        public float mountainDownDiscriminator;
+        public float grassUpDiscriminator;
+        public float grassDiscriminator;
+        public float grassDownDiscriminator;
+        public float waterUpDiscriminator;
+        public float waterDiscriminator;
+        public float waterDownDiscriminator;
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()

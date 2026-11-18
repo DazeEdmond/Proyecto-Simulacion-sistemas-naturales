@@ -57,8 +57,8 @@ public static class GlobalData
     public const int BushNutrition = 2;
 
     // Condiciones donde pueden nacer árboles nuevos (modificables luego desde sliders)
-    public static float treeMinHeight = 0.3f;
-    public static float treeMaxHeight = 0.65f;
+    public static float treeMinHeight = GlobalData.Discriminator(Param.GrassDown);
+    public static float treeMaxHeight = GlobalData.Discriminator(Param.GrassUp);
     public static float treeMinHumidity = 0.3f;
     public static float treeMaxHumidity = 0.6f;
     // Distancia mínima entre árboles de un mismo bosque
