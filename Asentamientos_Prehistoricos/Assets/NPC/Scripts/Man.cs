@@ -178,7 +178,7 @@ namespace NPCs
         }
         public bool onWater()
         {
-            return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height <= 0.25f;
+            return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height <= GlobalData.Discriminator(Param.WaterUp);
         }
 
         public List<((float, float, float), UnityEngine.Vector2)> surroundingTerrain()

@@ -1,19 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ReadInput : MonoBehaviour
 {
     public TMP_InputField inputField;
     public GameObject map;
-    public CanvasGroup uiGroup; 
+    public Button resetButton;      
+
+    public CanvasGroup uiGroup;         // CanvasGroup de Slide_3_Canvas
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;
-
-    [Header("Fondo")]
-    public Transform background;
-    public float backgroundNewX = -150f;
-    public float backgroundNewY = -150f;
 
     private bool starting = false;
 
@@ -27,13 +26,13 @@ public class ReadInput : MonoBehaviour
     {
         GlobalData.mapReady = false;
         inputField.onSubmit.AddListener(ReadStringInput);
-        inputField.ActivateInputField();
+        resetButton.onClick.AddListener(ResetGame);
         GlobalData.mapReady = true;
     }
 
     public void ReadStringInput(string s)
     {
-        if (starting) return;  
+        if (starting) return;
 
         if (!int.TryParse(s, out int result))
         {
@@ -44,10 +43,13 @@ public class ReadInput : MonoBehaviour
 
         GlobalData.globalSeed = result;
         starting = true;
-        Vector3 p = background.position;
-        background.position = new Vector3(backgroundNewX, backgroundNewY, p.z); 
         StartCoroutine(FadeAndStart());
-        StartCoroutine(FadeAndStart());
+    }
+
+    void ResetGame()
+    {
+        GlobalData.skipIntro = true;   // al recargar, SlideFlow arranca en el slide 2
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     IEnumerator FadeAndStart()
@@ -64,13 +66,12 @@ public class ReadInput : MonoBehaviour
         }
 
         uiGroup.alpha = 0f;
-        
-        uiGroup.gameObject.SetActive(false);   // oculta todo el Canvas
-        
+        uiGroup.gameObject.SetActive(false);   // oculta Slide 3 (y su fondo)
+
         map.SetActive(true);
-        
-        yield return new WaitUntil(() => GlobalData.mapReady); 
-        
+
+        yield return new WaitUntil(() => GlobalData.mapReady);
+
         foreach (GameObject g in waitForMap) g.SetActive(true);
     }
 }

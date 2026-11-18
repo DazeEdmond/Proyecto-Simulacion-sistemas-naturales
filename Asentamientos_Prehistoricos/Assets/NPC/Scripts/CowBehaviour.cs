@@ -75,7 +75,7 @@ namespace NPCs
                 this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
                 return;
             }
-            if (TerrainVals[(int)System.Math.Floor((this.pos + this.vel).y)][(int)System.Math.Floor((this.pos + this.vel).x)].height <= 0.25f)
+            if (TerrainVals[(int)System.Math.Floor((this.pos + this.vel).y)][(int)System.Math.Floor((this.pos + this.vel).x)].height <= GlobalData.Discriminator(Param.WaterUp))
             {
                 this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
                 return;

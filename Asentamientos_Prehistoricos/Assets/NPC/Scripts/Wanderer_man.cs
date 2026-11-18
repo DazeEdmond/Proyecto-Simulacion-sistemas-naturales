@@ -143,7 +143,7 @@ namespace NPCs
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
             this.hungerB.transform.localScale = new Vector2(0.1f, 0.1f);
 
-            this.desiredHeight = Random.Range(0.3f, 0.65f);
+            this.desiredHeight = Random.Range(GlobalData.Discriminator(Param.GrassDown), GlobalData.Discriminator(Param.MountainDown));
             this.desiredHumidity = Random.Range(0.3f, 0.6f);
             this.desiredTemp = Random.Range(10.0f, 30.0f);
 
@@ -214,7 +214,7 @@ namespace NPCs
                         float TempPlace =((values.Item1*40) + (values.Item2*40) + values.Item3)/3;
                         if(TempPlace >= this.perfectPlace*0.8f)
                         {
-                            if(TempPlace >= actualPerfect && values.Item1 > 0.23f && values.Item1 < 0.76f)
+                            if(TempPlace >= actualPerfect && values.Item1 > GlobalData.Discriminator(Param.WaterUp) && values.Item1 < GlobalData.Discriminator(Param.MountainDown))
                             {
                                 actualPerfect = TempPlace;
                                 seekingPos = pos;
@@ -358,6 +358,12 @@ namespace NPCs
         {
             if (this.wanderer_man == null) return;
 
+            Vector2 temp = this.wanderer_man.getPos();
+            this.transform.position = new Vector3(temp[0], temp[1], 0);
+            this.pos_x = temp[0];
+            this.pos_y = temp[1];
+            this.SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
+
             if(this.attackCooldown <= attackMaxCooldown)
             {
                 this.attackCooldown++;
@@ -377,11 +383,6 @@ namespace NPCs
                 this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x-0.1f, this.pos_y+0.3f,0);
             }
 
-            Vector2 temp = this.wanderer_man.getPos();
-            this.transform.position = new Vector3(temp[0], temp[1], 0);
-            this.pos_x = temp[0];
-            this.pos_y = temp[1];
-            this.SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
