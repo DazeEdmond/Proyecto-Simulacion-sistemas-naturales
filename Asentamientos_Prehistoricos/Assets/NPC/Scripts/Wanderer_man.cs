@@ -556,6 +556,7 @@ namespace NPCs
             if(other.gameObject.tag == "tree")
             {
                 if (this.nearestCow != null) return;
+                
                 if (!this.nearFood)
                 {
                     this.nearFood = true;
@@ -567,6 +568,11 @@ namespace NPCs
                 {
                     if (closestTree.HasFruit())
                     {
+                        if (this.nearestBush != null)
+                        {
+                            this.nearestBush = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }
                         this.nearestree = closestTree;
                         this.nearestFood = treePos;
                     }
@@ -576,6 +582,7 @@ namespace NPCs
             if(other.gameObject.tag == "bush")
             {
                 if (this.nearestCow != null) return;
+
                 if (!this.nearFood)
                 {
                     this.nearFood = true;
@@ -587,6 +594,11 @@ namespace NPCs
                 {
                     if (closestBush.HasFruit())
                     {
+                        if (this.nearestree != null)
+                        {
+                            this.nearestree = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }
                         this.nearestBush = closestBush;
                         this.nearestFood = bushPos;
                     }

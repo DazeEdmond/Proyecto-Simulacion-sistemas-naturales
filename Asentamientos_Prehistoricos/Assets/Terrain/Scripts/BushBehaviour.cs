@@ -31,6 +31,7 @@ class BushBehaviour
     // Devuelve el valor nutricional y reinicia el ciclo (0 si no había fruta)
     public int TryHarvest()
     {
+        UnityEngine.Debug.Log("Fuck on");
         if (!this.hasFruit) return 0;
 
         this.hasFruit = false;
