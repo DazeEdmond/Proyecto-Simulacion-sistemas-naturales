@@ -83,7 +83,9 @@ namespace NPCs
         public bool haslog = false;
         public bool hasWater = false;
         public bool hasfood = false;
-
+        private int nomadGroup = 1;
+        private bool cAsentamiento = false;
+        private bool checkedNomads = false;
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
@@ -152,6 +154,16 @@ namespace NPCs
 
         private void FixedUpdate() {
             if (this.wanderer_man == null) return;
+
+            if (this.checkedNomads)
+            {
+                Vector2 ManPos = wanderer_man.getPos();
+                GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
+                village otherVillage = new_Village.GetComponent<village>();
+                otherVillage.init(village, ManPos,this.nomadGroup);
+                this.KMS();
+            }
+
             this.chilling = this.wanderer_man.isTired();
 
             this.nearFood = false;
@@ -239,10 +251,7 @@ namespace NPCs
 
                     if(actualPerfect >= perfectPlace*0.95f)
                     {
-                        GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
-                        village otherVillage = new_Village.GetComponent<village>();
-                        otherVillage.init(village, ManPos);
-                        this.KMS();
+                        this.cAsentamiento = true;
                     }
                     else
                     {
@@ -517,6 +526,13 @@ namespace NPCs
             if(other.gameObject.tag == "man")
             {
                 Wanderer_man man = other.gameObject.GetComponent<Wanderer_man>();
+                if (this.cAsentamiento)
+                {
+                    this.checkedNomads = true;
+                    this.nomadGroup++;
+                    man.KMS();
+                    return;
+                }
                 wanderer_man.cohereWithMen(man.getPos(),man.getVel());
             }
 
@@ -534,7 +550,9 @@ namespace NPCs
             {
                 if (this.nearestree != null)
                 {
-                    this.nearestree = null;
+                    if(actualJob != Job.LogGatherer){
+                        this.nearestree = null;
+                    }
                     this.nearestFood = new UnityEngine.Vector2(-1,-1);
                 }
                 if (this.nearestBush != null)
@@ -559,7 +577,7 @@ namespace NPCs
 
             if(other.gameObject.tag == "tree")
             {
-                if (this.nearestCow != null) return;
+                if (this.nearestCow != null && actualJob != Job.LogGatherer) return;
                 
                 if (!this.nearFood)
                 {
@@ -600,7 +618,9 @@ namespace NPCs
                     {
                         if (this.nearestree != null)
                         {
-                            this.nearestree = null;
+                            if(actualJob != Job.LogGatherer){
+                                this.nearestree = null;
+                            }
                             this.nearestFood = new UnityEngine.Vector2(-1,-1);
                         }
                         this.nearestBush = closestBush;

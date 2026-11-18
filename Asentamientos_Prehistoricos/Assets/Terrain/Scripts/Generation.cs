@@ -249,8 +249,12 @@ namespace NPCs
                             int ManGen = Random.Range(0,999);
                             if(ManGen <= 3)
                             {
-                                GameObject New_Man = Instantiate(ManPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                                New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1), null);
+                                int manQuan = Random.Range(3,5);
+                                for(int i = 0; i < manQuan; i++)
+                                {
+                                    GameObject New_Man = Instantiate(ManPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                                    New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1), null);
+                                }
                                 isManCreated = true;
                             }
                         }

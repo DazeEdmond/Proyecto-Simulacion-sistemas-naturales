@@ -26,10 +26,11 @@ public class village : MonoBehaviour
     public int ActualVillagers;
 
 
-    public void init(GameObject Sprite, Vector2 pos)
+    public void init(GameObject Sprite, Vector2 pos, int nomads)
     {
         this.Sprite = Sprite;
         this.Sprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        this.VillagersAmount = nomads;
         this.VillageB = new VillageBehaviour(pos, GlobalData.Get(Param.VillageRadius), VillagersAmount, generation_time); // Slider Value
     }
     void Start()

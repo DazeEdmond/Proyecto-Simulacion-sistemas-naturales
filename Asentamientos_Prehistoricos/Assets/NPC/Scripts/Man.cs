@@ -69,6 +69,15 @@ namespace NPCs
                 return;
             }
 
+            if (this.onWater())
+            {
+                this.vel /= 4;
+            }
+            if (this.onMountain())
+            {
+                this.vel /= 2;
+            }
+
             this.pos += this.vel;
 
             this.acc *= 0;
@@ -103,6 +112,14 @@ namespace NPCs
             {
                 this.vel.Normalize();
                 this.vel *= this.maxVel;
+            }
+            if (this.onWater())
+            {
+                this.vel /= 4;
+            }
+            if (this.onMountain())
+            {
+                this.vel /= 2;
             }
             this.pos += this.vel;
 
@@ -179,6 +196,10 @@ namespace NPCs
         public bool onWater()
         {
             return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height <= GlobalData.Discriminator(Param.WaterUp);
+        }
+        public bool onMountain()
+        {
+            return this.TerrainVals[(int)this.pos.y][(int)this.pos.x].height >= GlobalData.Discriminator(Param.MountainDown);
         }
 
         public List<((float, float, float), UnityEngine.Vector2)> surroundingTerrain()
