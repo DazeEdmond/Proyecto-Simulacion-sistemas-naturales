@@ -25,6 +25,7 @@ class VillageBehaviour
     public int eating_drinkingRatio = 2;
     public int eating_drinking_MaxCooldown = 180;
     private int eating_drinkingCooldown = 180;
+    private int VillagersAmountLimit;
     private int VillagersAmount;
 
     public int MaxhumanCooldown = 1800;
@@ -40,6 +41,7 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
+        this.VillagersAmountLimit = house_limit*3;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-650,0);
     }
@@ -60,10 +62,11 @@ class VillageBehaviour
 
         if(!foodNeeded() && !WaterNeeded())
         {
-            if(humanCooldown == 0)
+            if(humanCooldown == 0 && VillagersAmount <= VillagersAmountLimit)
             {
                 VillagersAmount += VillagersAmount/3;
                 house_limit = VillagersAmount/3;
+                this.VillagersAmountLimit = house_limit*3;
                 humanCooldown = MaxhumanCooldown;
             }
             else

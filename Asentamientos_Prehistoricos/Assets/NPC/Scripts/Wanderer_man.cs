@@ -102,6 +102,11 @@ namespace NPCs
 
             this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
             this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+
+            if(actualJob == Job.nomad) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[1];
+            if(actualJob == Job.WaterGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
+            if(actualJob == Job.FoodGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
+            if(actualJob == Job.LogGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[4];
             
             // Sliders
             maxLife = GlobalData.Get(Param.MaxLife);
@@ -148,6 +153,7 @@ namespace NPCs
             //STATES BEHAVIOURS
             if(this.actualState == State.SearchingWater)
             {
+                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
                 if(this.nearestWater.x != -1 && this.nearestWater.y != -1)
                 {
                     this.wanderer_man.seek(this.nearestWater);
@@ -167,6 +173,7 @@ namespace NPCs
 
             if(this.actualState == State.searchingFood)
             {
+                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
                 if(this.nearestFood.x != -1 && this.nearestFood.y != -1)
                 {
                     this.wanderer_man.seek(this.nearestFood);
