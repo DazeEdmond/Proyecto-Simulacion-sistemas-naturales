@@ -41,7 +41,7 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
-        this.VillagersAmountLimit = house_limit*3;
+        this.VillagersAmountLimit = (house_limit+1)*3;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-650,0);
     }

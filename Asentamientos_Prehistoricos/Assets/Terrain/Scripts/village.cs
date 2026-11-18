@@ -58,7 +58,7 @@ public class village : MonoBehaviour
                 if(Man_Log_generation_cooldown <= 0)
                 {
                     GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                    NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(), 3, VillageB.getPos());
+                    NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(), 3, VillageB.getPos(), this);
                     Man_Log_generation_cooldown = Max_Man_generation_cooldown;
                 }
             }
@@ -69,7 +69,7 @@ public class village : MonoBehaviour
             if(Man_Food_generation_cooldown <= 0)
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos());
+                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos(), this);
                 Man_Food_generation_cooldown = Max_Man_generation_cooldown;
             }
         }
@@ -79,7 +79,7 @@ public class village : MonoBehaviour
             if(Man_Water_generation_cooldown <= 0)
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos());
+                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos(), this);
                 Man_Water_generation_cooldown = Max_Man_generation_cooldown;
             }
         }
@@ -91,6 +91,21 @@ public class village : MonoBehaviour
         this.foodAmount = VillageB.GetFoodAmount();
         this.WaterAmount = VillageB.getwaterAmount();
         ActualVillagers = VillageB.getVillagerAmount();
+    }
+
+    public void addFood(int nutrition)
+    {
+        VillageB.addFood(nutrition);
+    }
+
+    public void addwater(int water)
+    {
+        VillageB.addWater(water);
+    }
+
+    public void addLog(int log)
+    {
+        VillageB.addLog(log);
     }
 
     // Update is called once per frame

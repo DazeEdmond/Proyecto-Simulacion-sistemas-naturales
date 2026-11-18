@@ -72,17 +72,23 @@ namespace NPCs
         public float actualPerfect = -1;
 
         public Vector2 House_location;
+        private village home;
+        public int food2village = 0;
+        public int water2village = 0;
+        public int log2village = 0;
+        public bool haslog = false;
 
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        public void init(Vector2 pos, int job, Vector2 House_location)
+        public void init(Vector2 pos, int job, Vector2 House_location, village home)
         {
             Man_Sprite.transform.position = pos;
             this.pos_x = pos[0];
             this.pos_y = pos[1];
             this.House_location = House_location;
+            this.home = home;
             this.actualJob = job switch
             {
                 0 => Job.nomad,
@@ -278,6 +284,39 @@ namespace NPCs
                 }
             }
 
+            if(actualJob == Job.LogGatherer)
+            {
+                if (!haslog)
+                {
+                    if (this.nearestree != null)
+                    {
+                        wanderer_man.seek(nearestree.transform.position);
+                        this.wanderer_man.updatePos();
+                        UnityEngine.Vector2 pos = this.wanderer_man.getPos();
+                        if (UnityEngine.Vector2.Distance(pos,this.nearestree.transform.position)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                        {
+                            this.attackCooldown = 0;
+                            this.log2village += this.nearestree.Chop();
+                            this.nearestree = null;
+                            haslog = true;
+                        }
+                    }
+                    else
+                    {
+                        this.wanderer_man.updateMan();
+                    }
+                }
+                else
+                {
+                    wanderer_man.seek(House_location);
+                    this.wanderer_man.updatePos();
+                    if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
+                    {
+                        home.addLog(log2village);
+                        KMS();
+                    }
+                }
+            }
             this.wanderer_man.updateMan();
         }
         // Update is called once per frame
