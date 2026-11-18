@@ -85,8 +85,8 @@ public class village : MonoBehaviour
         }
 
         if(Man_Water_generation_cooldown > 0) Man_Water_generation_cooldown--;
-        if(Man_Food_generation_cooldown > 0) Man_Water_generation_cooldown--;
-        if(Man_Log_generation_cooldown > 0) Man_Water_generation_cooldown--;
+        if(Man_Food_generation_cooldown > 0) Man_Food_generation_cooldown--;
+        if(Man_Log_generation_cooldown > 0) Man_Log_generation_cooldown--;
 
         this.foodAmount = VillageB.GetFoodAmount();
         this.WaterAmount = VillageB.getwaterAmount();
