@@ -108,7 +108,7 @@ namespace NPCs
         {
             this.Man_Sprite.transform.localScale = new UnityEngine.Vector2(10,10);
             this.hat.transform.localScale = new UnityEngine.Vector2(10,10);
-            this.flag.transform.localScale = new UnityEngine.Vector2(10,10);
+            this.flag.transform.localScale = new UnityEngine.Vector2(0,0);
 
             this.SpawnedMan = Instantiate(this.Man_Sprite, new UnityEngine.Vector2(this.pos_x, this.pos_y), UnityEngine.Quaternion.identity);
 
@@ -282,6 +282,7 @@ namespace NPCs
                 {
                     this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[2];
+                    this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
                     this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
@@ -317,6 +318,7 @@ namespace NPCs
                 {
                     this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[0];
+                    this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
                     this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
@@ -336,6 +338,7 @@ namespace NPCs
                 {
                     this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[1];
+                    this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
                     this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)

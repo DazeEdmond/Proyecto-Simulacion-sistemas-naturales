@@ -18,8 +18,8 @@ class VillageBehaviour
 
     public int MaxFoodAmount = 5000;
     public int MaxWaterAmount = 5000;
-    private int foodAmount = 5000;
-    private int WaterAmount = 5000;
+    private int foodAmount = 3000;
+    private int WaterAmount = 3000;
 
     private int logsAmount = 0;
 
@@ -64,7 +64,7 @@ class VillageBehaviour
 
         if(!foodNeeded() && !WaterNeeded())
         {
-            if(humanCooldown == 0 && VillagersAmount <= VillagersAmountLimit)
+            if(humanCooldown == 0)
             {
                 VillagersAmount += VillagersAmount/3;
                 house_limit = VillagersAmount/3;
@@ -75,7 +75,6 @@ class VillageBehaviour
                 humanCooldown--;
             }
         }
-        this.VillagersAmountLimit = actual_house_amount*3;
             
     }
 
@@ -113,12 +112,12 @@ class VillageBehaviour
         this.actual_time = 0;
     }
 
-    public int GetFoodAmount()
+    public float GetFoodAmount()
     {
         return foodAmount;
     }
 
-    public int getwaterAmount()
+    public float getwaterAmount()
     {
         return WaterAmount;
     }
@@ -152,6 +151,11 @@ class VillageBehaviour
     public bool OverPopulation()
     {
         return (eating_drinkingRatio*VillagersAmount) > MaxFoodAmount*0.25;
+    }
+
+    public int divide()
+    {
+        return VillagersAmount /= 2;
     }
 
     public (float, float) isvalid(){
