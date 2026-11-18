@@ -12,6 +12,7 @@ class VillageBehaviour
     private List<GameObject> houses = new List<GameObject>{};
     private float Village_radius;
     private int house_limit;
+    private int actual_house_amount;
     private int generation_time;
     private float actual_time;
 
@@ -41,7 +42,8 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
-        this.VillagersAmountLimit = (house_limit+1)*3;
+        this.actual_house_amount = 1;
+        this.VillagersAmountLimit = (actual_house_amount+1)*3;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-650,0);
     }
@@ -66,7 +68,6 @@ class VillageBehaviour
             {
                 VillagersAmount += VillagersAmount/3;
                 house_limit = VillagersAmount/3;
-                this.VillagersAmountLimit = house_limit*3;
                 humanCooldown = MaxhumanCooldown;
             }
             else
@@ -74,6 +75,7 @@ class VillageBehaviour
                 humanCooldown--;
             }
         }
+        this.VillagersAmountLimit = actual_house_amount*3;
             
     }
 
@@ -101,6 +103,7 @@ class VillageBehaviour
         if(this.houses.Count < this.house_limit)
         {
             this.houses.Add(house);
+            actual_house_amount++;
             this.logsAmount--;
         }
     }
