@@ -81,6 +81,8 @@ namespace NPCs
         public int water2village = 0;
         public int log2village = 0;
         public bool haslog = false;
+        public bool hasWater = false;
+        public bool hasfood = false;
 
         private Man wanderer_man;
 
@@ -189,61 +191,8 @@ namespace NPCs
             if(this.actualState == State.searchingFood)
             {
                 this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
-                if(this.nearestFood.x != -1 && this.nearestFood.y != -1)
-                {
-                    this.wanderer_man.seek(this.nearestFood);
-                    this.wanderer_man.updatePos();
-                    UnityEngine.Vector2 pos = this.wanderer_man.getPos();
-                    if(this.nearestCow != null){
-                        this.nearestFood = this.nearestCow.getPos();
-                        if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
-                        {
-                            this.attackCooldown = 0;
-                            if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
-                            {
-                                this.actualState = State.Wander;
-                                this.hunger = maxHunger;
-                                this.nearestCow = null;
-                            }
-                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
-                        }
-                        return;
-                    }
-                    if (this.nearestree != null)
-                    {
-                        if(!this.nearestree.HasFruit()) {
-                            this.nearestree = null;
-                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
-                        }else{
-                            if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
-                            {
-                                this.attackCooldown = 0;
-                                this.hunger += this.nearestree.Harvest();
-                                this.actualState = State.Wander;
-                                this.nearestree = null;
-                                this.nearestFood = new UnityEngine.Vector2(-1,-1);
-                            }
-                        }
-                        return;
-                    }
-                    if (this.nearestBush != null)
-                    {
-                        if(!this.nearestBush.HasFruit()) {
-                            this.nearestBush = null;
-                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
-                        }else{
-                            if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
-                            {
-                                this.attackCooldown = 0;
-                                this.hunger += this.nearestBush.Harvest();
-                                this.actualState = State.Wander;
-                                this.nearestBush = null;
-                                this.nearestFood = new UnityEngine.Vector2(-1,-1);
-                            }
-                        }
-                    }
-                    return;
-                }
+                followFood();
+                return;
             }
 
             if(this.actualState == State.DrinkingWater)
@@ -251,8 +200,6 @@ namespace NPCs
                 return;
             }
 
-            this.nearestCow = null;
-            this.nearestWater = new UnityEngine.Vector2(-1,-1);
 
             if(this.actualJob == Job.nomad)
             {
@@ -344,6 +291,63 @@ namespace NPCs
                     }
                 }
             }
+
+            if(actualJob == Job.WaterGatherer)
+            {
+                if (!hasWater)
+                {
+                    if (this.nearestWater != null)
+                    {
+                        this.wanderer_man.seek(this.nearestWater);
+                        this.wanderer_man.updatePos();
+                        UnityEngine.Vector2 pos = this.wanderer_man.getPos();
+                        if (UnityEngine.Vector2.Distance(pos,this.nearestWater)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                        {
+                            this.attackCooldown = 0;
+                            this.water2village += 100;
+                            hasWater = true;
+                        }
+                    }
+                    else
+                    {
+                        this.wanderer_man.updateMan();
+                    }
+                }
+                else
+                {
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[0];
+                    wanderer_man.seek(House_location);
+                    this.wanderer_man.updatePos();
+                    if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
+                    {
+                        home.addwater(water2village);
+                        KMS();
+                    }
+                }
+            }
+            if(actualJob == Job.FoodGatherer)
+            {
+                if (!hasfood)
+                {
+                    followFood();
+                }
+                else
+                {
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[1];
+                    wanderer_man.seek(House_location);
+                    this.wanderer_man.updatePos();
+                    if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
+                    {
+                        home.addFood(food2village);
+                        KMS();
+                    }
+                }
+            }
+            
+            this.nearestCow = null;
+            this.nearestWater = new UnityEngine.Vector2(-1,-1);
             this.wanderer_man.updateMan();
         }
         // Update is called once per frame
@@ -411,6 +415,89 @@ namespace NPCs
         public UnityEngine.Vector2 getVel()
         {
             return this.wanderer_man.getVel();
+        }
+
+        public void followFood()
+        {
+            if(this.nearestFood.x != -1 && this.nearestFood.y != -1)
+            {
+                this.wanderer_man.seek(this.nearestFood);
+                this.wanderer_man.updatePos();
+                UnityEngine.Vector2 pos = this.wanderer_man.getPos();
+                if(this.nearestCow != null){
+                    this.nearestFood = this.nearestCow.getPos();
+                    if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                    {
+                        this.attackCooldown = 0;
+                        if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
+                        {
+                            this.actualState = State.Wander;
+                            if(actualJob != Job.FoodGatherer)
+                            {
+                                this.hunger = maxHunger;
+                            }
+                            else
+                            {
+                                food2village += 200;
+                                hasfood = true;
+                            }
+                            this.nearestCow = null;
+                        }
+                        this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                    }
+                    return;
+                }
+                if (this.nearestree != null)
+                {
+                    if(!this.nearestree.HasFruit()) {
+                        this.nearestree = null;
+                        this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                    }else{
+                        if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                        {
+                            this.attackCooldown = 0;
+                            if(actualJob != Job.FoodGatherer)
+                            {
+                                this.hunger += this.nearestree.Harvest();
+                            }
+                            else
+                            {
+                                food2village += this.nearestree.Harvest();
+                                hasfood = true;
+                            }
+                            this.actualState = State.Wander;
+                            this.nearestree = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }
+                    }
+                    return;
+                }
+                if (this.nearestBush != null)
+                {
+                    if(!this.nearestBush.HasFruit()) {
+                        this.nearestBush = null;
+                        this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                    }else{
+                        if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                        {
+                            this.attackCooldown = 0;
+                            if(actualJob != Job.FoodGatherer)
+                            {
+                                this.hunger += this.nearestBush.Harvest();
+                            }
+                            else
+                            {
+                                food2village += this.nearestBush.Harvest();
+                                hasfood = true;
+                            }
+                            this.actualState = State.Wander;
+                            this.nearestBush = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }
+                    }
+                }
+                return;
+            }
         }
 
         //PhysX events
