@@ -18,8 +18,8 @@ class VillageBehaviour
 
     public int MaxFoodAmount = 5000;
     public int MaxWaterAmount = 5000;
-    private int foodAmount = 3000;
-    private int WaterAmount = 3000;
+    private int foodAmount = 5000;
+    private int WaterAmount = 5000;
 
     private int logsAmount = 0;
 
@@ -29,7 +29,7 @@ class VillageBehaviour
     private int VillagersAmountLimit;
     private int VillagersAmount;
 
-    public int MaxhumanCooldown = 1800;
+    public int MaxhumanCooldown = 900;
     public int humanCooldown = 1800;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
