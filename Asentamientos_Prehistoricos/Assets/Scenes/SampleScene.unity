@@ -994,25 +994,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 15223131221428959, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_Name
       value: Man
-      objectReference: {fileID: 0}
-    - target: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_TagString
-      value: man
-      objectReference: {fileID: 0}
-    - target: {fileID: 4456598026871618675, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5891773092175177541, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6915772456514530059, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1053,26 +1037,6 @@ PrefabInstance:
     - target: {fileID: 6915772456514530059, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7755706303565816552, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_Radius
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7755706303565816552, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: life
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: maxVel
-      value: 0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-      propertyPath: maxLife
-      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

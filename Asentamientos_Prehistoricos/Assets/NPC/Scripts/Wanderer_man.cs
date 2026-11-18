@@ -224,6 +224,23 @@ namespace NPCs
                                 this.nearestFood = new UnityEngine.Vector2(-1,-1);
                             }
                         }
+                        return;
+                    }
+                    if (this.nearestBush != null)
+                    {
+                        if(!this.nearestBush.HasFruit()) {
+                            this.nearestBush = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }else{
+                            if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                            {
+                                this.attackCooldown = 0;
+                                this.hunger += this.nearestBush.Harvest();
+                                this.actualState = State.Wander;
+                                this.nearestBush = null;
+                                this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                            }
+                        }
                     }
                     return;
                 }
@@ -427,8 +444,14 @@ namespace NPCs
                 if (this.nearestree != null)
                 {
                     this.nearestree = null;
+                    this.nearestFood = new UnityEngine.Vector2(-1,-1);
                 }
-                
+                if (this.nearestBush != null)
+                {
+                    this.nearestBush = null;
+                    this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                }
+
                 if (!this.nearFood)
                 {
                     this.nearFood = true;
@@ -459,6 +482,26 @@ namespace NPCs
                     {
                         this.nearestree = closestTree;
                         this.nearestFood = treePos;
+                    }
+                }
+                return;
+            }
+            if(other.gameObject.tag == "bush")
+            {
+                if (this.nearestCow != null) return;
+                if (!this.nearFood)
+                {
+                    this.nearFood = true;
+                    this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                }
+                bush closestBush = other.gameObject.GetComponent<bush>();
+                Vector3 bushPos = other.gameObject.transform.position;
+                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y), bushPos)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                {
+                    if (closestBush.HasFruit())
+                    {
+                        this.nearestBush = closestBush;
+                        this.nearestFood = bushPos;
                     }
                 }
                 return;
