@@ -12,7 +12,7 @@ class BushBehaviour
         this.fruitInterval = Mathf.Max(1, fruitInterval);
         this.nutritionValue = nutritionValue;
         // Desfasa los arbustos para que no den fruta todos al mismo tiempo
-        this.fruitTimer = Random.Range(0, this.fruitInterval);
+        this.fruitTimer = Random.Range(1, this.fruitInterval);
     }
 
     // Se llama en FixedUpdate
