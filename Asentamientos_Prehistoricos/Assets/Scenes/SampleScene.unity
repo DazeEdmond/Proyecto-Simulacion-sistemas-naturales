@@ -206,7 +206,7 @@ MonoBehaviour:
   m_MinValue: 3
   m_MaxValue: 25
   m_WholeNumbers: 0
-  m_Value: 3
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 5
   title: Village Radius
   wholeNumbers: 1
   slider: {fileID: 42757280}
@@ -994,9 +994,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15223131221428959, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_Name
       value: Man
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456598026871618675, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5891773092175177541, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6915772456514530059, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1038,9 +1050,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7755706303565816552, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_Radius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7755706303565816552, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: life
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: maxVel
       value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935792664714201265, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: maxLife
+      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2404,10 +2432,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 2145690066}
   m_HandleRect: {fileID: 432097046}
   m_Direction: 0
-  m_MinValue: 0.02
-  m_MaxValue: 0.5
+  m_MinValue: 0.01
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.02
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2440,7 +2468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 7
   title: Hunger Loos
   wholeNumbers: 0
   slider: {fileID: 539064853}
@@ -4100,10 +4128,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 690457148}
   m_HandleRect: {fileID: 999128835}
   m_Direction: 0
-  m_MinValue: 25
-  m_MaxValue: 500
+  m_MinValue: 60
+  m_MaxValue: 1800
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 600
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4119,7 +4147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 9
   title: Fruit Time
   wholeNumbers: 1
   slider: {fileID: 880629681}
@@ -4381,7 +4409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 6
   title: Thirst Loss
   wholeNumbers: 0
   slider: {fileID: 946667335}
@@ -4662,7 +4690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 1
   title: Forest Radius
   wholeNumbers: 1
   slider: {fileID: 962512012}
@@ -4917,7 +4945,7 @@ MonoBehaviour:
   m_MinValue: 600
   m_MaxValue: 1200
   m_WholeNumbers: 1
-  m_Value: 800
+  m_Value: 900
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4933,7 +4961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 2
   title: Forest Generation
   wholeNumbers: 1
   slider: {fileID: 1027602459}
@@ -5341,7 +5369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 3
   title: Max Life
   wholeNumbers: 1
   slider: {fileID: 1244561653}
@@ -6206,7 +6234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 4
   title: Life Loss
   wholeNumbers: 0
   slider: {fileID: 1846806302}
@@ -7111,7 +7139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff5fc8523ee3b488c0dab87cc874ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingSlider
-  param: 0
+  param: 8
   title: Max Speed
   wholeNumbers: 0
   slider: {fileID: 2064187511}
