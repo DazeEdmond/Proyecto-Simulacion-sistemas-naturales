@@ -181,6 +181,7 @@ namespace NPCs
                     this.wanderer_man.updatePos();
                     UnityEngine.Vector2 pos = this.wanderer_man.getPos();
                     if(this.nearestCow != null){
+                        this.nearestFood = this.nearestCow.getPos();
                         if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
                             this.attackCooldown = 0;
@@ -219,7 +220,6 @@ namespace NPCs
                 return;
             }
 
-            this.wanderer_man.updateMan();
             this.nearestCow = null;
             this.nearestWater = new UnityEngine.Vector2(-1,-1);
 
@@ -277,6 +277,8 @@ namespace NPCs
                     actualSeekingCoolDown --;
                 }
             }
+
+            this.wanderer_man.updateMan();
         }
         // Update is called once per frame
         void Update()
@@ -372,6 +374,11 @@ namespace NPCs
 
             if(other.gameObject.tag == "Cow")
             {
+                if (this.nearestree != null)
+                {
+                    this.nearestree = null;
+                }
+                
                 if (!this.nearFood)
                 {
                     this.nearFood = true;
@@ -388,6 +395,7 @@ namespace NPCs
 
             if(other.gameObject.tag == "tree")
             {
+                if (this.nearestCow != null) return;
                 if (!this.nearFood)
                 {
                     this.nearFood = true;
