@@ -29,7 +29,6 @@ class TreeBehaviour
 
     public int TryHarvest()
     {
-        UnityEngine.Debug.Log("Fuck oFf");
         if (!this.hasFruit) return 0;
 
         this.hasFruit = false;

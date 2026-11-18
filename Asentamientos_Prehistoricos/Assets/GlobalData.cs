@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// Enumeration - Sliders existentes
 public enum Param { ForestLimit, ForestRadius, ForestGeneration, MaxLife, LifeLoss,
                     VillageRadius, ThirstLoss, HungerLoss, MaxSpeed, FruitTime,
                     WaterDown, Water, WaterUp, GrassDown, Grass, GrassUp,
@@ -10,9 +11,8 @@ public static class GlobalData
 {
     public static Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainValues = new Dictionary<int,Dictionary<int,(float height,float humidity,float temperature)>>();
 
-    // Sliders - GlobalData
+    // Sliders - Dic<TipoSlider, ValorSlider>
     static Dictionary<Param,float> settings = new Dictionary<Param,float> {
-        
         // Agentes
         { Param.ForestLimit,      25 },     { Param.ForestRadius,   4 }, 
         { Param.ForestGeneration, 900 },    { Param.MaxLife,        10000 },  
@@ -26,28 +26,28 @@ public static class GlobalData
         { Param.MountainDown, 0.76f }, { Param.Mountain, 0.83f },  { Param.MountainUp, 0.1f },
     };
 
+    // Sliders - Métodos getset 
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }
 
-    public const float DiscStep = 0.1f;
-
+    // Sliders - Terreno acotado - Método Josué
     public static float Discriminator(Param p)
     {
         // int k = (int)p - (int)Param.WaterDown;
-        // return k * DiscStep + Get(p);
+        // return k * 0.1f + Get(p);
         return Get(p);
     }
 
-    // Slides - GlobalData 
+    // GUI - Saltar primer slide
     public static bool skipIntro = false;
     
-    // Man - GlobalData - Espera generación de Mapa
+    // GUI - Espera generación de Mapa
     public static bool mapReady = false;
 
-    // Seed - GlobalData
+    // Seed - Si es positivo, Valor determinístico
     public static int globalSeed = 0;
 
-    // Tamaño del mapa (lo escribe Generation.Start)
+    // Tamaño del mapa
     public static int mapWidth = 100;
     public static int mapHeight = 100;
 
