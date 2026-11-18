@@ -8,7 +8,7 @@ public class bush : MonoBehaviour
     // sprites[0] = sin fruta, sprites[1] = con fruta
     public Sprite[] sprites;
 
-    public int fruitInterval = 100;                        // da fruta con más frecuencia que el árbol
+    public int fruitInterval;                        // da fruta con más frecuencia que el árbol
     public int nutritionValue = GlobalData.BushNutrition;  // arbusto = 2
 
     private BushBehaviour BushC;
@@ -23,6 +23,7 @@ public class bush : MonoBehaviour
     {
         this.Sprite = Sprite;
         this.BushC = new BushBehaviour(this.fruitInterval, this.nutritionValue);
+        fruitInterval = (int) GlobalData.Get(Param.FruitTime)/2;
         RefreshSprite();
     }
 
