@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 4648002884440305670}
   m_Layer: 0
   m_Name: Man
-  m_TagString: Untagged
+  m_TagString: man
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -524,7 +524,7 @@ MonoBehaviour:
   actualState: 0
   actualJob: 0
   chilling: 0
-  maxVel: 0.018
+  maxVel: 0.18
   maxLife: 10000
   life: 10000
   lifeLoss: 0.1

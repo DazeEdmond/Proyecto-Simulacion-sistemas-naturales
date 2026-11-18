@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +51,7 @@ namespace NPCs
         public float hungerLoss = GlobalData.Get(Param.HungerLoss);
         public UnityEngine.Vector2 nearestFood = new UnityEngine.Vector2(-1,-1);
         public Cow nearestCow = null;
-        public Tree nearestree = null;
+        public tree nearestree = null;
         public bush nearestBush = null;
         public bool nearFood = false;
         public int damage = 20;
@@ -175,7 +176,6 @@ namespace NPCs
                     if(this.nearestCow != null){
                         if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
-                            UnityEngine.Debug.Log("EAT! I NEED TO EAT!");
                             this.attackCooldown = 0;
                             if (!this.nearestCow.Hit(this.damage,this.wanderer_man.getPos()))
                             {
@@ -184,6 +184,23 @@ namespace NPCs
                                 this.nearestCow = null;
                             }
                             this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }
+                        return;
+                    }
+                    if (this.nearestree != null)
+                    {
+                        if(!this.nearestree.HasFruit()) {
+                            this.nearestree = null;
+                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                        }else{
+                            if (UnityEngine.Vector2.Distance(pos,this.nearestFood)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
+                            {
+                                this.attackCooldown = 0;
+                                this.hunger += this.nearestree.Harvest();
+                                this.actualState = State.Wander;
+                                this.nearestree = null;
+                                this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                            }
                         }
                     }
                     return;
@@ -287,7 +304,6 @@ namespace NPCs
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
 
-
             this.life -= this.lifeLoss;
             if(this.actualState == State.DrinkingWater)
             {
@@ -311,8 +327,32 @@ namespace NPCs
             }
         }
 
+        public UnityEngine.Vector2 getPos()
+        {
+            return this.wanderer_man.getPos();
+        }
+
+        public UnityEngine.Vector2 getVel()
+        {
+            return this.wanderer_man.getVel();
+        }
+
         //PhysX events
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if(this.wanderer_man == null) return;
+            if(other.gameObject.tag == "man")
+            {
+                this.wanderer_man.addNearMan();
+            }
+        }
         private void OnTriggerStay2D(Collider2D other) {
+            if(other.gameObject.tag == "man")
+            {
+                Wanderer_man man = other.gameObject.GetComponent<Wanderer_man>();
+                wanderer_man.cohereWithMen(man.getPos(),man.getVel());
+            }
+
             if(other.gameObject.tag == "water")
             {
                 GameObject water = other.gameObject;
@@ -320,6 +360,7 @@ namespace NPCs
                 {
                     this.nearestWater = water.transform.position;
                 }
+                return;
             }
 
             if(other.gameObject.tag == "Cow")
@@ -335,13 +376,35 @@ namespace NPCs
                     this.nearestFood = cow.getPos();
                     this.nearestCow = cow;
                 }
+                return;
             }
 
             if(other.gameObject.tag == "tree")
             {
-                Tree closestTree = other.gameObject.GetComponent<Tree>();
+                if (!this.nearFood)
+                {
+                    this.nearFood = true;
+                    this.nearestFood = new UnityEngine.Vector2(-1,-1);
+                }
+                tree closestTree = other.gameObject.GetComponent<tree>();
                 Vector3 treePos = other.gameObject.transform.position;
-                nearestree = closestTree;
+                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y), treePos)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                {
+                    if (closestTree.HasFruit())
+                    {
+                        this.nearestree = closestTree;
+                        this.nearestFood = treePos;
+                    }
+                }
+                return;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if(other.gameObject.tag == "man")
+            {
+                this.wanderer_man.popNearMan();
             }
         }
 

@@ -154,7 +154,7 @@ MonoBehaviour:
   - {fileID: 5167071131425691963, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   - {fileID: -5704453017612098005, guid: 69b9b2da35544a347aa763fd2c9897ba, type: 3}
   fruitInterval: 650
-  nutritionValue: 1
+  nutritionValue: 1000
   woodAmount: 1
 --- !u!50 &1762816006304032478
 Rigidbody2D:

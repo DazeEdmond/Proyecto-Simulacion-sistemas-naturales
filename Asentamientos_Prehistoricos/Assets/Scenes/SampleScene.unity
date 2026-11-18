@@ -1002,6 +1002,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Man
       objectReference: {fileID: 0}
+    - target: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
+      propertyPath: m_TagString
+      value: man
+      objectReference: {fileID: 0}
     - target: {fileID: 4456598026871618675, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
       propertyPath: m_SortingOrder
       value: 2

@@ -13,6 +13,7 @@ TagManager:
   - Sliders
   - Title
   - Menu
+  - man
   layers:
   - Default
   - TransparentFX
