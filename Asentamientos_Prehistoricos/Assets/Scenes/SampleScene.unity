@@ -3199,6 +3199,10 @@ MonoBehaviour:
   fadeTime: 0.6
   waitForMap:
   - {fileID: 797548943}
+  - {fileID: 1862508719}
+  background: {fileID: 698507086}
+  backgroundNewX: -50
+  backgroundNewY: -150
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13305,5 +13309,4 @@ SceneRoots:
   - {fileID: 67605789}
   - {fileID: 1862508721}
   - {fileID: 1616891711}
-  - {fileID: 136530410}
   - {fileID: 929303597}

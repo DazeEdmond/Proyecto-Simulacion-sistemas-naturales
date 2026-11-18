@@ -250,7 +250,7 @@ namespace NPCs
                             if(ManGen <= 3)
                             {
                                 GameObject New_Man = Instantiate(ManPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
-                                New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1));
+                                New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1), null);
                                 isManCreated = true;
                             }
                         }

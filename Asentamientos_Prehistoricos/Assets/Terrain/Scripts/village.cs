@@ -14,15 +14,15 @@ public class village : MonoBehaviour
     private UnityEngine.Vector2 closestWaterPos;
     public GameObject ManPrefab;
 
-    public int Max_Man_generation_cooldown = 1200;
-    public int Man_generation_cooldown = 0;
+    public float Max_Man_generation_cooldown = 1200;
+    public float Man_generation_cooldown = 0;
 
     public int Man_Log_generation_cooldown = 0;
-    public int Man_Food_generation_cooldown = 0;
-    public int Man_Water_generation_cooldown = 0;
+    public float Man_Food_generation_cooldown = 0;
+    public float Man_Water_generation_cooldown = 0;
 
-    public int foodAmount;
-    public int WaterAmount;
+    public float foodAmount;
+    public float WaterAmount;
     public int ActualVillagers;
 
 
@@ -58,8 +58,8 @@ public class village : MonoBehaviour
                 if(Man_Log_generation_cooldown <= 0)
                 {
                     GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                    NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(), 3, VillageB.getPos());
-                    Man_Log_generation_cooldown = Max_Man_generation_cooldown;
+                    NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(), 3, VillageB.getPos(), this);
+                    Man_Log_generation_cooldown = (int)Max_Man_generation_cooldown;
                 }
             }
         }
@@ -69,8 +69,8 @@ public class village : MonoBehaviour
             if(Man_Food_generation_cooldown <= 0)
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos());
-                Man_Food_generation_cooldown = Max_Man_generation_cooldown;
+                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos(), this);
+                Man_Food_generation_cooldown = Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000);
             }
         }
 
@@ -79,8 +79,18 @@ public class village : MonoBehaviour
             if(Man_Water_generation_cooldown <= 0)
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos());
-                Man_Water_generation_cooldown = Max_Man_generation_cooldown;
+                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos(), this);
+                Man_Water_generation_cooldown = Max_Man_generation_cooldown*(VillageB.getwaterAmount()/5000);
+            }
+        }
+
+        if (VillageB.OverPopulation())
+        {
+            int nomad_amount = VillageB.divide()/2;
+            for(int i = 0; i < nomad_amount; i++)
+            {
+                GameObject NewNomad_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
+                NewNomad_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),0, new Vector2(-1,-1), null);
             }
         }
 
@@ -91,6 +101,21 @@ public class village : MonoBehaviour
         this.foodAmount = VillageB.GetFoodAmount();
         this.WaterAmount = VillageB.getwaterAmount();
         ActualVillagers = VillageB.getVillagerAmount();
+    }
+
+    public void addFood(int nutrition)
+    {
+        VillageB.addFood(nutrition);
+    }
+
+    public void addwater(int water)
+    {
+        VillageB.addWater(water);
+    }
+
+    public void addLog(int log)
+    {
+        VillageB.addLog(log);
     }
 
     // Update is called once per frame

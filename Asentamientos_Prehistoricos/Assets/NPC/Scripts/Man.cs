@@ -113,7 +113,7 @@ namespace NPCs
         {
             this.nearMen++;
         }
-        public void cohere(UnityEngine.Vector2 direction,UnityEngine.Vector2 vel)
+        public void cohereWithMen(UnityEngine.Vector2 direction,UnityEngine.Vector2 vel)
         {
             this.cohereForce+=direction;
             this.alignmentForce+=vel;
