@@ -50,7 +50,7 @@ namespace NPCs
         public float hungerLoss = GlobalData.Get(Param.HungerLoss);
         public UnityEngine.Vector2 nearestFood = new UnityEngine.Vector2(-1,-1);
         public Cow nearestCow = null;
-        public tree nearestree = null;
+        public Tree nearestree = null;
         public bush nearestBush = null;
         public bool nearFood = false;
         public int damage = 20;
@@ -76,11 +76,20 @@ namespace NPCs
 
         private GameObject SpawnedMan;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        public void init(Vector2 pos)
+        public void init(Vector2 pos, int job, Vector2 House_location)
         {
             Man_Sprite.transform.position = pos;
             this.pos_x = pos[0];
             this.pos_y = pos[1];
+            this.House_location = House_location;
+            this.actualJob = job switch
+            {
+                0 => Job.nomad,
+                1 => Job.WaterGatherer,
+                2 => Job.FoodGatherer,
+                3 => Job.LogGatherer,
+                _ => Job.nomad,
+            };
         }
         void Start()
         {
@@ -328,12 +337,12 @@ namespace NPCs
                 }
             }
 
-            // if(other.gameObject.tag == "tree")
-            // {
-            //     tree closestTree = other.gameObject.GetComponent<tree>();
-            //     Vector3 treePos = closestTree.transform.position;
-            //     nearestree = closestTree;
-            // }
+            if(other.gameObject.tag == "tree")
+            {
+                Tree closestTree = other.gameObject.GetComponent<Tree>();
+                Vector3 treePos = other.gameObject.transform.position;
+                nearestree = closestTree;
+            }
         }
 
         private void KMS()

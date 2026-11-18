@@ -17,6 +17,10 @@ public class village : MonoBehaviour
     public int Max_Man_generation_cooldown = 1200;
     public int Man_generation_cooldown = 0;
 
+    public int Man_Log_generation_cooldown = 0;
+    public int Man_Food_generation_cooldown = 0;
+    public int Man_Water_generation_cooldown = 0;
+
     public int foodAmount;
     public int WaterAmount;
     public int ActualVillagers;
@@ -40,35 +44,49 @@ public class village : MonoBehaviour
         (float, float) pos = VillageB.isvalid();
         if (VillageB.is_House_Time() && pos != (-1f,-1f))
         {
-            GameObject new_House = Instantiate(Sprite, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
-            new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-            new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+            if (VillageB.hasLog())
+            {
+                GameObject new_House = Instantiate(Sprite, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
+                new_House.transform.localScale = new UnityEngine.Vector2(20,15);
+                new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
 
-            VillageB.add_House(new_House);
-            VillageB.reset_time();
+                VillageB.add_House(new_House);
+                VillageB.reset_time();
+            }
+            else
+            {
+                if(Man_Log_generation_cooldown <= 0)
+                {
+                    GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
+                    NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(), 3, VillageB.getPos());
+                    Man_Log_generation_cooldown = Max_Man_generation_cooldown;
+                }
+            }
         }
 
         if (VillageB.foodNeeded())
         {
-            if(Man_generation_cooldown <= 0)
+            if(Man_Food_generation_cooldown <= 0)
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos());
-                Man_generation_cooldown = Max_Man_generation_cooldown;
+                NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos());
+                Man_Food_generation_cooldown = Max_Man_generation_cooldown;
             }
         }
 
         if (VillageB.WaterNeeded())
         {
-            if(Man_generation_cooldown <= 0)
+            if(Man_Water_generation_cooldown <= 0)
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
-                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos());
-                Man_generation_cooldown = Max_Man_generation_cooldown;
+                NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos());
+                Man_Water_generation_cooldown = Max_Man_generation_cooldown;
             }
         }
 
-        if(Man_generation_cooldown > 0) Man_generation_cooldown--;
+        if(Man_Water_generation_cooldown > 0) Man_Water_generation_cooldown--;
+        if(Man_Food_generation_cooldown > 0) Man_Water_generation_cooldown--;
+        if(Man_Log_generation_cooldown > 0) Man_Water_generation_cooldown--;
 
         this.foodAmount = VillageB.GetFoodAmount();
         this.WaterAmount = VillageB.getwaterAmount();
