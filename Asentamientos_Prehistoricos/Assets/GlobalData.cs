@@ -21,20 +21,21 @@ public static class GlobalData
         { Param.MaxSpeed,   0.18f },        { Param.FruitTime,  100 },
         
         // Terreno
-        { Param.WaterDown, 0.10f },    { Param.Water, 0.09f },     { Param.WaterUp, 0.03f },
-        { Param.GrassDown, 0.11f },    { Param.Grass, 0.11f },     { Param.GrassUp, 0.11f },
-        { Param.MountainDown, 0.11f }, { Param.Mountain, 0.11f },  { Param.MountainUp, 0.11f },
+        { Param.WaterDown, 0.02f },    { Param.Water, 0.12f },     { Param.WaterUp, 0.23f },
+        { Param.GrassDown, 0.3f },    { Param.Grass, 0.46f },     { Param.GrassUp, 0.68f },
+        { Param.MountainDown, 0.76f }, { Param.Mountain, 0.83f },  { Param.MountainUp, 0.1f },
     };
 
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }
 
-    public const float DiscStep = 0.11f;
+    public const float DiscStep = 0.1f;
 
     public static float Discriminator(Param p)
     {
-        int k = (int)p - (int)Param.WaterDown;
-        return k * DiscStep + Get(p);
+        // int k = (int)p - (int)Param.WaterDown;
+        // return k * DiscStep + Get(p);
+        return Get(p);
     }
 
     // Slides - GlobalData 
