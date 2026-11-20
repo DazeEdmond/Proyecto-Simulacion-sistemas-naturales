@@ -71,7 +71,7 @@ public class village : MonoBehaviour
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
                 NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos(), this);
-                Man_Food_generation_cooldown = Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000);
+                Man_Food_generation_cooldown = (Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000))+180;
             }
         }
 
@@ -81,7 +81,7 @@ public class village : MonoBehaviour
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
                 NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos(), this);
-                Man_Water_generation_cooldown = Max_Man_generation_cooldown*(VillageB.getwaterAmount()/5000);
+                Man_Water_generation_cooldown = (Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000))+180;
             }
         }
 
