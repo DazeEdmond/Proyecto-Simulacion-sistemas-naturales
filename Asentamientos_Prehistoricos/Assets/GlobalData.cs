@@ -23,7 +23,7 @@ public static class GlobalData
         // Terreno
         { Param.WaterDown, 0.02f },    { Param.Water, 0.12f },     { Param.WaterUp, 0.23f },
         { Param.GrassDown, 0.3f },    { Param.Grass, 0.46f },     { Param.GrassUp, 0.68f },
-        { Param.MountainDown, 0.76f }, { Param.Mountain, 0.83f },  { Param.MountainUp, 0.1f },
+        { Param.MountainDown, 0.76f }, { Param.Mountain, 0.83f },  { Param.MountainUp, 1f },
     };
 
     public static float Get(Param p) { return settings[p]; }

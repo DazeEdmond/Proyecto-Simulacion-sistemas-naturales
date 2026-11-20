@@ -38,6 +38,13 @@ namespace NPCs
         // Update is called once per frame
         void Update()
         {
+            UnityEngine.Vector2 cowPos = CB.getPos();
+
+            this.transform.position = new UnityEngine.Vector3(cowPos[0], cowPos[1], 0);
+            cowSprite.transform.position = new UnityEngine.Vector3(cowPos[0], cowPos[1], 0);
+
+            if(this.CB.isTired()) return;
+            
             if (CB.lookingRight())
             {
                 cowSprite.transform.localScale = new UnityEngine.Vector2(-10,10);
@@ -46,10 +53,6 @@ namespace NPCs
             {
                 cowSprite.transform.localScale = new UnityEngine.Vector2(10,10);
             }
-            UnityEngine.Vector2 cowPos = CB.getPos();
-
-            this.transform.position = new UnityEngine.Vector3(cowPos[0], cowPos[1], 0);
-            cowSprite.transform.position = new UnityEngine.Vector3(cowPos[0], cowPos[1], 0);
         }
 
         public UnityEngine.Vector2 getPos()
