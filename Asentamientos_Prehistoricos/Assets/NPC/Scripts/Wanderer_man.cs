@@ -23,6 +23,8 @@ namespace NPCs
         private GameObject inst_flag;
         public float pos_x;
         public float pos_y;
+        private UnityEngine.Vector2 barScale = new Vector2(0.1f, 0.1f);
+
         //Life Atributes
         private enum State
         {
@@ -33,7 +35,7 @@ namespace NPCs
         }
         [SerializeField] private State actualState = State.Wander;
 
-        private enum Job
+        public enum Job
         {
             nomad,
             FoodGatherer,
@@ -41,7 +43,7 @@ namespace NPCs
             LogGatherer,
             citicen
         }
-        [SerializeField] private Job actualJob;
+        [SerializeField] public Job actualJob;
         public bool chilling = false;
         public float maxVel = GlobalData.Get(Param.MaxSpeed);
         public float maxLife = GlobalData.Get(Param.MaxLife);
@@ -117,9 +119,9 @@ namespace NPCs
             this.SpawnedMan = Instantiate(this.Man_Sprite, new UnityEngine.Vector2(this.pos_x, this.pos_y), UnityEngine.Quaternion.identity);
 
             this.inst_Hat = Instantiate(this.hat, new UnityEngine.Vector2(this.pos_x-0.1f, this.pos_y+0.3f), UnityEngine.Quaternion.identity);
-            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
 
-            this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+            this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
 
             this.inst_flag = Instantiate(this.flag, new UnityEngine.Vector2(this.pos_x, this.pos_y+1.6f), UnityEngine.Quaternion.identity);
             this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = -1;
@@ -139,13 +141,13 @@ namespace NPCs
 
             this.wanderer_man = new Man(this.pos_x, this.pos_y, this.maxVel);
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
-            this.HB.transform.localScale = new Vector2(0.1f, 0.1f);
+            this.HB.transform.localScale = this.barScale;
 
             this.thirstB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.2f,0);
-            this.thirstB.transform.localScale = new Vector2(0.1f, 0.1f);
+            this.thirstB.transform.localScale = this.barScale;
 
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
-            this.hungerB.transform.localScale = new Vector2(0.1f, 0.1f);
+            this.hungerB.transform.localScale = this.barScale;
 
             this.desiredHeight = Random.Range(GlobalData.Discriminator(Param.GrassDown), GlobalData.Discriminator(Param.MountainDown));
             this.desiredHumidity = Random.Range(0.3f, 0.6f);
@@ -197,11 +199,6 @@ namespace NPCs
                 }
             }
 
-            if(this.actualState == State.DrinkingWater)
-            {
-                return;
-            }
-
             if(this.actualState == State.searchingFood)
             {
                 this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
@@ -213,7 +210,6 @@ namespace NPCs
             {
                 return;
             }
-
 
             if(this.actualJob == Job.nomad)
             {
@@ -286,12 +282,12 @@ namespace NPCs
                     }
                     else
                     {
-                        this.wanderer_man.updateMan();
+                        this.wanderer_man.wander();
                     }
                 }
                 else
                 {
-                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[2];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
@@ -322,12 +318,12 @@ namespace NPCs
                     }
                     else
                     {
-                        this.wanderer_man.updateMan();
+                        this.wanderer_man.wander();
                     }
                 }
                 else
                 {
-                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[0];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
@@ -347,7 +343,7 @@ namespace NPCs
                 }
                 else
                 {
-                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                    this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[1];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
@@ -408,6 +404,11 @@ namespace NPCs
             }
         
             if(this.wanderer_man.isTired()) return;
+            
+            //Layering
+            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
+            this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
+
             if (this.wanderer_man.lookingRight())
             {
                 this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
@@ -432,6 +433,11 @@ namespace NPCs
         public UnityEngine.Vector2 getVel()
         {
             return this.wanderer_man.getVel();
+        }
+
+        public Job getActualJob()
+        {
+            return this.actualJob;
         }
 
         public void followFood()
@@ -521,13 +527,13 @@ namespace NPCs
         private void OnTriggerEnter2D(Collider2D other)
         {
             if(this.wanderer_man == null) return;
-            if(other.gameObject.tag == "man")
+            if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob)
             {
                 this.wanderer_man.addNearMan();
             }
         }
         private void OnTriggerStay2D(Collider2D other) {
-            if(other.gameObject.tag == "man")
+            if(other.gameObject.tag == "man"  && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob)
             {
                 Wanderer_man man = other.gameObject.GetComponent<Wanderer_man>();
                 if (this.cAsentamiento)
@@ -540,17 +546,17 @@ namespace NPCs
                 wanderer_man.cohereWithMen(man.getPos(),man.getVel());
             }
 
-            if(other.gameObject.tag == "water" && this.actualState == State.SearchingWater || this.actualJob == Job.WaterGatherer)
+            if((other.gameObject.tag == "water" && this.actualState == State.SearchingWater) || (other.gameObject.tag == "water" && this.actualJob == Job.WaterGatherer))
             {
                 GameObject water = other.gameObject;
-                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), water.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestWater))
+                if(UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), water.transform.position)<=UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), this.nearestWater))
                 {
                     this.nearestWater = water.transform.position;
                 }
                 return;
             }
 
-            if(other.gameObject.tag == "Cow" && this.actualState == State.searchingFood || this.actualJob == Job.FoodGatherer)
+            if((other.gameObject.tag == "Cow" && this.actualState == State.searchingFood) || (other.gameObject.tag == "Cow" && this.actualJob == Job.FoodGatherer))
             {
                 if (this.nearestree != null)
                 {
@@ -571,7 +577,7 @@ namespace NPCs
                     this.nearestFood = new UnityEngine.Vector2(-1,-1);
                 }
                 Cow cow = other.gameObject.GetComponent<Cow>();
-                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), cow.getPos())<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                if(UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), cow.getPos())<=UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), this.nearestFood))
                 {
                     this.nearestFood = cow.getPos();
                     this.nearestCow = cow;
@@ -579,7 +585,7 @@ namespace NPCs
                 return;
             }
 
-            if(other.gameObject.tag == "tree" && this.actualState == State.searchingFood || this.actualJob == Job.LogGatherer || this.actualJob == Job.FoodGatherer)
+            if((other.gameObject.tag == "tree" && this.actualState == State.searchingFood) || (other.gameObject.tag == "tree" && this.actualJob == Job.LogGatherer) || (other.gameObject.tag == "tree" && this.actualJob == Job.FoodGatherer))
             {
                 if (this.nearestCow != null && actualJob != Job.LogGatherer) return;
                 
@@ -590,21 +596,21 @@ namespace NPCs
                 }
                 tree closestTree = other.gameObject.GetComponent<tree>();
                 Vector3 treePos = other.gameObject.transform.position;
-                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y), treePos)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                if(this.actualJob == Job.LogGatherer)
                 {
-                    //code with tape will optimize later
-                    if(this.actualJob == Job.LogGatherer)
+                    if(this.nearestree == null || (UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), treePos)<=UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), this.nearestree.gameObject.transform.position)))
                     {
                         this.nearestree = closestTree;
-                        this.nearestFood = treePos;
-                        return;
                     }
+                }
+                
+                if(UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), treePos)<=UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), this.nearestFood))
+                {
                     if (closestTree.HasFruit())
                     {
                         if (this.nearestBush != null)
                         {
                             this.nearestBush = null;
-                            this.nearestFood = new UnityEngine.Vector2(-1,-1);
                         }
                         this.nearestree = closestTree;
                         this.nearestFood = treePos;
@@ -612,7 +618,7 @@ namespace NPCs
                 }
                 return;
             }
-            if(other.gameObject.tag == "bush" && this.actualState == State.searchingFood || this.actualJob == Job.FoodGatherer)
+            if((other.gameObject.tag == "bush" && this.actualState == State.searchingFood) || (other.gameObject.tag == "bush" && this.actualJob == Job.FoodGatherer))
             {
                 if (this.nearestCow != null) return;
 
@@ -623,7 +629,7 @@ namespace NPCs
                 }
                 bush closestBush = other.gameObject.GetComponent<bush>();
                 Vector3 bushPos = other.gameObject.transform.position;
-                if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y), bushPos)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
+                if(UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), bushPos)<=UnityEngine.Vector2.Distance(this.wanderer_man.getPos(), this.nearestFood))
                 {
                     if (closestBush.HasFruit())
                     {
@@ -644,7 +650,7 @@ namespace NPCs
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if(other.gameObject.tag == "man")
+            if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob)
             {
                 this.wanderer_man.popNearMan();
             }

@@ -17,6 +17,7 @@ public class bush : MonoBehaviour
     void Awake()
     {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer.sortingOrder = 102-(int)this.gameObject.transform.position.y;
     }
 
     public void init(GameObject Sprite)
@@ -48,6 +49,7 @@ public class bush : MonoBehaviour
         {
             this.spriteRenderer.sprite = wanted;
         }
+        this.spriteRenderer.sortingOrder = 102-(int)this.gameObject.transform.position.y;
     }
 
     // ---------- API para los humanos ----------

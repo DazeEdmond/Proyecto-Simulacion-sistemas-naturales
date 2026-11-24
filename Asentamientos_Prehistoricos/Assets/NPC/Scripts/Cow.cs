@@ -23,7 +23,7 @@ namespace NPCs
         {
             sprite.transform.localScale = new UnityEngine.Vector2(10,10);
             cowSprite = Instantiate(sprite, new UnityEngine.Vector2(0,0), UnityEngine.Quaternion.identity);
-            cowSprite.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+            cowSprite.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.gameObject.transform.position.y;
         }
 
     private void FixedUpdate() {
@@ -53,6 +53,7 @@ namespace NPCs
             {
                 cowSprite.transform.localScale = new UnityEngine.Vector2(10,10);
             }
+            cowSprite.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.gameObject.transform.position.y;
         }
 
         public UnityEngine.Vector2 getPos()

@@ -15,6 +15,8 @@ namespace NPCs
         private UnityEngine.Vector2 cohereForce = UnityEngine.Vector2.zero;
         public int nearMen = 0;
         public float separationRadio = 2;
+        public int cohereMen = 0;
+        public float cohereRadio = 4;
         //construct
         public Man(float posX, float posY, float maxVel)
         {
@@ -132,8 +134,14 @@ namespace NPCs
         }
         public void cohereWithMen(UnityEngine.Vector2 direction,UnityEngine.Vector2 vel)
         {
-            this.cohereForce+=direction;
+            if(vel.x == 0 && vel.y == 0) {
+                return;
+            }
             this.alignmentForce+=vel;
+            if(UnityEngine.Vector2.Distance(this.pos,direction)>this.cohereRadio){
+                this.cohereMen++;
+                this.cohereForce+=direction;
+            }
 
             if(UnityEngine.Vector2.Distance(this.pos,direction)<this.separationRadio){
                 UnityEngine.Vector2 diff = this.pos - direction;
@@ -167,26 +175,30 @@ namespace NPCs
         private void separate()
         {
             this.separationForce /= this.nearMen;
-            this.separationForce.Normalize();
+            // this.separationForce.Normalize();
             this.separationForce *= this.maxSteeringForce*1.1f;
             this.addForce(this.separationForce);
         }
 
         private void cohere()
         {
-            this.cohereForce /= this.nearMen;
+            if(this.cohereMen<=0){
+                return;
+            }
+            this.cohereForce /= this.cohereMen;
             this.cohereForce -= this.pos;
             this.cohereForce.Normalize();
             this.cohereForce *= this.maxSteeringForce;
             this.addForce(this.cohereForce);
+            this.cohereMen = 0;
         }
 
         private void align()
         {
             this.alignmentForce /= this.nearMen;
-            this.alignmentForce.Normalize();
+            // this.alignmentForce.Normalize();
             this.alignmentForce *= this.maxSteeringForce*1.5f;
-            this.alignmentForce -= this.vel;
+            // this.alignmentForce -= this.vel;
             this.addForce(this.alignmentForce);
         }
 
@@ -196,6 +208,10 @@ namespace NPCs
                 this.align();
                 this.separate();
                 this.cohere();
+                if(this.acc.x == 0 && this.acc.y == 0)
+                {
+                    this.wander();
+                }
             }
             else
             {
