@@ -1,3 +1,4 @@
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,9 +9,9 @@ public class ReadInput : MonoBehaviour
 {
     public TMP_InputField inputField;
     public GameObject map;
-    public Button resetButton;      
+    public Button resetButton;
 
-    public CanvasGroup uiGroup;         // CanvasGroup de Slide_3_Canvas
+    public CanvasGroup uiGroup;
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;
 
@@ -30,6 +31,7 @@ public class ReadInput : MonoBehaviour
         GlobalData.mapReady = true;
     }
 
+    // Seed - Robuzto
     public void ReadStringInput(string s)
     {
         if (starting) return;
@@ -46,17 +48,21 @@ public class ReadInput : MonoBehaviour
         StartCoroutine(FadeAndStart());
     }
 
+    // Reset Button - Función 
     void ResetGame()
     {
-        GlobalData.skipIntro = true;   // al recargar, SlideFlow arranca en el slide 2
+        GlobalData.skipIntro = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    // Transición - :o 
     IEnumerator FadeAndStart()
     {
+        // Desactiva las interacciones con la interfaz
         uiGroup.interactable = false;
         uiGroup.blocksRaycasts = false;
 
+        // Reduce progresivamente la opacidad de la interfaz
         float t = 0f;
         while (t < fadeTime)
         {
@@ -65,13 +71,16 @@ public class ReadInput : MonoBehaviour
             yield return null;
         }
 
+        // Oculta la interfaz y activa el mapa
         uiGroup.alpha = 0f;
-        uiGroup.gameObject.SetActive(false);   // oculta Slide 3 (y su fondo)
+        uiGroup.gameObject.SetActive(false);
 
         map.SetActive(true);
 
+        // Espera a que finalice la generación del mapa
         yield return new WaitUntil(() => GlobalData.mapReady);
 
+        // Activa los elementos que dependen del mapa
         foreach (GameObject g in waitForMap) g.SetActive(true);
     }
 }

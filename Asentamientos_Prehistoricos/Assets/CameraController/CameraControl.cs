@@ -5,14 +5,17 @@ using NPCs;
 public class CameraControl : MonoBehaviour
 {
     public Camera cam;
-    public float zoomStep = 3f;      // grados de FOV por cada paso de rueda
-    public float minFov = 8f;
-    public float maxFov = 55f;       // con z=-100 se ve el mapa completo de 100x100
-    public float mapSize = 100f;
-    public float followSpeed = 6f;
-    public float pickRadius = 2f;    // qué tan cerca debe ser el click de un Man/vaca
 
-    private Transform target;
+    public float zoomStep = 3f;
+    
+    public float minFov = 8f;
+    public float maxFov = 55f;
+    
+    public float mapSize = 100f;    
+    public float followSpeed = 6f;
+    public float pickRadius = 2f;
+
+    private Transform target;   // Transform de la Cámara - Tiene: pos, rot, localScale.
     private Vector2 lastMouse;
 
     void Awake()
@@ -22,44 +25,50 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        if (!GlobalData.mapReady) return;   // no hace nada mientras está el menú
-        Mouse m = Mouse.current;
-        if (m == null) return;
+        if (!GlobalData.mapReady) return;
 
+        // Mouse //
+
+        Mouse m = Mouse.current; if (m == null) return;
         Vector2 mouse = m.position.ReadValue();
 
-        // Zoom
+        // Zoom //
+
         float scroll = m.scroll.ReadValue().y;
         if (scroll != 0f)
             cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - Mathf.Sign(scroll) * zoomStep, minFov, maxFov);
 
-        // Pan
+        // Pan //
+
         bool dragging = m.rightButton.isPressed || m.middleButton.isPressed;
         bool justPressed = m.rightButton.wasPressedThisFrame || m.middleButton.wasPressedThisFrame;
         if (dragging)
         {
-            target = null;                                   // arrastrar cancela el seguimiento
+            target = null;
             if (!justPressed)
             {
-                float perPixel = 2f * Mathf.Abs(transform.position.z)
-                               * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad) / Screen.height;
+                // Tamaño del Píxel
+                float perPixel = 2f * Mathf.Abs(transform.position.z) * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad) / Screen.height;
+                // Vector Dezplazamiento - Pan
                 Vector2 d = (mouse - lastMouse) * perPixel;
                 transform.position -= new Vector3(d.x, d.y, 0f);
             }
         }
         lastMouse = mouse;
 
-        // Seguir
-        if (m.leftButton.wasPressedThisFrame) target = PickNearest(mouse);
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) target = null;
+        // Seguir Agente //
 
-        if (target != null)   // si el Man/vaca muere, Unity lo detecta como null
+        if (m.leftButton.wasPressedThisFrame) target = PickNearest(mouse);
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) target = null; 
+
+        if (target != null)
         {
             Vector3 goal = new Vector3(target.position.x, target.position.y, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, goal, followSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, goal, followSpeed * Time.deltaTime); // Interpolación - Movimiento Suave - Ecuación Paramétrica - P = A + t(B - A)
         }
 
-        // No salirse del mapa
+        // No salirse del mapa //
+        
         Vector3 p = transform.position;
         p.x = Mathf.Clamp(p.x, 0f, mapSize);
         p.y = Mathf.Clamp(p.y, 0f, mapSize);
@@ -68,6 +77,7 @@ public class CameraControl : MonoBehaviour
 
     Transform PickNearest(Vector2 screen)
     {
+        // Coordenadas Universales
         Vector3 w = cam.ScreenToWorldPoint(new Vector3(screen.x, screen.y, Mathf.Abs(transform.position.z)));
         Transform best = null;
         float bestD = pickRadius;
