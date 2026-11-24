@@ -17,7 +17,7 @@ public static class GlobalData
         { Param.ForestLimit,      25 },     { Param.ForestRadius,   4 }, 
         { Param.ForestGeneration, 900 },    { Param.MaxLife,        10000 },  
         { Param.LifeLoss,   0.1f },         { Param.VillageRadius,  10 }, 
-        { Param.ThirstLoss, 0.1f },         { Param.HungerLoss, 0.1f },
+        { Param.ThirstLoss, 0.5f },         { Param.HungerLoss, 0.1f },
         { Param.MaxSpeed,   0.18f },        { Param.FruitTime,  100 },
         
         // Terreno
