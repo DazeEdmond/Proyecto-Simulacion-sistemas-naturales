@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,6 +8,7 @@ namespace NPCs
     public class Generation : MonoBehaviour
     {
         public Tilemap tilemap;// = new GameObject("Tilemap").AddComponent<Grid>();
+        public Tilemap tilemapHumidity;// = new GameObject("Tilemap").AddComponent<Grid>();
 
         //Tamaño del Tile (tamaño inicial)
         public int width = 108;
@@ -44,6 +46,7 @@ namespace NPCs
         public TileBase MountainUpTile;
         public TileBase MountainTile;
         public TileBase MountainDownTile;
+        public TileBase HTile;
 
         //cow tile
         public GameObject Cow;
@@ -205,7 +208,7 @@ namespace NPCs
                         tile2Place = MountainTile;
                     }else
                     {
-                        tile2Place = MountainUpTile;                    
+                        tile2Place= MountainUpTile;                    
                     }
 
                     if(tile2Place == WaterDownTile || tile2Place == WaterTile || tile2Place == WaterUpTile)
@@ -258,9 +261,6 @@ namespace NPCs
                                 isManCreated = true;
                             }
                         }
-
-
-
                     }else
                     {
                         plant2Place = null;
@@ -287,8 +287,12 @@ namespace NPCs
                         }
                         
                     }
-
-                    tilemap.SetTile(new Vector3Int(x,y,1), tile2Place);
+                    UnityEngine.Vector3Int TPos = new Vector3Int(x,y,1);
+                    tilemap.SetTile(TPos, tile2Place);
+                    tilemapHumidity.SetTile(TPos, this.HTile);
+                    tilemapHumidity.SetTileFlags(TPos, TileFlags.None);
+                    tilemapHumidity.SetColor(TPos, new UnityEngine.Color(0,0,HumidNoise,0.9f));
+                    tilemapHumidity.SetTileFlags(TPos, TileFlags.LockAll);
                 }
             }
         }
