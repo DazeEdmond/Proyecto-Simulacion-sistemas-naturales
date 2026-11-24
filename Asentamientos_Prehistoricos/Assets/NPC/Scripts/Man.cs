@@ -20,7 +20,7 @@ namespace NPCs
         {
             this.wanderLookAhead = 40;
             this.wanderRadius = 10;
-            this.maxSteeringForce = 0.15f;
+            this.maxSteeringForce = maxVel/2;
             this.escapeRatio = 0.1f;
             this.dangerRadio = 10;
             this.maxStamina = UnityEngine.Random.Range(600,750);
@@ -146,6 +146,18 @@ namespace NPCs
                 this.separationForce += diff;
             }
         }
+        public override UnityEngine.Vector2 getVel()
+        {
+            if (this.onWater())
+            {
+                return this.vel * 4;
+            }
+            if (this.onMountain())
+            {
+                return this.vel * 2;
+            }
+            return this.vel;
+        }
 
         public void popNearMan()
         {
@@ -156,7 +168,7 @@ namespace NPCs
         {
             this.separationForce /= this.nearMen;
             this.separationForce.Normalize();
-            this.separationForce *= 0.1f;
+            this.separationForce *= this.maxSteeringForce*1.1f;
             this.addForce(this.separationForce);
         }
 
@@ -165,7 +177,7 @@ namespace NPCs
             this.cohereForce /= this.nearMen;
             this.cohereForce -= this.pos;
             this.cohereForce.Normalize();
-            this.cohereForce *= 0.1f;
+            this.cohereForce *= this.maxSteeringForce;
             this.addForce(this.cohereForce);
         }
 
@@ -173,7 +185,7 @@ namespace NPCs
         {
             this.alignmentForce /= this.nearMen;
             this.alignmentForce.Normalize();
-            this.alignmentForce *= this.maxSteeringForce;
+            this.alignmentForce *= this.maxSteeringForce*1.5f;
             this.alignmentForce -= this.vel;
             this.addForce(this.alignmentForce);
         }
@@ -252,10 +264,6 @@ namespace NPCs
             }
 
             return returningValues;
-        }
-        public bool isTired()
-        {
-            return this.cooldown;
         }
     }
 }

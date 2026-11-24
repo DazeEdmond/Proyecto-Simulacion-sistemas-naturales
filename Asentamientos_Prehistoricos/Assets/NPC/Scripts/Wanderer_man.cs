@@ -38,7 +38,8 @@ namespace NPCs
             nomad,
             FoodGatherer,
             WaterGatherer,
-            LogGatherer
+            LogGatherer,
+            citicen
         }
         [SerializeField] private Job actualJob;
         public bool chilling = false;
@@ -103,6 +104,7 @@ namespace NPCs
                 1 => Job.WaterGatherer,
                 2 => Job.FoodGatherer,
                 3 => Job.LogGatherer,
+                4 => Job.citicen,
                 _ => Job.nomad,
             };
         }
@@ -366,7 +368,7 @@ namespace NPCs
         void Update()
         {
             if (this.wanderer_man == null) return;
-
+            
             Vector2 temp = this.wanderer_man.getPos();
             this.transform.position = new Vector3(temp[0], temp[1], 0);
             this.pos_x = temp[0];
@@ -376,20 +378,6 @@ namespace NPCs
             if(this.attackCooldown <= attackMaxCooldown)
             {
                 this.attackCooldown++;
-            }
-            if (this.wanderer_man.lookingRight())
-            {
-                this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
-
-                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(-10,10);
-                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x+0.1f, this.pos_y+0.3f,0);
-            }
-            else
-            {
-                this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(10,10);
-
-                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(10,10);
-                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x-0.1f, this.pos_y+0.3f,0);
             }
 
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
@@ -417,6 +405,22 @@ namespace NPCs
             if(this.life <= 0 || this.thirst <= 0 || this.hunger <= 0)
             {
                 this.KMS();
+            }
+        
+            if(this.wanderer_man.isTired()) return;
+            if (this.wanderer_man.lookingRight())
+            {
+                this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
+
+                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(-10,10);
+                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x+0.1f, this.pos_y+0.3f,0);
+            }
+            else
+            {
+                this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(10,10);
+
+                this.inst_Hat.transform.localScale = new UnityEngine.Vector2(10,10);
+                this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x-0.1f, this.pos_y+0.3f,0);
             }
         }
 
@@ -536,7 +540,7 @@ namespace NPCs
                 wanderer_man.cohereWithMen(man.getPos(),man.getVel());
             }
 
-            if(other.gameObject.tag == "water")
+            if(other.gameObject.tag == "water" && this.actualState == State.SearchingWater || this.actualJob == Job.WaterGatherer)
             {
                 GameObject water = other.gameObject;
                 if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y, 0), water.transform.position)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestWater))
@@ -546,7 +550,7 @@ namespace NPCs
                 return;
             }
 
-            if(other.gameObject.tag == "Cow")
+            if(other.gameObject.tag == "Cow" && this.actualState == State.searchingFood || this.actualJob == Job.FoodGatherer)
             {
                 if (this.nearestree != null)
                 {
@@ -575,7 +579,7 @@ namespace NPCs
                 return;
             }
 
-            if(other.gameObject.tag == "tree")
+            if(other.gameObject.tag == "tree" && this.actualState == State.searchingFood || this.actualJob == Job.LogGatherer || this.actualJob == Job.FoodGatherer)
             {
                 if (this.nearestCow != null && actualJob != Job.LogGatherer) return;
                 
@@ -588,6 +592,13 @@ namespace NPCs
                 Vector3 treePos = other.gameObject.transform.position;
                 if(UnityEngine.Vector3.Distance(new UnityEngine.Vector3(this.pos_x, this.pos_y), treePos)<=UnityEngine.Vector2.Distance(new UnityEngine.Vector2(this.pos_x, this.pos_y), this.nearestFood))
                 {
+                    //code with tape will optimize later
+                    if(this.actualJob == Job.LogGatherer)
+                    {
+                        this.nearestree = closestTree;
+                        this.nearestFood = treePos;
+                        return;
+                    }
                     if (closestTree.HasFruit())
                     {
                         if (this.nearestBush != null)
@@ -601,7 +612,7 @@ namespace NPCs
                 }
                 return;
             }
-            if(other.gameObject.tag == "bush")
+            if(other.gameObject.tag == "bush" && this.actualState == State.searchingFood || this.actualJob == Job.FoodGatherer)
             {
                 if (this.nearestCow != null) return;
 

@@ -32,7 +32,7 @@ namespace NPCs
         {
             return this.pos;
         }
-        public UnityEngine.Vector2 getVel()
+        public virtual UnityEngine.Vector2 getVel()
         {
             return this.vel;
         }
@@ -42,7 +42,9 @@ namespace NPCs
         }
         public bool lookingRight()
         {
-            return this.vel.x < 0;
+            if(this.vel.x > 0.1) return false; 
+            if(this.vel.x < -0.1) return true; 
+            return false;
         }
 
         protected void escape(UnityEngine.Vector2 danger)
@@ -91,6 +93,11 @@ namespace NPCs
             }
 
             this.addForce(Desired);
+        }
+        
+        public bool isTired()
+        {
+            return this.cooldown;
         }
     }   
 }
