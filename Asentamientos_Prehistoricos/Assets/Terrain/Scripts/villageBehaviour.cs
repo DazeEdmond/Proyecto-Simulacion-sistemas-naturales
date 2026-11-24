@@ -16,10 +16,10 @@ class VillageBehaviour
     private int generation_time;
     private float actual_time;
 
-    public int MaxFoodAmount = 5000;
-    public int MaxWaterAmount = 5000;
-    private int foodAmount = 5000;
-    private int WaterAmount = 5000;
+    public int MaxFoodAmount = 3000;
+    public int MaxWaterAmount = 3000;
+    private int foodAmount = 3000;
+    private int WaterAmount = 3000;
 
     private int logsAmount = 0;
 
@@ -151,6 +151,11 @@ class VillageBehaviour
     public bool OverPopulation()
     {
         return (eating_drinkingRatio*VillagersAmount) > MaxFoodAmount*0.25;
+    }
+
+    public bool isFamished()
+    {
+        return foodAmount <= MaxFoodAmount*0.3;
     }
 
     public int divide()

@@ -71,7 +71,15 @@ public class village : MonoBehaviour
             {
                 GameObject NewFood_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
                 NewFood_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),2, VillageB.getPos(), this);
-                Man_Food_generation_cooldown = (Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000))+180;
+                int actualCooldown = (int)(Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/3000));
+                if(actualCooldown > 180)
+                {
+                    Man_Food_generation_cooldown = actualCooldown;
+                }
+                else
+                {
+                    Man_Food_generation_cooldown = 180;
+                }
             }
         }
 
@@ -81,11 +89,19 @@ public class village : MonoBehaviour
             {
                 GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
                 NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),1, VillageB.getPos(), this);
-                Man_Water_generation_cooldown = (Max_Man_generation_cooldown*(VillageB.GetFoodAmount()/5000))+180;
+                int actualCooldown = (int)(Max_Man_generation_cooldown*(VillageB.getwaterAmount()/3000));
+                if(actualCooldown > 180)
+                {
+                    Man_Water_generation_cooldown = actualCooldown;
+                }
+                else
+                {
+                    Man_Water_generation_cooldown = 180;
+                }
             }
         }
 
-        if (VillageB.OverPopulation())
+        if (VillageB.OverPopulation() || VillageB.isFamished())
         {
             int nomad_amount = VillageB.divide()/2;
             for(int i = 0; i < nomad_amount; i++)

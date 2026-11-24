@@ -38,7 +38,8 @@ namespace NPCs
             nomad,
             FoodGatherer,
             WaterGatherer,
-            LogGatherer
+            LogGatherer,
+            citicen
         }
         [SerializeField] private Job actualJob;
         public bool chilling = false;
@@ -103,6 +104,7 @@ namespace NPCs
                 1 => Job.WaterGatherer,
                 2 => Job.FoodGatherer,
                 3 => Job.LogGatherer,
+                4 => Job.citicen,
                 _ => Job.nomad,
             };
         }

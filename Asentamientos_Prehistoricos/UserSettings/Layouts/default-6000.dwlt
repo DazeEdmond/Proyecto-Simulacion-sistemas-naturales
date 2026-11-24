@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 347.20007
     height: 756.8
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -218,8 +218,8 @@ MonoBehaviour:
     y: 0
     width: 241.6
     height: 574.4
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 226}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -301,8 +301,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Unity Version Control\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0.8
-    y: 660.8
+    x: 0
+    y: 598.4
     width: 1186.2
     height: 156.39996
   m_SerializedDataModeController:
@@ -378,8 +378,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1188
-    y: 86.4
+    x: 1188.2
+    y: 24
     width: 346.20007
     height: 730.8
   m_SerializedDataModeController:
@@ -429,8 +429,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "UnityEditor.MainToolbarWindow\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0.8
-    y: 50.4
+    x: 0
+    y: 0
     width: 1534.4
     height: 36
   m_SerializedDataModeController:
@@ -514,7 +514,7 @@ MonoBehaviour:
       sizeOverridden: 0
     - dockPosition: 0
       containerId: overlay-toolbar__top
-      displayed: 1
+      displayed: 0
       id: Services/AI
       index: 5
       contents: '{"m_Layout":4,"m_Collapsed":false,"m_Folded":false,"m_Floating":false,"m_FloatingSnapOffset":{"x":0.0,"y":0.0},"m_SnapOffsetDelta":{"x":0.0,"y":0.0},"m_FloatingSnapCorner":0,"m_Size":{"x":0.0,"y":0.0},"m_SizeOverridden":false}'
@@ -643,12 +643,12 @@ MonoBehaviour:
       displayed: 1
       id: Play Mode Controls
       index: 0
-      contents: '{"m_Layout":4,"m_Collapsed":false,"m_Folded":false,"m_Floating":false,"m_FloatingSnapOffset":{"x":-717.5999755859375,"y":-36.0},"m_SnapOffsetDelta":{"x":0.0,"y":0.0},"m_FloatingSnapCorner":3,"m_Size":{"x":0.0,"y":0.0},"m_SizeOverridden":false}'
+      contents: '{"m_Layout":4,"m_Collapsed":false,"m_Folded":false,"m_Floating":false,"m_FloatingSnapOffset":{"x":0.0,"y":0.0},"m_SnapOffsetDelta":{"x":0.0,"y":0.0},"m_FloatingSnapCorner":0,"m_Size":{"x":0.0,"y":0.0},"m_SizeOverridden":false}'
       floating: 0
       collapsed: 0
-      snapOffset: {x: -717.6, y: -36}
+      snapOffset: {x: 0, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 3
+      snapCorner: 0
       layout: 4
       size: {x: 0, y: 0}
       sizeOverridden: 0
@@ -695,8 +695,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 242.40001
-    y: 86.4
+    x: 242.6
+    y: 24
     width: 943.6
     height: 548.4
   m_SerializedDataModeController:
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 353.90555, y: 261.08356, z: -8.172518}
+    m_Target: {x: 57.6832, y: 32.71545, z: -4.720346}
     speed: 2
     m_Value: {x: 353.90555, y: 261.08356, z: -8.172518}
   m_RenderMode: 0
@@ -1324,7 +1324,7 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 287.58868
+    m_Target: 31.803085
     speed: 2
     m_Value: 287.58868
   m_Ortho:
@@ -1381,8 +1381,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0.8
-    y: 86.4
+    x: 0
+    y: 24
     width: 240.6
     height: 548.4
   m_SerializedDataModeController:
@@ -1401,10 +1401,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs:
-      - m_Data: -848554
+      m_SelectedIDs: []
       m_LastClickedID:
-        m_Data: -848554
+        m_Data: 0
       m_ExpandedIDs:
       - m_Data: -185882
       - m_Data: -103274
@@ -1515,10 +1514,15 @@ MonoBehaviour:
       m_Data: 64514
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 52748
-    - m_Data: 52750
-    - m_Data: 52752
-    - m_Data: 1000000000
+    - m_Data: 52774
+    - m_Data: 52776
+    - m_Data: 52778
+    - m_Data: 52780
+    - m_Data: 52782
+    - m_Data: 52784
+    - m_Data: 52786
+    - m_Data: 52788
+    - m_Data: 52790
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1551,9 +1555,15 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 52748
-    - m_Data: 52750
-    - m_Data: 52752
+    - m_Data: 52774
+    - m_Data: 52776
+    - m_Data: 52778
+    - m_Data: 52780
+    - m_Data: 52782
+    - m_Data: 52784
+    - m_Data: 52786
+    - m_Data: 52788
+    - m_Data: 52790
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
