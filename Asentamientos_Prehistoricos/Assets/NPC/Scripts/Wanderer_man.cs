@@ -110,6 +110,11 @@ namespace NPCs
                 4 => Job.citicen,
                 _ => Job.nomad,
             };
+            if(actualJob == Job.citicen)
+            {
+                this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+                this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+            }
         }
         void Start()
         {
@@ -166,6 +171,7 @@ namespace NPCs
 
             if (this.checkedNomads)
             {
+                GlobalData.buildingHouse = false;
                 this.KMS();
                 return;
             }
@@ -199,6 +205,9 @@ namespace NPCs
                     }
                     return;
                 }
+                // this.wanderer_man.wander();
+                // this.wanderer_man.updatePos();
+                // return;
             }
 
             if(this.actualState == State.searchingFood)
@@ -236,7 +245,7 @@ namespace NPCs
                     if(seekingPos[0] != -1)
                     {
                         this.wanderer_man.seek(seekingPos);
-                        this.wanderer_man.updatePos();
+                        // this.wanderer_man.updatePos();
                         if(wanderer_man.getPos() == seekingPos)
                         {
                             this.actualSeekingCoolDown = seekingCoolDown;
@@ -251,10 +260,13 @@ namespace NPCs
 
                     if(actualPerfect >= perfectPlace*0.95f)
                     {
-                        GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
-                        village otherVillage = new_Village.GetComponent<village>();
-                        otherVillage.init(village, ManPos,actualNomads+1);
-                        this.cAsentamiento = true;
+                        if(!GlobalData.buildingHouse){
+                            GlobalData.buildingHouse = true;
+                            GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
+                            village otherVillage = new_Village.GetComponent<village>();
+                            otherVillage.init(village, ManPos,actualNomads+1);
+                            this.cAsentamiento = true;
+                        }
                     }
                     else
                     {
@@ -275,7 +287,7 @@ namespace NPCs
                     if (this.nearestree != null)
                     {
                         wanderer_man.seek(nearestree.transform.position);
-                        this.wanderer_man.updatePos();
+                        // this.wanderer_man.updatePos();
                         UnityEngine.Vector2 pos = this.wanderer_man.getPos();
                         if (UnityEngine.Vector2.Distance(pos,this.nearestree.transform.position)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
@@ -288,7 +300,6 @@ namespace NPCs
                     else
                     {
                         this.wanderer_man.wander();
-                        this.wanderer_man.updatePos();
                     }
                 }
                 else
@@ -297,7 +308,7 @@ namespace NPCs
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[2];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
-                    this.wanderer_man.updatePos();
+                    // this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
                     {
                         home.addLog(log2village);
@@ -310,10 +321,10 @@ namespace NPCs
             {
                 if (!hasWater)
                 {
-                    if (this.nearestWater != null)
+                    if (this.nearestWater.x != -1)
                     {
                         this.wanderer_man.seek(this.nearestWater);
-                        this.wanderer_man.updatePos();
+                        // this.wanderer_man.updatePos();
                         UnityEngine.Vector2 pos = this.wanderer_man.getPos();
                         if (UnityEngine.Vector2.Distance(pos,this.nearestWater)<this.attackRadio && this.attackCooldown >= this.attackMaxCooldown)
                         {
@@ -325,7 +336,6 @@ namespace NPCs
                     else
                     {
                         this.wanderer_man.wander();
-                        this.wanderer_man.updatePos();
                     }
                 }
                 else
@@ -334,7 +344,7 @@ namespace NPCs
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[0];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
-                    this.wanderer_man.updatePos();
+                    // this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
                     {
                         home.addwater(water2village);
@@ -354,7 +364,7 @@ namespace NPCs
                     this.inst_flag.GetComponent<SpriteRenderer>().sprite = flags[1];
                     this.inst_flag.transform.localScale = new Vector2(10,10);
                     wanderer_man.seek(House_location);
-                    this.wanderer_man.updatePos();
+                    // this.wanderer_man.updatePos();
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
                     {
                         home.addFood(food2village);
@@ -369,12 +379,11 @@ namespace NPCs
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)>GlobalData.Get(Param.VillageRadius))
                     {
                         wanderer_man.seek(House_location);
-                        this.wanderer_man.updatePos();
+                        // this.wanderer_man.updatePos();
                     }
                     else
                     {
                         this.wanderer_man.wander();
-                        this.wanderer_man.updatePos();
                     }
                     this.wanderingCiticen--;
                 }
@@ -436,12 +445,6 @@ namespace NPCs
                 this.KMS();
             }
         
-            if(this.wanderer_man.isTired()) return;
-            
-            //Layering
-            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
-            this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
-
             if (this.wanderer_man.lookingRight())
             {
                 this.SpawnedMan.transform.localScale = new UnityEngine.Vector2(-10,10);
@@ -456,6 +459,10 @@ namespace NPCs
                 this.inst_Hat.transform.localScale = new UnityEngine.Vector2(10,10);
                 this.inst_Hat.transform.position = new UnityEngine.Vector3(this.pos_x-0.1f, this.pos_y+0.3f,0);
             }
+
+            //Layering
+            this.inst_Hat.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
+            this.SpawnedMan.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)this.pos_y;
         }
 
         public UnityEngine.Vector2 getPos()
@@ -560,6 +567,7 @@ namespace NPCs
         private void OnTriggerEnter2D(Collider2D other)
         {
             if(this.wanderer_man == null) return;
+            
             if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
             {
                 this.wanderer_man.addNearMan();

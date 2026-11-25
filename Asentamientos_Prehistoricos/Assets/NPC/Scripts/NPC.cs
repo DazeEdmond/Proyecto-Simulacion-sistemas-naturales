@@ -80,6 +80,7 @@ namespace NPCs
 
             UnityEngine.Vector2 Target = new UnityEngine.Vector2(x, y);
 
+            this.wanderNoise += 0.001f;
             this.seek(Target);
         }
         public void seek(UnityEngine.Vector2 target)

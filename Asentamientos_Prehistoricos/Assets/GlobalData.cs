@@ -10,7 +10,7 @@ public enum Param { ForestLimit, ForestRadius, ForestGeneration, MaxLife, LifeLo
 public static class GlobalData
 {
     public static Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainValues = new Dictionary<int,Dictionary<int,(float height,float humidity,float temperature)>>();
-
+    public static bool buildingHouse = false;
     // Sliders - Dic<TipoSlider, ValorSlider>
     static Dictionary<Param,float> settings = new Dictionary<Param,float> {
         // Agentes

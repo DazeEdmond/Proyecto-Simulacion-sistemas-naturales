@@ -76,7 +76,7 @@ namespace NPCs
             }
             if (this.onMountain())
             {
-                this.vel /= 2;
+                this.vel *= 0.6f;
             }
 
             this.pos += this.vel;
@@ -120,8 +120,15 @@ namespace NPCs
             }
             if (this.onMountain())
             {
-                this.vel /= 2;
+                this.vel *= 0.6f;
             }
+
+            if((this.pos + this.vel).x<0 || (this.pos + this.vel).y<0 || (this.pos + this.vel).x>100 || (this.pos + this.vel).y > 100)
+            {
+                this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
+                return;
+            }
+
             this.pos += this.vel;
 
             this.acc *= 0;
@@ -161,7 +168,7 @@ namespace NPCs
             }
             if (this.onMountain())
             {
-                return this.vel * 2;
+                return this.vel * 1.5f;
             }
             return this.vel;
         }
@@ -238,7 +245,7 @@ namespace NPCs
 
             if((temp_x-1) > 0 && (temp_y-1) > 0)
             {
-                if((temp_x+1) < 100 && (temp_y+1) < 100)
+                if((temp_x+1) < 99 && (temp_y+1) < 99)
                 {
                     (float, float, float) terraintemp1 = this.TerrainVals[temp_y-1][temp_x-1];
                     UnityEngine.Vector2 posTemp1 = new UnityEngine.Vector2(temp_x-1,temp_y-1);

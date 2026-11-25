@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Numerics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -183,8 +184,12 @@ class VillageBehaviour
 
     public int divide()
     {
+        UnityEngine.Debug.Log("VAF: ");
+        UnityEngine.Debug.Log(this.VillagersAmount);
         this.VillagersAmount /= 2;
-        return VillagersAmount;
+        UnityEngine.Debug.Log("VA: ");
+        UnityEngine.Debug.Log(this.VillagersAmount);
+        return this.VillagersAmount;
     }
 
     public (float, float) isvalid(){
