@@ -89,6 +89,7 @@ namespace NPCs
         private int nomadGroup = 0;
         private bool cAsentamiento = false;
         private bool checkedNomads = false;
+        private int wanderingCiticen = 1050;
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
@@ -126,6 +127,7 @@ namespace NPCs
             this.inst_flag = Instantiate(this.flag, new UnityEngine.Vector2(this.pos_x, this.pos_y+1.6f), UnityEngine.Quaternion.identity);
             this.inst_flag.GetComponent<SpriteRenderer> ().sortingOrder = -1;
 
+            if(actualJob == Job.citicen) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[0];
             if(actualJob == Job.nomad) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[1];
             if(actualJob == Job.WaterGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
             if(actualJob == Job.FoodGatherer) this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
@@ -224,7 +226,7 @@ namespace NPCs
                         float TempPlace =((values.Item1*40) + (values.Item2*40) + values.Item3)/3;
                         if(TempPlace >= this.perfectPlace*0.8f)
                         {
-                            if(TempPlace >= actualPerfect && values.Item1 > GlobalData.Discriminator(Param.WaterUp) && values.Item1 < GlobalData.Discriminator(Param.MountainDown))
+                            if(TempPlace >= actualPerfect && values.Item1 > GlobalData.Discriminator(Param.GrassDown) && values.Item1 < GlobalData.Discriminator(Param.MountainDown))
                             {
                                 actualPerfect = TempPlace;
                                 seekingPos = pos;
@@ -356,6 +358,32 @@ namespace NPCs
                     if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
                     {
                         home.addFood(food2village);
+                        KMS();
+                    }
+                }
+            }
+            if(actualJob == Job.citicen)
+            {
+                if(this.wanderingCiticen > 0)
+                {
+                    if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)>GlobalData.Get(Param.VillageRadius))
+                    {
+                        wanderer_man.seek(House_location);
+                        this.wanderer_man.updatePos();
+                    }
+                    else
+                    {
+                        this.wanderer_man.wander();
+                        this.wanderer_man.updatePos();
+                    }
+                    this.wanderingCiticen--;
+                }
+                else
+                {
+                    wanderer_man.seek(House_location);
+                    if(UnityEngine.Vector2.Distance(wanderer_man.getPos(),this.House_location)<1)
+                    {
+                        home.killCitizen();
                         KMS();
                     }
                 }

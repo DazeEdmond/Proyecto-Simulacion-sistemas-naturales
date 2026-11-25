@@ -12,6 +12,8 @@ class VillageBehaviour
     private List<GameObject> houses = new List<GameObject>{};
     private float Village_radius;
     private int house_limit;
+    private int citizen_limit;
+    private int walkingcitizen = 0;
     private int actual_house_amount;
     private int generation_time;
     private float actual_time;
@@ -31,6 +33,9 @@ class VillageBehaviour
 
     public int MaxhumanCooldown = 900;
     public int humanCooldown = 1800;
+
+    public int MaxcitizenCooldown = 150;
+    public int citizenCooldown = 150;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
 
@@ -42,6 +47,7 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
+        this.citizen_limit = Villager_Amount/3;
         this.actual_house_amount = 1;
         this.VillagersAmountLimit = (actual_house_amount+1)*3;
         this.generation_time = time;
@@ -68,6 +74,7 @@ class VillageBehaviour
             {
                 VillagersAmount += VillagersAmount/3;
                 house_limit = VillagersAmount/3;
+                citizen_limit = VillagersAmount/3;
                 humanCooldown = MaxhumanCooldown;
             }
             else
@@ -75,7 +82,7 @@ class VillageBehaviour
                 humanCooldown--;
             }
         }
-            
+        if(citizenCooldown > 0) citizenCooldown--;
     }
 
     public bool foodNeeded()
@@ -126,6 +133,22 @@ class VillageBehaviour
     public int getVillagerAmount()
     {
         return VillagersAmount;
+    }
+
+    public bool allowWalking()
+    {
+        return walkingcitizen <= citizen_limit && citizenCooldown <= 0; 
+    }
+
+    public void addcitizen()
+    {
+        walkingcitizen++;
+        citizenCooldown = MaxcitizenCooldown;
+    }
+
+    public void Killcitizen()
+    {
+        walkingcitizen--;
     }
 
     public void addFood(int nutrionValue)

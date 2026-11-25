@@ -157,7 +157,7 @@ namespace NPCs
         {
             if (this.onWater())
             {
-                return this.vel / 0.8f;
+                return this.vel * 2f;
             }
             if (this.onMountain())
             {
