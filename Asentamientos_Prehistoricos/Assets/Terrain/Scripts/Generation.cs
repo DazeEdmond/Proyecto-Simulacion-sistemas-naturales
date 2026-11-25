@@ -72,7 +72,7 @@ namespace NPCs
         public float waterUpDiscriminator;
         public float waterDiscriminator;
         public float waterDownDiscriminator;
-        
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -153,6 +153,39 @@ namespace NPCs
                 HumidityOffsetY = Random.Range(0,9999);
             }   
         }
+
+        // Mapa - Humedad y Calor 
+
+        private UnityEngine.Color HeatColor(float temp)
+        {
+            float t = Mathf.InverseLerp(8f, 32f, temp);
+            UnityEngine.Color c = UnityEngine.Color.HSVToRGB((1f - t) * 0.66f, 1f, 1f);
+            c.a = 0.6f;
+            return c;
+        }
+
+        public void PaintOverlay()
+        {
+            foreach (var row in TerrainVals)
+            {
+                foreach (var cell in row.Value)
+                {
+                    UnityEngine.Vector3Int pos = new UnityEngine.Vector3Int(cell.Key, row.Key, 1);
+
+                    UnityEngine.Color c;
+                    if (GlobalData.showHeat)
+                        c = HeatColor(cell.Value.temperature);                                  // Show Temperatura
+                    else
+                        c = new UnityEngine.Color(0, 0, cell.Value.humidity, 0.9f);             // Show Humedad
+
+                    tilemapHumidity.SetTileFlags(pos, TileFlags.None);
+                    tilemapHumidity.SetColor(pos, c);
+                    tilemapHumidity.SetTileFlags(pos, TileFlags.LockAll);
+                }
+            }
+        }
+
+        // Generation
 
         private void Generate()
         {
@@ -290,9 +323,8 @@ namespace NPCs
                     UnityEngine.Vector3Int TPos = new Vector3Int(x,y,1);
                     tilemap.SetTile(TPos, tile2Place);
                     tilemapHumidity.SetTile(TPos, this.HTile);
-                    tilemapHumidity.SetTileFlags(TPos, TileFlags.None);
-                    tilemapHumidity.SetColor(TPos, new UnityEngine.Color(0,0,HumidNoise,0.9f));
-                    tilemapHumidity.SetTileFlags(TPos, TileFlags.LockAll);
+                    
+                    // El color se pone en PaintOverlay(), por botón
                 }
             }
         }

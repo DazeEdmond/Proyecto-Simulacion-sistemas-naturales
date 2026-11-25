@@ -44,6 +44,10 @@ public static class GlobalData
     // GUI - Espera generación de Mapa
     public static bool mapReady = false;
 
+    // GUI - Mapa de Calor / Humedad: comparten el mismo Tilemap, nunca pueden estar ambos en true
+    public static bool showHeat = false;
+    public static bool showHumidity = false;
+
     // Seed - Si es positivo, Valor determinístico
     public static int globalSeed = 0;
 
