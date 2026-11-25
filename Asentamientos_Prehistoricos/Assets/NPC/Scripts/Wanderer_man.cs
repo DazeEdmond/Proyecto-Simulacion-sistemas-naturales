@@ -285,6 +285,7 @@ namespace NPCs
                     else
                     {
                         this.wanderer_man.wander();
+                        this.wanderer_man.updatePos();
                     }
                 }
                 else
@@ -321,6 +322,7 @@ namespace NPCs
                     else
                     {
                         this.wanderer_man.wander();
+                        this.wanderer_man.updatePos();
                     }
                 }
                 else
