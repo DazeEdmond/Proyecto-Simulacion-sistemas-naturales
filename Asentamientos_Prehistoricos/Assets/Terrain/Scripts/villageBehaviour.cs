@@ -183,7 +183,8 @@ class VillageBehaviour
 
     public int divide()
     {
-        return VillagersAmount /= 2;
+        this.VillagersAmount /= 2;
+        return VillagersAmount;
     }
 
     public (float, float) isvalid(){
