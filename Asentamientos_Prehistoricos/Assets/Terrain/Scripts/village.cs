@@ -111,6 +111,13 @@ public class village : MonoBehaviour
             }
         }
 
+        if (VillageB.allowWalking())
+        {
+            GameObject NewWater_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
+            NewWater_Man.GetComponent<Wanderer_man>().init(VillageB.getPos(),4, VillageB.getPos(), this);
+            VillageB.addcitizen();
+        }
+
         if(Man_Water_generation_cooldown > 0) Man_Water_generation_cooldown--;
         if(Man_Food_generation_cooldown > 0) Man_Food_generation_cooldown--;
         if(Man_Log_generation_cooldown > 0) Man_Log_generation_cooldown--;
@@ -133,6 +140,11 @@ public class village : MonoBehaviour
     public void addLog(int log)
     {
         VillageB.addLog(log);
+    }
+
+    public void killCitizen()
+    {
+        VillageB.Killcitizen();
     }
 
     // Update is called once per frame
