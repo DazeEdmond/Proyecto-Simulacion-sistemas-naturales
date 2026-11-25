@@ -86,7 +86,7 @@ namespace NPCs
         public bool haslog = false;
         public bool hasWater = false;
         public bool hasfood = false;
-        private int nomadGroup = 1;
+        private int nomadGroup = 0;
         private bool cAsentamiento = false;
         private bool checkedNomads = false;
         private Man wanderer_man;
@@ -158,14 +158,14 @@ namespace NPCs
 
         private void FixedUpdate() {
             if (this.wanderer_man == null) return;
+            
+            int actualNomads = this.nomadGroup;
+            this.nomadGroup = 0;
 
             if (this.checkedNomads)
             {
-                Vector2 ManPos = wanderer_man.getPos();
-                GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
-                village otherVillage = new_Village.GetComponent<village>();
-                otherVillage.init(village, ManPos,this.nomadGroup);
                 this.KMS();
+                return;
             }
 
             this.chilling = this.wanderer_man.isTired();
@@ -249,6 +249,9 @@ namespace NPCs
 
                     if(actualPerfect >= perfectPlace*0.95f)
                     {
+                        GameObject new_Village = Instantiate(VillagePrefab, ManPos, UnityEngine.Quaternion.identity);
+                        village otherVillage = new_Village.GetComponent<village>();
+                        otherVillage.init(village, ManPos,actualNomads+1);
                         this.cAsentamiento = true;
                     }
                     else
@@ -535,13 +538,13 @@ namespace NPCs
             }
         }
         private void OnTriggerStay2D(Collider2D other) {
-            if(other.gameObject.tag == "man"  && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob)
+            if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob)
             {
+                this.nomadGroup++;
                 Wanderer_man man = other.gameObject.GetComponent<Wanderer_man>();
                 if (this.cAsentamiento)
                 {
                     this.checkedNomads = true;
-                    this.nomadGroup++;
                     man.KMS();
                     return;
                 }
