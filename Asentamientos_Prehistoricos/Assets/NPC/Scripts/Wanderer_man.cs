@@ -691,6 +691,9 @@ namespace NPCs
 
         private void KMS()
         {
+            Destroy(this.HB);
+            Destroy(this.thirstB);
+            Destroy(this.hungerB);
             Destroy(this.SpawnedMan);
             Destroy(this.inst_flag);
             Destroy(this.inst_Hat);
