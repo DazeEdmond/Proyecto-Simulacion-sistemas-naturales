@@ -29,14 +29,14 @@ public class village : MonoBehaviour
     public void init(GameObject Sprite, Vector2 pos, int nomads)
     {
         this.Sprite = Sprite;
-        this.Sprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        this.Sprite.GetComponent<SpriteRenderer>().sortingOrder = 102-(int)this.Sprite.transform.position.y;
         this.VillagersAmount = nomads;
         this.VillageB = new VillageBehaviour(pos, GlobalData.Get(Param.VillageRadius), VillagersAmount, generation_time); // Slider Value
     }
     void Start()
     {
         Sprite.transform.localScale = new UnityEngine.Vector2(20,15);
-        Sprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        Sprite.GetComponent<SpriteRenderer>().sortingOrder = 102-(int)Sprite.transform.position.y;
     }
 
     void FixedUpdate()
@@ -49,7 +49,7 @@ public class village : MonoBehaviour
             {
                 GameObject new_House = Instantiate(Sprite, new UnityEngine.Vector2(pos.Item1,pos.Item2), UnityEngine.Quaternion.identity);
                 new_House.transform.localScale = new UnityEngine.Vector2(20,15);
-                new_House.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+                new_House.GetComponent<SpriteRenderer> ().sortingOrder = 102-(int)pos.Item2;
 
                 VillageB.add_House(new_House);
                 VillageB.reset_time();

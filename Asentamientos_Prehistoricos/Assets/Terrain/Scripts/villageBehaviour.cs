@@ -21,8 +21,8 @@ class VillageBehaviour
 
     public int MaxFoodAmount = 3000;
     public int MaxWaterAmount = 3000;
-    private int foodAmount = 3000;
-    private int WaterAmount = 3000;
+    private int foodAmount = 3000;//DEBUG
+    private int WaterAmount = 3000;//DEBUG
 
     private int logsAmount = 0;
 
@@ -184,11 +184,7 @@ class VillageBehaviour
 
     public int divide()
     {
-        UnityEngine.Debug.Log("VAF: ");
-        UnityEngine.Debug.Log(this.VillagersAmount);
-        this.VillagersAmount /= 2;
-        UnityEngine.Debug.Log("VA: ");
-        UnityEngine.Debug.Log(this.VillagersAmount);
+        this.VillagersAmount = (int)(this.VillagersAmount/2);
         return this.VillagersAmount;
     }
 
