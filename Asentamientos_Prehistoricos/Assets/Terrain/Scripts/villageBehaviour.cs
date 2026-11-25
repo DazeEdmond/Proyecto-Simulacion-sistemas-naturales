@@ -178,7 +178,7 @@ class VillageBehaviour
 
     public bool isFamished()
     {
-        return foodAmount <= MaxFoodAmount*0.3;
+        return foodAmount <= MaxFoodAmount*0.3 || WaterAmount <= MaxWaterAmount*0.3;
     }
 
     public int divide()
