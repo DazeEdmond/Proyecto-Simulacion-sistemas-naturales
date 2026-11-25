@@ -21,8 +21,8 @@ class VillageBehaviour
 
     public int MaxFoodAmount = 3000;
     public int MaxWaterAmount = 3000;
-    private int foodAmount = 3000;//DEBUG
-    private int WaterAmount = 3000;//DEBUG
+    public int foodAmount = 3000;//DEBUG
+    public int WaterAmount = 3000;//DEBUG
 
     private int logsAmount = 0;
 

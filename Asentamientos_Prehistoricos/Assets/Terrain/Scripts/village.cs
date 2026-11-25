@@ -104,6 +104,8 @@ public class village : MonoBehaviour
         if (VillageB.OverPopulation() || VillageB.isFamished())
         {
             int nomad_amount = (int)VillageB.divide()/2;
+            this.VillageB.foodAmount = 1500;
+            this.VillageB.WaterAmount = 1500;
             for(int i = 0; i < nomad_amount; i++)
             {
                 GameObject NewNomad_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
