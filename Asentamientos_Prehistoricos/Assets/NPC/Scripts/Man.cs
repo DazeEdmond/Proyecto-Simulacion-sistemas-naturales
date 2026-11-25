@@ -30,7 +30,6 @@ namespace NPCs
 
             this.pos = new UnityEngine.Vector2(posX, posY);
             this.maxVel = maxVel;
-
         }
         public void updateMan()
         {
@@ -73,7 +72,7 @@ namespace NPCs
 
             if (this.onWater())
             {
-                this.vel /= 4;
+                this.vel *= 0.8f;
             }
             if (this.onMountain())
             {
@@ -117,7 +116,7 @@ namespace NPCs
             }
             if (this.onWater())
             {
-                this.vel /= 4;
+                this.vel *= 0.8f;
             }
             if (this.onMountain())
             {
@@ -158,7 +157,7 @@ namespace NPCs
         {
             if (this.onWater())
             {
-                return this.vel * 4;
+                return this.vel / 0.8f;
             }
             if (this.onMountain())
             {
