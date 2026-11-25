@@ -24,10 +24,25 @@ public class ReadInput : MonoBehaviour
     public float fadeTime = 0.6f;
     public GameObject[] waitForMap;
 
+    // Estadísticas Village
+    public GameObject statsCanvas;
+    public TMP_Text nManText;
+    public TMP_Text foodText;
+    public TMP_Text waterText;
+    public Button forceButton;
+
+    private string nManLabel, foodLabel, waterLabel; // Labels
+    private int shownPeople = -1, shownFood = -1, shownWater = -1;  // Último valor pintado
+
     private bool starting = false;
 
     void Awake()
     {
+        // Verificar que existen Label
+        if (nManText != null) nManLabel = nManText.text.Trim();
+        if (foodText != null) foodLabel = foodText.text.Trim();
+        if (waterText != null) waterLabel = waterText.text.Trim();
+
         map.SetActive(false);
         foreach (GameObject g in waitForMap) g.SetActive(false);
     }
@@ -42,6 +57,11 @@ public class ReadInput : MonoBehaviour
         heatButton.onClick.AddListener(ToggleHeatMap);
         humidityButton.onClick.AddListener(ToggleHumidityMap);
         normalButton.onClick.AddListener(ToggleNormalMap);
+        forceButton.onClick.AddListener(ForceMigration);
+
+        // Estadísticas - Hasta seleccionar, mostrar.
+        GlobalData.selectedVillage = null;
+        if (statsCanvas != null) statsCanvas.SetActive(false);
 
         GlobalData.showHeat = false;
         GlobalData.showHumidity = false;
@@ -57,7 +77,55 @@ public class ReadInput : MonoBehaviour
         GlobalData.mapReady = true;
     }
 
-    // Normal Button 
+    // Estadísticas
+    void Update()
+    {
+        if (statsCanvas == null) return;
+
+        village v = GlobalData.selectedVillage;
+        bool show = v != null;
+
+        if (statsCanvas.activeSelf != show)
+        {
+            statsCanvas.SetActive(show);
+            shownPeople = shownFood = shownWater = -1; // Repintar encima
+        }
+        if (show) RefreshStats(v);
+    }
+
+    void RefreshStats(village v)
+    {
+        int people = v.ActualVillagers;
+        int food = Mathf.RoundToInt(v.foodAmount);
+        int water = Mathf.RoundToInt(v.WaterAmount);
+
+        if (nManText != null && people != shownPeople)
+        {
+            nManText.text = nManLabel + " " + people;
+            shownPeople = people;
+        }
+        if (foodText != null && food != shownFood)
+        {
+            foodText.text = foodLabel + " " + food + " / " + v.MaxFood;
+            shownFood = food;
+        }
+        if (waterText != null && water != shownWater)
+        {
+            waterText.text = waterLabel + " " + water + " / " + v.MaxWater;
+            shownWater = water;
+        }
+
+        if (forceButton != null) forceButton.interactable = v.CanMigrate;
+    }
+
+    // Force Migration Button
+    void ForceMigration()
+    {
+        village v = GlobalData.selectedVillage;
+        if (v != null) v.ForceMigration();
+    }
+
+    // Normal Button
     void ToggleNormalMap()
     {
         GlobalData.showHeat = false;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using NPCs;
 
@@ -7,13 +8,16 @@ public class CameraControl : MonoBehaviour
     public Camera cam;
 
     public float zoomStep = 3f;
-    
+
     public float minFov = 8f;
     public float maxFov = 55f;
-    
-    public float mapSize = 100f;    
+
+    public float mapSize = 100f;
     public float followSpeed = 6f;
     public float pickRadius = 2f;
+
+    [Header("Villa")]
+    public float housePickPadding = 0.15f;  // Margen extra alrededor de cada casa para el click
 
     private Transform target;   // Transform de la Cámara - Tiene: pos, rot, localScale.
     private Vector2 lastMouse;
@@ -56,10 +60,32 @@ public class CameraControl : MonoBehaviour
         }
         lastMouse = mouse;
 
-        // Seguir Agente //
+        // Seguir Agente o Villa //
 
-        if (m.leftButton.wasPressedThisFrame) target = PickNearest(mouse);
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) target = null; 
+        // Un click sobre la UI (panel, botón) no cuenta como click sobre el mapa
+        if (m.leftButton.wasPressedThisFrame && !PointerOverUI())
+        {
+            Vector2 world = ScreenToWorld(mouse);
+
+            // Prioridad: casa > agente. Los ciudadanos caminan alrededor de las casas,
+            // si el agente ganara siempre sería casi imposible clicar la casa.
+            village hitVillage = PickVillage(world);
+            if (hitVillage != null)
+            {
+                target = hitVillage.transform;
+                SelectVillage(hitVillage);
+            }
+            else
+            {
+                target = PickNearest(world);
+                SelectVillage(null);
+            }
+        }
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            target = null;
+            SelectVillage(null);
+        }
 
         if (target != null)
         {
@@ -68,17 +94,47 @@ public class CameraControl : MonoBehaviour
         }
 
         // No salirse del mapa //
-        
+
         Vector3 p = transform.position;
         p.x = Mathf.Clamp(p.x, 0f, mapSize);
         p.y = Mathf.Clamp(p.y, 0f, mapSize);
         transform.position = p;
     }
 
-    Transform PickNearest(Vector2 screen)
+    // Villa - Solo publica la selección; ReadInput muestra / oculta Canvas_Statistics
+    void SelectVillage(village v)
     {
-        // Coordenadas Universales
+        GlobalData.selectedVillage = v;
+    }
+
+    bool PointerOverUI()
+    {
+        return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+    }
+
+    // Coordenadas Universales
+    Vector2 ScreenToWorld(Vector2 screen)
+    {
         Vector3 w = cam.ScreenToWorldPoint(new Vector3(screen.x, screen.y, Mathf.Abs(transform.position.z)));
+        return new Vector2(w.x, w.y);
+    }
+
+    // Villa más cercana cuyo click cae sobre (o casi sobre) alguna de sus casas
+    village PickVillage(Vector2 world)
+    {
+        village best = null;
+        float bestD = housePickPadding;
+
+        foreach (village v in FindObjectsByType<village>(FindObjectsSortMode.None))
+        {
+            float d = v.DistanceToHouses(world);
+            if (d <= bestD) { bestD = d; best = v; }
+        }
+        return best;
+    }
+
+    Transform PickNearest(Vector2 w)
+    {
         Transform best = null;
         float bestD = pickRadius;
 

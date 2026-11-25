@@ -105,6 +105,12 @@ class VillageBehaviour
         return logsAmount > 0;
     }
 
+    // Casas extra de la villa (la casa original es el GameObject de `village`)
+    public List<GameObject> GetHouses()
+    {
+        return this.houses;
+    }
+
     public void add_House(GameObject house)
     {
         if(this.houses.Count < this.house_limit)

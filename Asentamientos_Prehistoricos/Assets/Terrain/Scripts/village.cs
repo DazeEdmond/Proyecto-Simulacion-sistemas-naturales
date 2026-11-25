@@ -25,6 +25,46 @@ public class village : MonoBehaviour
     public float WaterAmount;
     public int ActualVillagers;
 
+    // Migración
+    public int MinPopulationToMigrate = 8;         // Mínimo de personas para permitir migración
+    public int Max_Force_Migration_cooldown = 250;
+    private int Force_Migration_cooldown = 0;
+    private bool forceMigration = false;
+
+    // Migración - Datos que lee ReadInput para Canvas_Statistics
+    public int MaxFood { get { return VillageB.MaxFoodAmount; } }
+    public int MaxWater { get { return VillageB.MaxWaterAmount; } }
+    public bool CanMigrate { get { return ActualVillagers >= MinPopulationToMigrate && Force_Migration_cooldown <= 0 && !forceMigration; } }
+
+    // Migración - Pedir división
+    public void ForceMigration()
+    {
+        if (CanMigrate) forceMigration = true;
+    }
+
+    // Migración - Distancia del punto a la casa más cercana de la villa 
+    public float DistanceToHouses(Vector2 world)
+    {
+        if (VillageB == null) return float.MaxValue;
+
+        float best = HouseDistance(gameObject, world);
+        foreach (GameObject h in VillageB.GetHouses())
+        {
+            best = Mathf.Min(best, HouseDistance(h, world));
+        }
+        return best;
+    }
+
+    private static float HouseDistance(GameObject house, Vector2 world)
+    {
+        if (house == null) return float.MaxValue;
+        SpriteRenderer sr = house.GetComponentInChildren<SpriteRenderer>();
+        if (sr == null) return float.MaxValue;
+
+        Bounds b = sr.bounds;
+        return Mathf.Sqrt(b.SqrDistance(new Vector3(world.x, world.y, b.center.z)));
+    }
+
 
     public void init(GameObject Sprite, Vector2 pos, int nomads)
     {
@@ -101,11 +141,26 @@ public class village : MonoBehaviour
             }
         }
 
-        if (VillageB.OverPopulation() || VillageB.isFamished())
+        bool naturalDivide = VillageB.OverPopulation() || VillageB.isFamished();
+        if (naturalDivide || forceMigration)
         {
             int nomad_amount = (int)VillageB.divide()/2;
-            this.VillageB.foodAmount = 1500;
-            this.VillageB.WaterAmount = 1500;
+            if (naturalDivide)
+            {
+                this.VillageB.foodAmount = 1500;
+                this.VillageB.WaterAmount = 1500;
+            }
+            else
+            {
+                // Migración - Los que se van se llevan la mitad de las provisiones
+                this.VillageB.foodAmount /= 2;
+                this.VillageB.WaterAmount /= 2;
+            }
+            if (forceMigration)
+            {
+                forceMigration = false;
+                Force_Migration_cooldown = Max_Force_Migration_cooldown;
+            }
             for(int i = 0; i < nomad_amount; i++)
             {
                 GameObject NewNomad_Man = Instantiate(ManPrefab, VillageB.getPos(), UnityEngine.Quaternion.identity);
@@ -123,6 +178,7 @@ public class village : MonoBehaviour
         if(Man_Water_generation_cooldown > 0) Man_Water_generation_cooldown--;
         if(Man_Food_generation_cooldown > 0) Man_Food_generation_cooldown--;
         if(Man_Log_generation_cooldown > 0) Man_Log_generation_cooldown--;
+        if(Force_Migration_cooldown > 0) Force_Migration_cooldown--;
 
         this.foodAmount = VillageB.GetFoodAmount();
         this.WaterAmount = VillageB.getwaterAmount();
