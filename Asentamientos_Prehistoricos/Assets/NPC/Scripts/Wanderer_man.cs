@@ -270,7 +270,15 @@ namespace NPCs
                     }
                     else
                     {
+                        for(int i = 0; i < actualNomads; i++)
+                        {
+                            this.wanderer_man.addNearMan();
+                        }
                         this.wanderer_man.updateMan();
+                        for(int i = 0; i < actualNomads; i++)
+                        {
+                            this.wanderer_man.popNearMan();
+                        }
                         this.actualSeekingCoolDown = seekingCoolDown;
                     }
                 }
@@ -400,7 +408,15 @@ namespace NPCs
             
             this.nearestCow = null;
             this.nearestWater = new UnityEngine.Vector2(-1,-1);
+            for(int i = 0; i < actualNomads; i++)
+            {
+                this.wanderer_man.addNearMan();
+            }
             this.wanderer_man.updateMan();
+            for(int i = 0; i < actualNomads; i++)
+            {
+                this.wanderer_man.popNearMan();
+            }
         }
         // Update is called once per frame
         void Update()
@@ -566,12 +582,10 @@ namespace NPCs
         //PhysX events
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if(this.wanderer_man == null) return;
-            
-            if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
-            {
-                this.wanderer_man.addNearMan();
-            }
+            // if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
+            // {
+            //     this.wanderer_man.addNearMan();
+            // }
         }
         private void OnTriggerStay2D(Collider2D other) {
             if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
@@ -691,10 +705,10 @@ namespace NPCs
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
-            {
-                this.wanderer_man.popNearMan();
-            }
+            // if(other.gameObject.tag == "man" && other.gameObject.GetComponent<Wanderer_man>().getActualJob() == this.actualJob && this.actualJob == Job.nomad)
+            // {
+            //     this.wanderer_man.popNearMan();
+            // }
         }
 
         private void KMS()
