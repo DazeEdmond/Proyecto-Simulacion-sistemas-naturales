@@ -70,6 +70,7 @@ namespace NPCs
         public float desiredHumidity;
         public float desiredTemp;
         public float perfectPlace;
+
         public int seekingCoolDown = 300;
         public int actualSeekingCoolDown = 300;
         public Vector2 seekingPos = new UnityEngine.Vector2(-1,-1);
@@ -93,6 +94,14 @@ namespace NPCs
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
+
+        private float SettlementTimeFactor()
+        {
+            if (actualJob == Job.nomad) return 1f;
+            return Mathf.Max(1f, GlobalData.Get(Param.MaxSpeed) / GlobalData.BaseMaxSpeed);
+        }
+
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public void init(Vector2 pos, int job, Vector2 House_location, village home)
         {
@@ -284,7 +293,7 @@ namespace NPCs
                 }
                 if(actualSeekingCoolDown > 0)
                 {
-                    actualSeekingCoolDown --;
+                    actualSeekingCoolDown -= SettlementTimeFactor();
                 }
             }
 
@@ -393,7 +402,7 @@ namespace NPCs
                     {
                         this.wanderer_man.wander();
                     }
-                    this.wanderingCiticen--;
+                    this.wanderingCiticen-= SettlementTimeFactor();
                 }
                 else
                 {
@@ -429,9 +438,10 @@ namespace NPCs
             this.pos_y = temp[1];
             this.SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
 
+            float timeFactor = SettlementTimeFactor()
             if(this.attackCooldown <= attackMaxCooldown)
             {
-                this.attackCooldown++;
+                this.attackCooldown += timeFactor;
             }
 
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
@@ -439,17 +449,17 @@ namespace NPCs
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
             this.inst_flag.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.6f,0);
 
-            this.life -= this.lifeLoss;
+            this.life -= this.lifeLoss * timeFactor;
             if(this.actualState == State.DrinkingWater)
             {
-                this.thirst+=this.thirstLoss*3;
+                this.thirst+=this.thirstLoss*3*timeFactor;
                 if(this.thirst >= this.maxThirst) this.actualState = State.Wander;
             }
             else
             {
-                this.thirst -= this.thirstLoss;
+                this.thirst -= this.thirstLoss * timeFactor;
             }
-            this.hunger -= this.hungerLoss;
+            this.hunger -= this.hungerLoss * timeFactor;
 
             this.HB.updateVar(this.life,this.maxLife);
             this.thirstB.updateVar(this.thirst,this.maxThirst);
