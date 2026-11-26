@@ -4148,7 +4148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340d2b74b5837ea46b63784dfb7d3648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraControl
-  cam: {fileID: 0}
+  cam: {fileID: 519420031}
   zoomStep: 3
   minFov: 8
   maxFov: 55
@@ -7059,7 +7059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 161.2}
+  m_AnchoredPosition: {x: -150, y: 161.2}
   m_SizeDelta: {x: 260, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &808218332
@@ -9816,7 +9816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200.58145, y: -160}
+  m_AnchoredPosition: {x: 200, y: -160}
   m_SizeDelta: {x: 301.3193, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124115587
@@ -10060,7 +10060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 104}
+  m_AnchoredPosition: {x: -150, y: 104}
   m_SizeDelta: {x: 260, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143115219
@@ -10193,7 +10193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 50}
+  m_AnchoredPosition: {x: -150, y: 50}
   m_SizeDelta: {x: 260, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1154879134
@@ -10839,7 +10839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 224}
+  m_AnchoredPosition: {x: -150, y: 224}
   m_SizeDelta: {x: 260, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1297890967
