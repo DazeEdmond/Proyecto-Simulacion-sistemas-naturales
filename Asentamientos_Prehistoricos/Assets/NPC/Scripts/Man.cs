@@ -76,7 +76,7 @@ namespace NPCs
             }
             if (this.onMountain())
             {
-                this.vel *= 0.6f;
+                this.vel *= 0.8f;
             }
 
             this.pos += this.vel;
@@ -120,7 +120,7 @@ namespace NPCs
             }
             if (this.onMountain())
             {
-                this.vel *= 0.6f;
+                this.vel *= 0.8f;
             }
 
             if((this.pos + this.vel).x<0 || (this.pos + this.vel).y<0 || (this.pos + this.vel).x>100 || (this.pos + this.vel).y > 100)
@@ -164,11 +164,11 @@ namespace NPCs
         {
             if (this.onWater())
             {
-                return this.vel * 2f;
+                return this.vel * 2;
             }
             if (this.onMountain())
             {
-                return this.vel * 1.5f;
+                return this.vel * 2;
             }
             return this.vel;
         }

@@ -19,7 +19,7 @@ class BushBehaviour
     {
         if (this.hasFruit) return;
 
-        this.fruitTimer+= GlobalData.TimeF();
+        this.fruitTimer+= (int)GlobalData.TimeF();
         if (this.fruitTimer >= this.fruitInterval)
         {
             this.hasFruit = true;

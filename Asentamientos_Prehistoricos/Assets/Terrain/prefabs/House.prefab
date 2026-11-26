@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: house
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
       propertyPath: m_LocalScale.x
       value: 20
@@ -23,6 +27,10 @@ PrefabInstance:
     - target: {fileID: 7878350319992209165, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
       propertyPath: m_LocalScale.y
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -145,5 +153,11 @@ MonoBehaviour:
   ManPrefab: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
   Max_Man_generation_cooldown: 1800
   Man_generation_cooldown: 0
+  Man_Log_generation_cooldown: 0
+  Man_Food_generation_cooldown: 0
+  Man_Water_generation_cooldown: 0
   foodAmount: 0
   WaterAmount: 0
+  ActualVillagers: 0
+  MinPopulationToMigrate: 12
+  Max_Force_Migration_cooldown: 250

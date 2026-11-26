@@ -71,7 +71,7 @@ class VillageBehaviour
 
         if(!foodNeeded() && !WaterNeeded())
         {
-            if(humanCooldown == 0)
+            if(humanCooldown <= 0)
             {
                 VillagersAmount += VillagersAmount/3;
                 house_limit = VillagersAmount/3;
@@ -80,10 +80,10 @@ class VillageBehaviour
             }
             else
             {
-                humanCooldown-=GlobalData.TimeF();
+                humanCooldown-=(int)GlobalData.TimeF();
             }
         }
-        if(citizenCooldown > 0) citizenCooldown-=GlobalData.TimeF();
+        if(citizenCooldown > 0) citizenCooldown-=(int)GlobalData.TimeF();
     }
 
     public bool foodNeeded()

@@ -44,7 +44,7 @@ public static class GlobalData
     }
 
     // Time - Método Global
-    private float TimeF()
+    public static float TimeF()
     {
         return Mathf.Max(1f, GlobalData.Get(Param.MaxSpeed) / GlobalData.BaseMaxSpeed);
     }

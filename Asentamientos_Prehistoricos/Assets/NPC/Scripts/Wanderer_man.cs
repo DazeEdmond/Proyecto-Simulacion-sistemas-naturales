@@ -164,18 +164,21 @@ namespace NPCs
             this.perfectPlace =((desiredHeight*30) + (desiredHumidity*30) + desiredTemp)/2;
         }
 
-        private void FixedUpdate() {
-            if (this.wanderer_man == null) return;
-            
-            int actualNomads = this.nomadGroup;
-            this.nomadGroup = 0;
-
+        private void LateUpdate()
+        {
             if (this.checkedNomads)
             {
                 GlobalData.buildingHouse = false;
                 this.KMS();
                 return;
             }
+        }
+
+        private void FixedUpdate() {
+            if (this.wanderer_man == null) return;
+            
+            int actualNomads = this.nomadGroup;
+            this.nomadGroup = 0;
 
             this.chilling = this.wanderer_man.isTired();
 
@@ -195,7 +198,9 @@ namespace NPCs
             //STATES BEHAVIOURS
             if(this.actualState == State.SearchingWater)
             {
-                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
+                if(actualJob != Job.citicen){
+                    this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[2];
+                }
                 if(this.nearestWater.x != -1 && this.nearestWater.y != -1)
                 {
                     this.wanderer_man.seek(this.nearestWater);
@@ -213,7 +218,9 @@ namespace NPCs
 
             if(this.actualState == State.searchingFood)
             {
-                this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
+                if(actualJob != Job.citicen){
+                    this.inst_Hat.GetComponent<SpriteRenderer>().sprite = hats[3];
+                }
                 followFood();
                 return;
             }
@@ -269,24 +276,12 @@ namespace NPCs
                             this.cAsentamiento = true;
                         }
                     }
-                    else
-                    {
-                        for(int i = 0; i < actualNomads; i++)
-                        {
-                            this.wanderer_man.addNearMan();
-                        }
-                        this.wanderer_man.updateMan();
-                        for(int i = 0; i < actualNomads; i++)
-                        {
-                            this.wanderer_man.popNearMan();
-                        }
-                        this.actualSeekingCoolDown = seekingCoolDown;
-                    }
                 }
                 if(actualSeekingCoolDown > 0)
                 {
-                    actualSeekingCoolDown -= GlobalData.TimeF();
+                    actualSeekingCoolDown -= (int)GlobalData.TimeF();
                 }
+                
             }
 
             if(actualJob == Job.LogGatherer)
@@ -394,7 +389,7 @@ namespace NPCs
                     {
                         this.wanderer_man.wander();
                     }
-                    this.wanderingCiticen-= GlobalData.TimeF();
+                    this.wanderingCiticen-= (int)GlobalData.TimeF();
                 }
                 else
                 {
@@ -430,7 +425,7 @@ namespace NPCs
             this.pos_y = temp[1];
             this.SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
 
-            float timeFactor = GlobalData.TimeF()
+            float timeFactor = GlobalData.TimeF();
 
             if(this.attackCooldown <= attackMaxCooldown)
             {
