@@ -26,7 +26,7 @@ public class village : MonoBehaviour
     public int ActualVillagers;
 
     // Migración
-    public int MinPopulationToMigrate = 8;         // Mínimo de personas para permitir migración
+    public int MinPopulationToMigrate = 12;         // Minimum Migration
     public int Max_Force_Migration_cooldown = 250;
     private int Force_Migration_cooldown = 0;
     private bool forceMigration = false;

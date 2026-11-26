@@ -52,7 +52,7 @@ public class bush : MonoBehaviour
         this.spriteRenderer.sortingOrder = 102-(int)this.gameObject.transform.position.y;
     }
 
-    // ---------- API para los humanos ----------
+    // API para los humanos
 
     public bool HasFruit()
     {

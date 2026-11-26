@@ -93,6 +93,7 @@ namespace NPCs
         private Man wanderer_man;
 
         private GameObject SpawnedMan;
+        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public void init(Vector2 pos, int job, Vector2 House_location, village home)
         {
@@ -284,7 +285,7 @@ namespace NPCs
                 }
                 if(actualSeekingCoolDown > 0)
                 {
-                    actualSeekingCoolDown --;
+                    actualSeekingCoolDown -= GlobalData.TimeF();
                 }
             }
 
@@ -393,7 +394,7 @@ namespace NPCs
                     {
                         this.wanderer_man.wander();
                     }
-                    this.wanderingCiticen--;
+                    this.wanderingCiticen-= GlobalData.TimeF();
                 }
                 else
                 {
@@ -429,9 +430,11 @@ namespace NPCs
             this.pos_y = temp[1];
             this.SpawnedMan.transform.position = new Vector3(temp[0], temp[1], 0);
 
+            float timeFactor = GlobalData.TimeF()
+
             if(this.attackCooldown <= attackMaxCooldown)
             {
-                this.attackCooldown++;
+                this.attackCooldown += timeFactor;
             }
 
             this.HB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1,0);
@@ -439,17 +442,17 @@ namespace NPCs
             this.hungerB.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.4f,0);
             this.inst_flag.transform.position = new UnityEngine.Vector3(this.pos_x, this.pos_y+1.6f,0);
 
-            this.life -= this.lifeLoss;
+            this.life -= this.lifeLoss * timeFactor;
             if(this.actualState == State.DrinkingWater)
             {
-                this.thirst+=this.thirstLoss*3;
+                this.thirst+=this.thirstLoss*3*timeFactor;
                 if(this.thirst >= this.maxThirst) this.actualState = State.Wander;
             }
             else
             {
-                this.thirst -= this.thirstLoss;
+                this.thirst -= this.thirstLoss*timeFactor;
             }
-            this.hunger -= this.hungerLoss;
+            this.hunger -= this.hungerLoss*timeFactor;
 
             this.HB.updateVar(this.life,this.maxLife);
             this.thirstB.updateVar(this.thirst,this.maxThirst);

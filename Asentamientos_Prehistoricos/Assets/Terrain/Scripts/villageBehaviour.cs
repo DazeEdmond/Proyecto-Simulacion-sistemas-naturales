@@ -57,7 +57,7 @@ class VillageBehaviour
 
     public void updateVillage()
     {
-        this.actual_time++;
+        this.actual_time+=GlobalData.TimeF();
         if(eating_drinkingCooldown == 0)
         {
             this.foodAmount -= eating_drinkingRatio*VillagersAmount;
@@ -80,10 +80,10 @@ class VillageBehaviour
             }
             else
             {
-                humanCooldown--;
+                humanCooldown-=GlobalData.TimeF();
             }
         }
-        if(citizenCooldown > 0) citizenCooldown--;
+        if(citizenCooldown > 0) citizenCooldown-=GlobalData.TimeF();
     }
 
     public bool foodNeeded()
