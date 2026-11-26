@@ -25,7 +25,7 @@ namespace NPCs
             this.maxSteeringForce = maxVel/2;
             this.escapeRatio = 0.1f;
             this.dangerRadio = 10;
-            this.maxStamina = UnityEngine.Random.Range(600,750);
+            this.maxStamina = UnityEngine.Random.Range((int)(600-GlobalData.TimeF()*250),(int)(750-GlobalData.TimeF()*250));
             this.stamina = 0;
 
             this.pos = new UnityEngine.Vector2(posX, posY);

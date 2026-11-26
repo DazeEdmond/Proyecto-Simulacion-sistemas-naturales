@@ -46,6 +46,7 @@ public static class GlobalData
     // Time - Método Global
     public static float TimeF()
     {
+        UnityEngine.Debug.Log(Mathf.Max(1f, GlobalData.Get(Param.MaxSpeed) / GlobalData.BaseMaxSpeed));
         return Mathf.Max(1f, GlobalData.Get(Param.MaxSpeed) / GlobalData.BaseMaxSpeed);
     }
 
