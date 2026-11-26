@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,6 +8,7 @@ namespace NPCs
     public class Generation : MonoBehaviour
     {
         public Tilemap tilemap;// = new GameObject("Tilemap").AddComponent<Grid>();
+        public Tilemap tilemapHumidity;// = new GameObject("Tilemap").AddComponent<Grid>();
 
         //Tamaño del Tile (tamaño inicial)
         public int width = 108;
@@ -14,15 +16,12 @@ namespace NPCs
 
         //Scale es granularidad del perlin nice
         public int scale = 5;
-        public int forest_limit = 10;
-        public float forest_radius = 3;
-        public int forest_generation_time = 10;
+        public int forest_limit;
+        public float forest_radius;
+        public int forest_generation_time;
         //Tope global de árboles para que la simulación no se sature
         public int max_trees = 1000;
 
-        //Tamaño del tile para mostrar (usado para simular la distancia de vista de la camara)
-        //Es el parametro que rige la posicion de los tiles en generate
-        private float tileSize = GlobalData.tileSize;
         private Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainVals = GlobalData.TerrainValues;
         //Semilla para generacion
         private int offsetX;
@@ -47,6 +46,7 @@ namespace NPCs
         public TileBase MountainUpTile;
         public TileBase MountainTile;
         public TileBase MountainDownTile;
+        public TileBase HTile;
 
         //cow tile
         public GameObject Cow;
@@ -59,27 +59,41 @@ namespace NPCs
         public GameObject Tree;
         public GameObject TreePrefab;
 
-        //House tile
-        public GameObject House;
+        public GameObject ManPrefab;
+        public bool isManCreated = false;
 
         //Discriminantes(Determinan cuanto cual tile usaran dependiendo del valor de perlin nice)
-        public float mountainUpDiscriminator = 1f;
-        public float mountainDiscriminator = 0.95f;
-        public float mountainDownDiscriminator = 0.9f;
-        public float grassUpDiscriminator = 0.8f;
-        public float grassDiscriminator = 0.6f;
-        public float grassDownDiscriminator = 0.5f;
-        public float waterUpDiscriminator = 0.25f;
-        public float waterDiscriminator = 0.2f;
-        public float waterDownDiscriminator = 0.1f;
-        
+        public float mountainUpDiscriminator;
+        public float mountainDiscriminator;
+        public float mountainDownDiscriminator;
+        public float grassUpDiscriminator;
+        public float grassDiscriminator;
+        public float grassDownDiscriminator;
+        public float waterUpDiscriminator;
+        public float waterDiscriminator;
+        public float waterDownDiscriminator;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            forest_limit = (int) GlobalData.Get(Param.ForestLimit);
+            forest_radius = GlobalData.Get(Param.ForestRadius);
+            forest_generation_time = (int) GlobalData.Get(Param.ForestGeneration);
             TerrainVals.Clear();
             GlobalData.mapWidth = width;
             GlobalData.mapHeight = height;
             seed();
+
+            waterDownDiscriminator    = GlobalData.Discriminator(Param.WaterDown);
+            waterDiscriminator        = GlobalData.Discriminator(Param.Water);
+            waterUpDiscriminator      = GlobalData.Discriminator(Param.WaterUp);
+            grassDownDiscriminator    = GlobalData.Discriminator(Param.GrassDown);
+            grassDiscriminator        = GlobalData.Discriminator(Param.Grass);
+            grassUpDiscriminator      = GlobalData.Discriminator(Param.GrassUp);
+            mountainDownDiscriminator = GlobalData.Discriminator(Param.MountainDown);
+            mountainDiscriminator     = GlobalData.Discriminator(Param.Mountain);
+            mountainUpDiscriminator   = GlobalData.Discriminator(Param.MountainUp);
+
             Generate();
         }
 
@@ -140,6 +154,39 @@ namespace NPCs
             }   
         }
 
+        // Mapa - Humedad y Calor 
+
+        private UnityEngine.Color HeatColor(float temp)
+        {
+            float t = Mathf.InverseLerp(8f, 32f, temp);
+            UnityEngine.Color c = UnityEngine.Color.HSVToRGB((1f - t) * 0.66f, 1f, 1f);
+            c.a = 0.6f;
+            return c;
+        }
+
+        public void PaintOverlay()
+        {
+            foreach (var row in TerrainVals)
+            {
+                foreach (var cell in row.Value)
+                {
+                    UnityEngine.Vector3Int pos = new UnityEngine.Vector3Int(cell.Key, row.Key, 1);
+
+                    UnityEngine.Color c;
+                    if (GlobalData.showHeat)
+                        c = HeatColor(cell.Value.temperature);                                  // Show Temperatura
+                    else
+                        c = new UnityEngine.Color(0, 0, cell.Value.humidity, 0.9f);             // Show Humedad
+
+                    tilemapHumidity.SetTileFlags(pos, TileFlags.None);
+                    tilemapHumidity.SetColor(pos, c);
+                    tilemapHumidity.SetTileFlags(pos, TileFlags.LockAll);
+                }
+            }
+        }
+
+        // Generation
+
         private void Generate()
         {
             //Genera el perlin nice
@@ -194,7 +241,7 @@ namespace NPCs
                         tile2Place = MountainTile;
                     }else
                     {
-                        tile2Place = MountainUpTile;                    
+                        tile2Place= MountainUpTile;                    
                     }
 
                     if(tile2Place == WaterDownTile || tile2Place == WaterTile || tile2Place == WaterUpTile)
@@ -233,6 +280,20 @@ namespace NPCs
                             }
                         }
 
+                        if (!isManCreated)
+                        {
+                            int ManGen = Random.Range(0,999);
+                            if(ManGen <= 3)
+                            {
+                                int manQuan = Random.Range(3,5);
+                                for(int i = 0; i < manQuan; i++)
+                                {
+                                    GameObject New_Man = Instantiate(ManPrefab, new UnityEngine.Vector2(x,y), UnityEngine.Quaternion.identity);
+                                    New_Man.GetComponent<Wanderer_man>().init(new UnityEngine.Vector2(x,y), 0, new UnityEngine.Vector2(-1,-1), null);
+                                }
+                                isManCreated = true;
+                            }
+                        }
                     }else
                     {
                         plant2Place = null;
@@ -259,8 +320,11 @@ namespace NPCs
                         }
                         
                     }
-
-                    tilemap.SetTile(new Vector3Int(x,y,1), tile2Place);
+                    UnityEngine.Vector3Int TPos = new Vector3Int(x,y,1);
+                    tilemap.SetTile(TPos, tile2Place);
+                    tilemapHumidity.SetTile(TPos, this.HTile);
+                    
+                    // El color se pone en PaintOverlay(), por botón
                 }
             }
         }

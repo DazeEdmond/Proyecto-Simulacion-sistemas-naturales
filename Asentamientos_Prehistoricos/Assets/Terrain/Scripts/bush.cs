@@ -8,7 +8,7 @@ public class bush : MonoBehaviour
     // sprites[0] = sin fruta, sprites[1] = con fruta
     public Sprite[] sprites;
 
-    public int fruitInterval = 100;                        // da fruta con más frecuencia que el árbol
+    public int fruitInterval;                        // da fruta con más frecuencia que el árbol
     public int nutritionValue = GlobalData.BushNutrition;  // arbusto = 2
 
     private BushBehaviour BushC;
@@ -17,12 +17,14 @@ public class bush : MonoBehaviour
     void Awake()
     {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer.sortingOrder = 102-(int)this.gameObject.transform.position.y;
     }
 
     public void init(GameObject Sprite)
     {
         this.Sprite = Sprite;
         this.BushC = new BushBehaviour(this.fruitInterval, this.nutritionValue);
+        fruitInterval = (int) GlobalData.Get(Param.FruitTime)/2;
         RefreshSprite();
     }
 
@@ -47,6 +49,23 @@ public class bush : MonoBehaviour
         {
             this.spriteRenderer.sprite = wanted;
         }
+        this.spriteRenderer.sortingOrder = 102-(int)this.gameObject.transform.position.y;
+    }
+
+    // ---------- API para los humanos ----------
+
+    public bool HasFruit()
+    {
+        return this.BushC != null && this.BushC.hasFruit;
+    }
+
+    // Devuelve el valor nutricional (2) y reinicia el ciclo; 0 si no había fruta
+    public int Harvest()
+    {
+        if (this.BushC == null) return 0;
+        int value = this.BushC.TryHarvest();
+        if (value > 0) RefreshSprite();
+        return value;
     }
 
     // ---------- API para los humanos ----------

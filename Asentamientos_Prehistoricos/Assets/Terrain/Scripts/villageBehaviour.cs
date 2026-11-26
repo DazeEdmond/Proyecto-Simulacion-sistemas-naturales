@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Numerics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -12,18 +13,30 @@ class VillageBehaviour
     private List<GameObject> houses = new List<GameObject>{};
     private float Village_radius;
     private int house_limit;
+    private int citizen_limit;
+    private int walkingcitizen = 0;
+    private int actual_house_amount;
     private int generation_time;
     private float actual_time;
 
-    public int MaxFoodAmount = 5000;
-    public int MaxWaterAmount = 5000;
-    private int foodAmount = 3000;
-    private int WaterAmount = 3000;
+    public int MaxFoodAmount = 3000;
+    public int MaxWaterAmount = 3000;
+    public int foodAmount = 3000;//DEBUG
+    public int WaterAmount = 3000;//DEBUG
+
+    private int logsAmount = 0;
 
     public int eating_drinkingRatio = 2;
-    public int eating_drinking_MaxCooldown = 30;
-    private int eating_drinkingCooldown = 30;
+    public int eating_drinking_MaxCooldown = 180;
+    private int eating_drinkingCooldown = 180;
+    private int VillagersAmountLimit;
     private int VillagersAmount;
+
+    public int MaxhumanCooldown = 900;
+    public int humanCooldown = 1800;
+
+    public int MaxcitizenCooldown = 150;
+    public int citizenCooldown = 150;
     private UnityEngine.Vector2 closestForestPos;
     private UnityEngine.Vector2 closestWaterPos;
 
@@ -35,6 +48,9 @@ class VillageBehaviour
         this.Village_radius = radius;
         this.VillagersAmount = Villager_Amount;
         this.house_limit = Villager_Amount/3;
+        this.citizen_limit = Villager_Amount/3;
+        this.actual_house_amount = 1;
+        this.VillagersAmountLimit = (actual_house_amount+1)*3;
         this.generation_time = time;
         this.actual_time = UnityEngine.Random.Range(-650,0);
     }
@@ -42,7 +58,7 @@ class VillageBehaviour
     public void updateVillage()
     {
         this.actual_time++;
-        if(eating_drinkingCooldown <= 0)
+        if(eating_drinkingCooldown == 0)
         {
             this.foodAmount -= eating_drinkingRatio*VillagersAmount;
             this.WaterAmount -= eating_drinkingRatio*VillagersAmount;
@@ -52,22 +68,47 @@ class VillageBehaviour
         {
             eating_drinkingCooldown--;
         }
-            
+
+        if(!foodNeeded() && !WaterNeeded())
+        {
+            if(humanCooldown == 0)
+            {
+                VillagersAmount += VillagersAmount/3;
+                house_limit = VillagersAmount/3;
+                citizen_limit = VillagersAmount/3;
+                humanCooldown = MaxhumanCooldown;
+            }
+            else
+            {
+                humanCooldown--;
+            }
+        }
+        if(citizenCooldown > 0) citizenCooldown--;
     }
 
     public bool foodNeeded()
     {
-        return foodAmount < MaxFoodAmount/2;
+        return foodAmount < MaxFoodAmount*0.75;
     }
 
     public bool WaterNeeded()
     {
-        return WaterAmount < MaxWaterAmount/2;
+        return WaterAmount < MaxWaterAmount*0.75;
     }
 
     public UnityEngine.Vector2 getPos()
     {
         return this.pos;
+    }
+    public bool hasLog()
+    {
+        return logsAmount > 0;
+    }
+
+    // Casas extra de la villa (la casa original es el GameObject de `village`)
+    public List<GameObject> GetHouses()
+    {
+        return this.houses;
     }
 
     public void add_House(GameObject house)
@@ -75,6 +116,8 @@ class VillageBehaviour
         if(this.houses.Count < this.house_limit)
         {
             this.houses.Add(house);
+            actual_house_amount++;
+            this.logsAmount--;
         }
     }
 
@@ -83,14 +126,72 @@ class VillageBehaviour
         this.actual_time = 0;
     }
 
-    public int GetFoodAmount()
+    public float GetFoodAmount()
     {
         return foodAmount;
     }
 
-    public int getwaterAmount()
+    public float getwaterAmount()
     {
         return WaterAmount;
+    }
+
+
+    public int getVillagerAmount()
+    {
+        return VillagersAmount;
+    }
+
+    public bool allowWalking()
+    {
+        return walkingcitizen <= citizen_limit && citizenCooldown <= 0; 
+    }
+
+    public void addcitizen()
+    {
+        walkingcitizen++;
+        citizenCooldown = MaxcitizenCooldown;
+    }
+
+    public void Killcitizen()
+    {
+        walkingcitizen--;
+    }
+
+    public void addFood(int nutrionValue)
+    {
+        this.foodAmount += nutrionValue;
+        if(foodAmount > MaxFoodAmount)
+        {
+            foodAmount = MaxFoodAmount;
+        }
+    }
+
+    public void addWater(int Water)
+    {
+        this.WaterAmount += Water;
+        if(WaterAmount > MaxWaterAmount) WaterAmount = MaxWaterAmount;
+    }
+
+    public void addLog(int log)
+    {
+        this.logsAmount += log;
+    }
+
+    public bool OverPopulation()
+    {
+        return (eating_drinkingRatio*VillagersAmount) > MaxFoodAmount*0.25;
+    }
+
+    public bool isFamished()
+    {
+        return foodAmount <= MaxFoodAmount*0.3 || WaterAmount <= MaxWaterAmount*0.3;
+    }
+
+    public int divide()
+    {
+        this.VillagersAmount = (int)(this.VillagersAmount/2);
+        return this.VillagersAmount;
     }
 
     public (float, float) isvalid(){

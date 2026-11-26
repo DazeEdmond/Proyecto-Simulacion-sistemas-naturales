@@ -7,6 +7,12 @@
 /[Mm]emoryCaptures/
 /[Ll]ogs/
 /[Vv]alidationLogs/
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
 
 # Carpetas de soluciones de Visual Studio / JetBrains
 .vs/

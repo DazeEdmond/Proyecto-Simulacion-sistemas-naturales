@@ -1,32 +1,61 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// Enumeration - Sliders existentes
 public enum Param { ForestLimit, ForestRadius, ForestGeneration, MaxLife, LifeLoss,
-                    VillageRadius, ThirstLoss, HungerLoss, MaxSpeed, FruitTime }
+                    VillageRadius, ThirstLoss, HungerLoss, MaxSpeed, FruitTime,
+                    WaterDown, Water, WaterUp, GrassDown, Grass, GrassUp,
+                    MountainDown, Mountain, MountainUp }
 
 public static class GlobalData
 {
-    public static float tileSize = 0.4f;
+    public static float BaseMaxSpeed = 0.18f;
     public static Dictionary<int,Dictionary<int, (float height,float humidity,float temperature)>> TerrainValues = new Dictionary<int,Dictionary<int,(float height,float humidity,float temperature)>>();
+    public static bool buildingHouse = false;
 
-    // Sliders - GlobalData
+    // GUI - Villa seleccionada con click (null = ninguna). La escribe CameraControl, la lee ReadInput
+    public static village selectedVillage = null;
+    // Sliders - Dic<TipoSlider, ValorSlider>
     static Dictionary<Param,float> settings = new Dictionary<Param,float> {
+        // Agentes
         { Param.ForestLimit,      25 },     { Param.ForestRadius,   4 }, 
-        { Param.ForestGeneration, 100 },    { Param.MaxLife,        10000 },  
+        { Param.ForestGeneration, 900 },    { Param.MaxLife,        10000 },  
         { Param.LifeLoss,   0.1f },         { Param.VillageRadius,  10 }, 
         { Param.ThirstLoss, 0.1f },         { Param.HungerLoss, 0.1f },
         { Param.MaxSpeed,   0.18f },        { Param.FruitTime,  100 },
-    }; // Por defecto
+        
+        // Terreno
+        { Param.WaterDown, 0.02f },    { Param.Water, 0.12f },     { Param.WaterUp, 0.23f },
+        { Param.GrassDown, 0.3f },    { Param.Grass, 0.46f },     { Param.GrassUp, 0.68f },
+        { Param.MountainDown, 0.76f }, { Param.Mountain, 0.83f },  { Param.MountainUp, 1f },
+    };
+
+    // Sliders - Métodos getset 
     public static float Get(Param p) { return settings[p]; }
     public static void Set(Param p, float v) { settings[p] = v; }
+
+    // Sliders - Terreno acotado - Método Josué
+    public static float Discriminator(Param p)
+    {
+        // int k = (int)p - (int)Param.WaterDown;
+        // return k * 0.1f + Get(p);
+        return Get(p);
+    }
+
+    // GUI - Saltar primer slide
+    public static bool skipIntro = false;
     
-    // Man - GlobalData - Espera generación de Mapa
+    // GUI - Espera generación de Mapa
     public static bool mapReady = false;
 
-    // Seed - GlobalData
+    // GUI - Mapa de Calor / Humedad: comparten el mismo Tilemap, nunca pueden estar ambos en true
+    public static bool showHeat = false;
+    public static bool showHumidity = false;
+
+    // Seed - Si es positivo, Valor determinístico
     public static int globalSeed = 0;
 
-    // Tamaño del mapa (lo escribe Generation.Start)
+    // Tamaño del mapa
     public static int mapWidth = 100;
     public static int mapHeight = 100;
 
@@ -36,8 +65,8 @@ public static class GlobalData
     public const int BushNutrition = 2;
 
     // Condiciones donde pueden nacer árboles nuevos (modificables luego desde sliders)
-    public static float treeMinHeight = 0.3f;
-    public static float treeMaxHeight = 0.65f;
+    public static float treeMinHeight = GlobalData.Discriminator(Param.GrassDown);
+    public static float treeMaxHeight = GlobalData.Discriminator(Param.GrassUp);
     public static float treeMinHumidity = 0.3f;
     public static float treeMaxHumidity = 0.6f;
     // Distancia mínima entre árboles de un mismo bosque

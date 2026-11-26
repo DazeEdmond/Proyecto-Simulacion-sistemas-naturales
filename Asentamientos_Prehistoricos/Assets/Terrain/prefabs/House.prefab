@@ -141,6 +141,9 @@ MonoBehaviour:
   Sprite: {fileID: -2253911629886400664, guid: be2d59b23ced9dd42a6fee52a7bef6a9, type: 3}
   Village_radius: 5
   generation_time: 650
-  VillagersAmount: 30
+  VillagersAmount: 12
   ManPrefab: {fileID: 2955992159316077795, guid: 2bc0e810d3763864aa21af49a5b9a8bc, type: 3}
-  Max_Man_generation_cooldown: 1200
+  Max_Man_generation_cooldown: 1800
+  Man_generation_cooldown: 0
+  foodAmount: 0
+  WaterAmount: 0

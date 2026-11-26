@@ -13,7 +13,9 @@ namespace NPCs
         //attributes
         public int life = 100;
         public int nearCows = 0;
-        public float cowSeparationRadio = 2;
+        public int cohereCows = 0;
+        public float cowSeparationRadio = 3;
+        public float cowCohereRadio = 5;
         public UnityEngine.Vector2 alignmentForce = new UnityEngine.Vector2(0,0);
         public UnityEngine.Vector2 cohereForce = new UnityEngine.Vector2(0,0);
         public UnityEngine.Vector2 separationForce = new UnityEngine.Vector2(0,0);
@@ -75,7 +77,7 @@ namespace NPCs
                 this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
                 return;
             }
-            if (TerrainVals[(int)System.Math.Floor((this.pos + this.vel).y)][(int)System.Math.Floor((this.pos + this.vel).x)].height <= 0.25f)
+            if (TerrainVals[(int)System.Math.Floor((this.pos + this.vel).y)][(int)System.Math.Floor((this.pos + this.vel).x)].height <= GlobalData.Discriminator(Param.WaterUp))
             {
                 this.setDanger(new UnityEngine.Vector2(this.pos.x+this.vel.x,this.pos.y+this.vel.y));
                 return;
@@ -103,8 +105,14 @@ namespace NPCs
         }
         public void cohereWithCow(UnityEngine.Vector2 direction,UnityEngine.Vector2 vel)
         {
-            this.cohereForce+=direction;
+            if(vel.x == 0 && vel.y == 0) {
+                return;
+            }
             this.alignmentForce+=vel;
+            if(UnityEngine.Vector2.Distance(this.pos,direction)>this.cowCohereRadio){
+                this.cohereCows++;
+                this.cohereForce+=direction;
+            }
 
             if(UnityEngine.Vector2.Distance(this.pos,direction)<this.cowSeparationRadio){
                 UnityEngine.Vector2 diff = this.pos - direction;
@@ -126,26 +134,30 @@ namespace NPCs
         private void separate()
         {
             this.separationForce /= this.nearCows;
-            this.separationForce.Normalize();
-            this.separationForce *= 0.1f;
+            // this.separationForce.Normalize();
+            this.separationForce *= this.maxSteeringForce*1.1f;
             this.addForce(this.separationForce);
         }
 
         private void cohere()
         {
-            this.cohereForce /= this.nearCows;
+            if(this.cohereCows<=0){
+                return;
+            }
+            this.cohereForce /= this.cohereCows;
             this.cohereForce -= this.pos;
             this.cohereForce.Normalize();
-            this.cohereForce *= 0.1f;
+            this.cohereForce *= this.maxSteeringForce;
             this.addForce(this.cohereForce);
+            this.cohereCows = 0;
         }
 
         private void align()
         {
             this.alignmentForce /= this.nearCows;
-            this.alignmentForce.Normalize();
-            this.alignmentForce *= this.maxSteeringForce;
-            this.alignmentForce -= this.vel;
+            // this.alignmentForce.Normalize();
+            this.alignmentForce *= this.maxSteeringForce*1.5f;
+            // this.alignmentForce -= this.vel;
             this.addForce(this.alignmentForce);
         }
 
@@ -155,6 +167,10 @@ namespace NPCs
                 this.align();
                 this.separate();
                 this.cohere();
+                if(this.acc.x == 0 && this.acc.y == 0)
+                {
+                    this.wander();
+                }
             }
             else
             {
